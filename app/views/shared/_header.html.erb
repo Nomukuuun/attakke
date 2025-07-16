@@ -1,0 +1,13 @@
+<header class="fixed top-0 left-0 w-full bg-white">
+  <div class=" container mx-auto px-6 py-4 w-full">
+    <div class="flex items-center justify-between">
+      <%= link_to root_path, class: "shadow-sm min-h-full" do %>
+        <%= image_tag 'logo_svg' %>
+      <% end %>
+      <div class="flex items-center space-x-6">
+        <%= link_to "使い方(準備中)", '#', class: "text-2xl text-f-head" %>
+        <%= button_to "Googleでのログイン", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "text-2xl text-white bg-dull-green rounded p-4" %>
+      </div>
+    </div>
+  </div>
+</header>
