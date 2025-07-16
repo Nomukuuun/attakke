@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  /* dull-green ヘッダーフッター等ベースカラー */
+  /* ボディに使う文字色 */
+  --color-f-head: #; /* 見出しなどで上書き */
+  --color-f-body: #; /* ボディ全体に適用 */
+
+  /* dull-green ボタン等の指し色 */
   --color-dull-green: #078080;
 
   /* dull-red ボタン等の指し色 */

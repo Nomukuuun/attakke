@@ -1,10 +1,12 @@
-<header class="fixed top-0 left-0 w-full bg-dull-green">
+<header class="fixed top-0 left-0 w-full bg-white">
   <div class=" container mx-auto px-6 py-4 w-full">
     <div class="flex items-center justify-between">
-      <%= link_to "Attakke?(準備中)", root_path, class: "text-2xl text-white" %>
+      <%= link_to root_path, class: "shadow-sm min-h-full" do %>
+        <%= image_tag 'logo_svg' %>
+      <% end %>
       <div class="flex items-center space-x-6">
-        <%= link_to "使い方(準備中)", '#', class: "text-2xl text-white" %>
-        <%= link_to "ログイン(準備中)", '#', class: "text-2xl text-dull-green bg-white rounded p-4" %>
+        <%= link_to "使い方(準備中)", '#', class: "text-2xl text-f-head" %>
+        <%= link_to "ログイン(準備中)", '#', class: "text-2xl text-white bg-dull-green rounded p-4" %>
       </div>
     </div>
   </div>

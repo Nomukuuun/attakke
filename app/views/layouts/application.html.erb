@@ -7,12 +7,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= favicon_link_tag('favicon_svg') %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="pt-16 min-h-screen bg-dull-beige text-base">
+  <body class="pt-16 min-h-screen bg-dull-beige text-base text-f-body">
     <%= render 'shared/header' %>
     <%= yield %>
     <%= render 'shared/footer' %>
