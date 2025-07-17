@@ -1,0 +1,8 @@
+ja:
+  devise:
+    omniauth_callbacks:
+      success: "ログインしました"
+      failure: "Google認証に失敗しました"
+      unauthenticated: "認証に失敗しました"
+    sessions:
+      success: "ログアウトしました"
