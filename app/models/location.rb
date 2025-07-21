@@ -4,4 +4,5 @@ class Location < ApplicationRecord
   enum status: { purchase: 0, consumption: 1 }
 
   has_many :stocks, dependent: :destroy
+  belongs_to :user
 end
