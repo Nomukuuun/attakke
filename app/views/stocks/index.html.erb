@@ -1,0 +1,12 @@
+<div class="container mx-auto absolute top-24">
+  <% if @locations.present? %>
+    <div class="flex justify-start space-x-4 my-6">
+      <div class="text-xl text-f-head box-border border-2 border-black rounded p-2">すべて</div>
+      <div class="text-xl text-f-head box-border border-2 border-black rounded p-2">あり</div>
+      <div class="text-xl text-f-head box-border border-2 border-black rounded p-2">なし</div>
+    </div>
+    <%= render 'stock', { stocks: @stocks, locations: @locations } %>
+  <% else %>
+    <div class="text-xl font-bold text-f-body pt-3">まずはストックの保管場所を登録してみましょう！</div>
+  <% end %>
+</div>

@@ -1,4 +1,4 @@
-<header class="fixed top-0 left-0 w-full bg-white">
+<header class="fixed top-0 left-0 z-10 w-full max-h-92px bg-white">
   <div class=" container mx-auto px-6 py-4 w-full">
     <div class="flex items-center justify-between">
       <%= link_to root_path, class: "shadow-sm min-h-full" do %>
@@ -6,8 +6,8 @@
       <% end %>
       <div class="flex items-center space-x-6">
         <% if user_signed_in? %>
-        <%= link_to "使い方(準備中)", '#', class: "text-2xl text-f-head" %>
-          <%= button_to "ログアウト", logout_path, method: :delete, class: "text-2xl text-white bg-dull-green rounded p-4 cursor-pointer" %>
+        <%= link_to "使い方(準備中)", '#', class: "text-xl text-f-head" %>
+          <%= button_to "ログアウト", logout_path, method: :delete, class: "text-xl text-white bg-dull-green rounded p-4 cursor-pointer" %>
         <% else %>
           <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-2xl text-white bg-dull-green rounded p-4 cursor-pointer" do %>
             <%= image_tag 'google_icon.svg', class: "inline-block size-6 mr-2" %>

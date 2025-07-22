@@ -1,0 +1,45 @@
+<% locations.each do |location| %>
+  <div class="bg-white p-4 mb-6 rounded">
+    <div class="flex justify-between items-center mb-6">
+      <div class="flex justify-start items-center space-x-2">
+        <h2 class="text-f-head text-2xl font-bold pl-6"><%= location.name %></h2>
+        <%= link_to "#" do %>
+          <div class="text-xl">編集</div>
+        <% end %>
+        <%= link_to "#" do %>
+          <div class="text-xl">削除</div>
+        <% end %>
+      </div>
+      <%= link_to new_stock_path(location: location.name), class: "pr-6" do %>
+        <div class="text-xl">追加</div>
+      <% end %>
+    </div>
+
+    <% if stocks.find_by(location_id: location.id).present? %>
+      <div class="grid grid-cols-3 gap-4">
+        <% stocks.where(location_id: location.id).each do |stock| %>
+          <div class="bg-dull-beige p-4 rounded border border-black">
+            <div class="flex justify-between items-center mb-4">
+              <p class="text-f-head text-xl font-bold"><%=stock.name %></p>
+              <div class=""></div>
+            </div>
+            <div class="text-f-body text-right mb-4">最終購入日：</div>
+            <div class="flex justify-end items-center space-x-2">
+              <%= link_to "#" do %>
+                <div class="text-xl">履歴更新</div>
+              <% end %>
+              <%= link_to "#" do %>
+                <div class="text-xl">編集</div>
+              <% end %>
+              <%= link_to "#" do %>
+                <div class="text-xl">削除</div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-xl text-f-body pl-6">ストックが登録されていません</p>
+    <% end %>
+  </div>
+<% end %>

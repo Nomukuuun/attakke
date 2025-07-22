@@ -1,0 +1,26 @@
+<%= form_with model: stock do |f| %>
+  <div class="text-2xl font-bold text-f-head my-6">ストックの保管場所</div>
+  <div class="text-xl text-f-body mb-6"><%= @location_name %></div>
+
+  <div class="flex flex-col mb-6">
+    <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
+    <%= f.text_field :name, placeholder: "入力してください", size: 40, class: "bg-white border-black border rounded p-2" %>
+  </div>
+
+  <%= f.label :model, class: "text-2xl font-bold text-f-head" %>
+  <div class="grid grid-cols-4 auto-cols-min gap-2">
+    <%= f.radio_button :model, :existence, checked: true %>
+    <p>チェックボックス</p>
+    <p>チェックでストックを管理します</p>
+    <i></i>
+    <%= f.radio_button :model, :number %>
+    <p>残数表示</p>
+    <p>残数でストックを管理します</p>
+    <i></i>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4" %>
+    <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
+  </div>
+<% end %>
