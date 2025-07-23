@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_21_133236) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_23_072404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "histories", force: :cascade do |t|
-    t.integer "stock", null: false
+    t.integer "quantity", null: false
     t.integer "status", default: 0, null: false
     t.date "recording_date"
     t.bigint "stock_id"
