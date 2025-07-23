@@ -2,8 +2,8 @@
 
 @theme {
   /* ボディに使う文字色 */
-  --color-f-head: #; /* 見出しなどで上書き */
-  --color-f-body: #; /* ボディ全体に適用 */
+  --color-f-head: #232323; /* 見出しなどで上書き */
+  --color-f-body: #222525; /* ボディ全体に適用 */
 
   /* dull-green ボタン等の指し色 */
   --color-dull-green: #078080;

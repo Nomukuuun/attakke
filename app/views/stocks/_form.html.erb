@@ -1,6 +1,7 @@
 <%= form_with model: stock do |f| %>
-  <div class="text-2xl font-bold text-f-head my-6">ストックの保管場所</div>
-  <div class="text-xl text-f-body mb-6"><%= @location_name %></div>
+  <div class="text-2xl font-bold text-f-head mt-8">ストックの保管場所</div>
+  <div class="text-xl mb-6"><%= location.name %></div>
+  <%= f.hidden_field :location_id, value: location.id %>
 
   <div class="flex flex-col mb-6">
     <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
@@ -8,16 +9,31 @@
   </div>
 
   <%= f.label :model, class: "text-2xl font-bold text-f-head" %>
-  <div class="grid grid-cols-4 auto-cols-min gap-2">
+  <div class="grid grid-cols-4 auto-cols-min gap-2 mb-6">
     <%= f.radio_button :model, :existence, checked: true %>
     <p>チェックボックス</p>
     <p>チェックでストックを管理します</p>
-    <i></i>
+    <i>アイコン</i>
     <%= f.radio_button :model, :number %>
     <p>残数表示</p>
     <p>残数でストックを管理します</p>
-    <i></i>
+    <p>残〇個</p>
   </div>
+  
+  <%= f.fields_for :histories do |h| %>
+    <div class="flex flex-col mb-6">
+      <%= h.label :quantity, class: "text-2xl font-bold text-f-head" %>
+    <%# TODO: JSを活用してradioの選択で表示される状態を変更 %>
+      <%= h.number_field :quantity, size: 40, class: "bg-white border-black border rounded p-2" %>
+    </div>
+
+    <% if stock.name.nil? %>
+      <%= h.hidden_field :status, value: :purchase %>
+    <%# TODO: editアクションのときは更新前のstockの値と比較して決定するロジックをelse句で実装 %>
+    <% end %>
+
+    <%= h.hidden_field :recording_date, value: Date.today %>
+  <% end %>
 
   <div class="flex justify-between items-center">
     <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4" %>

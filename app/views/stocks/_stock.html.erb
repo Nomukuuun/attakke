@@ -20,10 +20,15 @@
         <% stocks.where(location_id: location.id).each do |stock| %>
           <div class="bg-dull-beige p-4 rounded border border-black">
             <div class="flex justify-between items-center mb-4">
-              <p class="text-f-head text-xl font-bold"><%=stock.name %></p>
-              <div class=""></div>
+              <p class="text-f-head text-xl font-bold"><%= stock.name %></p>
+              <%# TODO: renderで有無型の場合はアイコン、残数型の場合は残数を表示する %>
+              <% if stock.model == "existence" %>
+                <div class="">アイコン</div>
+              <% else %>
+                <div><%= "残#{stock.latest_quantity}個" %></div>
+              <% end %>
             </div>
-            <div class="text-f-body text-right mb-4">最終購入日：</div>
+            <div class="text-f-body text-right mb-4">最終購入日：<%= stock.number_of_days_elapsed %></div>
             <div class="flex justify-end items-center space-x-2">
               <%= link_to "#" do %>
                 <div class="text-xl">履歴更新</div>

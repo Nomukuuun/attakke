@@ -1,12 +1,19 @@
 class StocksController < ApplicationController
   def index
-    @stocks = current_user.stocks.includes(:histories).order(:name)
+    # 最新履歴を取得するためのサブクエリ用変数
+    latest_histories = History.select("DISTINCT ON (stock_id) *").order("stock_id, recording_date DESC")
+
+    @stocks = current_user.stocks
+              .joins("LEFT JOIN (#{latest_histories.to_sql}) AS latest_histories ON latest_histories.stock_id = stocks.id")
+              .select("stocks.*, latest_histories.recording_date AS latest_recording_date, latest_histories.quantity AS latest_quantity")
+              .order(:name)
     @locations = current_user.locations.order(:name)
   end
 
   def new
     @stock = Stock.new
-    @location_name = params[:location]
+    @location = Location.find_by(name: params[:location])
+    @stock.histories.build
   end
 
   def create
@@ -44,6 +51,6 @@ class StocksController < ApplicationController
   private
 
   def stock_params
-    params.require(:stock).permit(:name, :model)
+    params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [:id, :quantity, :status, :recording_date])
   end
 end
