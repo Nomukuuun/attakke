@@ -25,7 +25,7 @@
               <% if stock.model == "existence" %>
                 <div class="">アイコン</div>
               <% else %>
-                <div><%= "残#{stock.latest_quantity}個" %></div>
+                <div class="text-f-head text-xl font-bold"><%= "残#{ stock.latest_quantity }" %></div>
               <% end %>
             </div>
             <div class="text-f-body text-right mb-4">最終購入日：<%= stock.number_of_days_elapsed %></div>

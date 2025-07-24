@@ -11,38 +11,43 @@
   <!-- stimulusを活用した非同期処理 -->
   <div data-controller="quantity-visibility">
     <%= f.label :model, class: "text-2xl font-bold text-f-head" %>
-    <div class="grid grid-cols-4 auto-cols-min gap-2 mb-6">
+    <div class="grid grid-cols-3 auto-cols-min gap-2 mb-6">
       <%= f.radio_button :model, :existence, checked: true,
         data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
         id: "model_existence",
         class: "accent-dull-green" %>
       <p>チェックボックス</p>
       <p>チェックでストックを管理します</p>
-      <i>アイコン</i>
       <%= f.radio_button :model, :number,
         data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
         id: "model_number",
         class: "accent-dull-green" %>
       <p>残数表示</p>
       <p>残数でストックを管理します</p>
-      <p>残〇個</p>
     </div>
-    
+
     <%= f.fields_for :histories do |h| %>
       <div class="flex flex-col mb-6">
         <%= h.label :quantity, class: "text-2xl font-bold text-f-head" %>
-      <%# DONE: JSを活用してradioの選択で表示される状態を変更    継続: Exist型のアイコンでのquantityの制御 %>
+      <%# DONE: JSを活用してradioの選択で表示される状態を変更、Exist型のアイコンでのquantityの制御 %>
+        <!-- ラジオで選択されている型によって表示を切り替え -->
         <div class="" data-quantity-visibility-target="quantityExistField">
-          <%= "アイコン" %>
+          <div class="flex items-center space-x-6">
+            <%= image_tag "icon_checked.png", id: "iconImage",
+              data: { action: "click->quantity-visibility#toggleIconImage", quantity_visibility_target: "iconImage" },
+              class: "cursor-pointer" %>
+            <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
+          </div>
+          <%= h.hidden_field :quantity, value: 1, data: { quantity_visibility_target: "hiddenQuantity" } %>
         </div>
         <div class="hidden" data-quantity-visibility-target="quantityNumField">
-          <%= h.number_field :quantity, size: 40, in: 0..100, class: "bg-white border-black border rounded p-2" %>
+          <%= h.number_field :quantity, in: 0..100, class: "bg-white border-black border rounded p-2 size-12" %>
         </div>
       </div>
 
+    <%# TODO: editアクションのときは更新前のstockの値と比較して決定するロジックをelse句で実装 %>
       <% if stock.name.nil? %>
       <%= h.hidden_field :status, value: :purchase %>
-      <%# TODO: editアクションのときは更新前のstockの値と比較して決定するロジックをelse句で実装 %>
       <% end %>
       
       <%= h.hidden_field :recording_date, value: Date.today %>

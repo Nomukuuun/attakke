@@ -6,7 +6,7 @@ class StocksController < ApplicationController
     @stocks = current_user.stocks
               .joins("LEFT JOIN (#{latest_histories.to_sql}) AS latest_histories ON latest_histories.stock_id = stocks.id")
               .select("stocks.*, latest_histories.recording_date AS latest_recording_date, latest_histories.quantity AS latest_quantity")
-              .order(:name)
+              .order(:model ,:name)
     @locations = current_user.locations.order(:name)
   end
 
@@ -21,6 +21,7 @@ class StocksController < ApplicationController
     if @stock.save
       redirect_to stocks_path, success: "ストックを作成しました"
     else
+      @location = Location.find(params[:stock][:location_id])
       flash.now[:error] = "ストックを作成できませんでした"
       render :new, status: :unprocessable_entity
     end
