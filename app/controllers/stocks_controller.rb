@@ -19,10 +19,10 @@ class StocksController < ApplicationController
   def create
     @stock = current_user.stocks.build(stock_params)
     if @stock.save
-      redirect_to stocks_path, success: "ストックを作成しました"
+      redirect_to stocks_path, success: t("defaults.flash_message.created", item: t("defaults.models.stock"))
     else
       @location = Location.find(params[:stock][:location_id])
-      flash.now[:error] = "ストックを作成できませんでした"
+      flash.now[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.stock"))
       render :new, status: :unprocessable_entity
     end
   end
@@ -36,9 +36,9 @@ class StocksController < ApplicationController
   def update
     @stock = current_user.stocks.find(params[:id])
     if @stock.update(stock_params)
-      redirect_to stocks_path, success: "ストックを更新しました"
+      redirect_to stocks_path, success: t("defaults.flash_message.updated", item: t("defaults.models.stock"))
     else
-      flash.now[:error] = "ストックを更新できませんでした"
+      flash.now[:error] = t("defaults.flash_message.not_updated", item: t("defaults.models.stock"))
       render :edit, status: :unprocessable_entity
     end
   end
@@ -46,7 +46,7 @@ class StocksController < ApplicationController
   def destroy
     stock = current_user.stocks.find(params[:id])
     stock.destroy!
-    redirect_to stocks_path, success: "ストックを削除しました", status: :see_other
+    redirect_to stocks_path, success: t("defaults.flash_message.deleted", item: t("defaults.models.stock")), status: :see_other
   end
 
   private
