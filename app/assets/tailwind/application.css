@@ -16,4 +16,22 @@
 
   /* sansの上書き */
   --font-sans: "Zen Maru Gothic", "Hiragino Sans", "Yu Gothic", sans-serif;
+
+  /* flash_messageのアニメーション */
+  --animate-fadeinout: fadeinout 4s ease-in-out 1;
+
+  @keyframes fadeinout {
+    0% {
+      transform: translateY(0);
+    }
+    12.5% {
+      transform: translateY(56px);
+    }
+    87.5% {
+      transform: translateY(56px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
 }

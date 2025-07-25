@@ -22,7 +22,7 @@
             <div class="flex justify-between items-center mb-4">
               <p class="text-f-head text-xl font-bold"><%= stock.name %></p>
               <%# TODO: renderで有無型の場合はアイコン、残数型の場合は残数を表示する %>
-              <% if stock.model == "existence" %>
+              <% if stock.existence? %>
                 <div class="">アイコン</div>
               <% else %>
                 <div class="text-f-head text-xl font-bold"><%= "残#{ stock.latest_quantity }" %></div>

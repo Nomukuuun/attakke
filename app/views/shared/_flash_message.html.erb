@@ -2,17 +2,17 @@
   <%
     case type.to_s
     when "success"
-      color = "bg-green-100 text-green-800"
+      color = "bg-green-100 text-green-800 border-green-300"
     when "error", "warning"
-      color = "bg-red-100 text-red-800"
+      color = "bg-red-100 text-red-800 border-red-300"
     when "info"
-      color = "bg-blue-100 text-blue-800"
+      color = "bg-blue-100 text-blue-800 border-blue-300"
     else
-      color = "bg-gray-100 text-gray-800"
+      color = "bg-gray-100 text-gray-800 border-gray-300"
     end
   %>
-  <div class="container mx-auto flex justify-end absolute top-24 right-0">
-    <div class="w-1/2 h-10 rounded text-end my-6 <%= color %>">
+  <div class="animate-fadeinout container mx-auto flex justify-end absolute top-9 right-0 z-5">
+    <div class="box-border w-1/2 h-10 text-end mt-2 p-1 rounded border-2 <%= color %>">
       <%= message %>
     </div>
   </div>
