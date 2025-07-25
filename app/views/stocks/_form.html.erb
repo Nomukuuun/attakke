@@ -33,13 +33,27 @@
         <!-- ラジオで選択されている型によって表示を切り替え -->
         <div class="" data-quantity-visibility-target="quantityExistField">
           <div class="flex items-center space-x-6">
-            <%= image_tag "icon_checked.png", id: "iconImage",
-              data: { action: "click->quantity-visibility#toggleIconImage", quantity_visibility_target: "iconImage" },
-              class: "cursor-pointer" %>
+
+            <!-- チェックありアイコン -->
+            <div class="" data-quantity-visibility-target="checkedIcon">
+              <svg data-action='click->quantity-visibility#toggleIcon' class="h-12 w-12 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z"/>
+                <polyline points="9 11 12 14 20 6" />
+                <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+              </svg>
+            </div>
+            <!-- チェックなしアイコン -->
+            <div data-action='click->quantity-visibility#toggleIcon' class="hidden" data-quantity-visibility-target="notCheckedIcon">
+              <svg class="h-12 w-12 text-f-body cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z"/>
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+              </svg>
+            </div>
             <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
           </div>
           <%= h.hidden_field :quantity, value: 1, data: { quantity_visibility_target: "hiddenQuantity" } %>
         </div>
+
         <div class="hidden" data-quantity-visibility-target="quantityNumField">
           <%= h.number_field :quantity, in: 0..100, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
         </div>

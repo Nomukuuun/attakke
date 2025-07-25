@@ -7,7 +7,8 @@ export default class extends Controller {
     "quantityNumField",
     "existenceRadio",
     "numberRadio",
-    "iconImage",
+    "checkedIcon",
+    "notCheckedIcon",
     "iconExplanation",
     "hiddenQuantity",
   ];
@@ -36,21 +37,22 @@ export default class extends Controller {
     }
   }
 
-  toggleIconImage() {
-    const image = this.iconImageTarget;
+  toggleIcon() {
+    // const checked = this.checkedIconTarget;
+    // const not_checked = this.notCheckedIconTarget;
     const quantity = this.hiddenQuantityTarget;
     const explanation = this.iconExplanationTarget;
 
-    const currentSrc = image.getAttribute("src");
-
-    if (currentSrc.includes("icon_checked")) {
+    if (quantity.value === "1") {
       // チェック外す => アイコンをunchecked、在庫数quantityを0に変更
-      image.setAttribute("src", "/assets/icon_unchecked.png");
+      this.checkedIconTarget.classList.add("hidden");
+      this.notCheckedIconTarget.classList.remove("hidden");
       explanation.textContent = "ストックなし";
       quantity.value = 0;
     } else {
       // チェック入れる => アイコンをchecked、在庫数quantityを1に変更
-      image.setAttribute("src", "/assets/icon_checked.png");
+      this.notCheckedIconTarget.classList.add("hidden");
+      this.checkedIconTarget.classList.remove("hidden");
       explanation.textContent = "ストックあり";
       quantity.value = 1;
     }

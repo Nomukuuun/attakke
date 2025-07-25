@@ -29,7 +29,7 @@ class StocksController < ApplicationController
 
   def edit
     @stock = current_user.stocks.find(params[:id])
-    @location_name = @stock.location.name
+    @location = @stock.location
     @locations = current_user.locations.order(:name)
   end
 
