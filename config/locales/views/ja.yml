@@ -1,8 +1,22 @@
 ja:
   devise:
     omniauth_callbacks:
-      success: "ログインしました"
-      failure: "Google認証に失敗しました"
-      unauthenticated: "認証に失敗しました"
+      success: ログインしました
+      failure: Google認証に失敗しました
+      unauthenticated: 認証に失敗しました
     sessions:
-      success: "ログアウトしました"
+      success: ログアウトしました
+    failure:
+      unauthenticated: ログインしてください
+  defaults:
+    flash_message:
+      created: "%{item}を作成しました"
+      not_created: "%{item}を作成できませんでした"
+      updated: "%{item}を更新しました"
+      not_updated: "%{item}を更新できませんでした"
+      deleted: "%{item}を削除しました"
+    models:
+      user: ユーザー
+      stock: ストック
+      location: 保管場所
+      history: 履歴

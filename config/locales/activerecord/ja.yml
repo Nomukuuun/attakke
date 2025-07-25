@@ -1,0 +1,26 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      stock: ストック
+      location: 保管場所
+      history: 履歴
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        partner_id: パートナーID
+        encrypted_password: パスワード
+        provider: プロバイダー
+        uid: UID
+      stock:
+        name: ストック名
+        model: ストック型の選択
+      history:
+        quantity: ストックの個数
+        status: ストックの状態
+        recording_date: 記録日
+  attributes:
+    id: ID
+    created_at: 作成日時
+    updated_at: 更新日時

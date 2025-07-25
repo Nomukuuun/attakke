@@ -14,10 +14,12 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="pt-16 min-h-screen bg-dull-beige text-base text-f-body">
+  <body class="min-h-screen bg-dull-beige text-base text-f-body">
     <%= render 'shared/header' %>
-    <%= render 'shared/flash_message' %>
-    <%= yield %>
+    <div class="container mx-auto relative">
+      <%= render 'shared/flash_message' %>
+      <%= yield %>
+    </div>
     <%= render 'shared/footer' %>
   </body>
 </html>
