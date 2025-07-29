@@ -52,6 +52,7 @@ group :development, :test do
 
   gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'pry-remote'
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
