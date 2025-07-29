@@ -8,7 +8,7 @@ class Stock < ApplicationRecord
   belongs_to :location
   has_many :histories, dependent: :destroy
 
-  accepts_nested_attributes_for :histories, allow_destroy: true
+  accepts_nested_attributes_for :histories
 
   # index画面で〇日前と表示するためのメソッド
   def number_of_days_elapsed

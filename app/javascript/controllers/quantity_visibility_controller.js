@@ -3,14 +3,15 @@ import { Controller } from "@hotwired/stimulus";
 // Connects to data-controller="quantity-visibility"
 export default class extends Controller {
   static targets = [
-    "quantityExistField",
-    "quantityNumField",
+    "existenceField",
+    "numberField",
     "existenceRadio",
     "numberRadio",
+    "existenceQuantity",
+    "numberQuantity",
     "checkedIcon",
     "notCheckedIcon",
     "iconExplanation",
-    "hiddenQuantity",
   ];
 
   connect() {
@@ -22,25 +23,21 @@ export default class extends Controller {
 
     if (existenceSelected) {
       // チェックボックス型が選択されているときは残数型のフィールドを非表示かつ不活性化
-      this.quantityExistFieldTarget.classList.remove("hidden");
-      this.quantityNumFieldTarget.classList.add("hidden");
-      this.hiddenQuantityTarget.disabled = false;
-      const numField = this.quantityNumFieldTarget.querySelector("input");
-      if (numField) numField.disabled = true;
+      this.existenceFieldTarget.classList.remove("hidden");
+      this.numberFieldTarget.classList.add("hidden");
+      // this.existenceQuantityTarget.disabled = false;
+      // this.numberQuantityTarget.disabled = true;
     } else {
       // 残数型が選択されているときはチェックボックス型のフィールドを非表示かつ不活性化
-      this.quantityExistFieldTarget.classList.add("hidden");
-      this.quantityNumFieldTarget.classList.remove("hidden");
-      this.hiddenQuantityTarget.disabled = true;
-      const numField = this.quantityNumFieldTarget.querySelector("input");
-      if (numField) numField.disabled = false;
+      this.existenceFieldTarget.classList.add("hidden");
+      this.numberFieldTarget.classList.remove("hidden");
+      // this.existenceQuantityTarget.disabled = true;
+      // this.numberQuantityTarget.disabled = false;
     }
   }
 
   toggleIcon() {
-    // const checked = this.checkedIconTarget;
-    // const not_checked = this.notCheckedIconTarget;
-    const quantity = this.hiddenQuantityTarget;
+    const quantity = this.existenceQuantityTarget;
     const explanation = this.iconExplanationTarget;
 
     if (quantity.value === "1") {
