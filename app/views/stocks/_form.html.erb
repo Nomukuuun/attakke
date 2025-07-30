@@ -7,6 +7,7 @@
   <div class="flex flex-col mb-6">
     <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
     <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-1/2" %>
+    <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
   <!-- stimulusを活用した非同期処理 -->
@@ -26,7 +27,6 @@
       <p>残数でストック数を管理します</p>
     </div>
 
-    <%# DONE: create, update の成功時失敗時ともに正常動作確認 %>
     <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
       <!-- ラジオで選択されている型によって表示を切り替え -->
       <div class="mb-6" data-quantity-visibility-target="existenceField">
@@ -56,23 +56,18 @@
       <div class="hidden flex flex-col mb-6" data-quantity-visibility-target="numberField">
         <%= h.label :num_quantity, class: "text-2xl font-bold text-f-head" %>
         <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
+        <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
       </div>
     <% end %>
   </div>
 
-  <div class="flex justify-between items-center mb-6">
+  <div class="flex justify-between items-center mb-12">
     <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 " %>
     <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
   </div>
   
   <%# TODO: 日時の表示形式、enum_helpでステータスの日本語化 %>
   <% if action_name == "edit" || action_name == "update" %>
-    <div class="text-2xl font-bold text-f-head">過去の購入履歴（直近１０件）</div>
-    <% histories.each do |history| %>
-      <div class="flex justify-start items-center space-x-4 mb-2">
-        <%= history.recording_date %>
-        <%= history.status %>
-      </div>
-    <% end %>
+    <%= render 'history', histories: histories %>
   <% end %>
 <% end %>

@@ -16,7 +16,6 @@ class StocksController < ApplicationController
     @stock.histories.build(exist_quantity: 1)
   end
 
-  # DONE: histories.statusは一覧にないというエラーが発生 <= historyのvalidatesを無効にした
   def create
     @stock = current_user.stocks.build(stock_params)
     @location = @stock.location
@@ -25,7 +24,7 @@ class StocksController < ApplicationController
       redirect_to stocks_path, success: t("defaults.flash_message.created", item: t("defaults.models.stock"))
     else
       # NOTE:以下１行最終的に削除
-      p @stock.errors.full_messages if !@stock.errors.nil?
+      p @stock.errors if !@stock.errors.nil?
       flash.now[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.stock"))
       render :new, status: :unprocessable_entity
     end
@@ -67,7 +66,6 @@ class StocksController < ApplicationController
   end
 
   # editアクション時に直近の履歴から数量を取得したhistoryインスタンスを作成するメソッド
-  # TODO: 直近の履歴の数量を入れてビルドする
   def build_latest_history(stock)
     latest_history = stock.histories.order(id: :desc).first
     quantity_type = stock.existence? ? :exist_quantity : :num_quantity
