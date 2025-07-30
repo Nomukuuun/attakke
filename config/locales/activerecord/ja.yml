@@ -17,8 +17,8 @@ ja:
         name: ストック名
         model: ストック型の選択
       history:
-        exist_quantity: チェックボックス型の数量
-        num_quantity: 残数表示型の数量
+        exist_quantity: ストックの状態
+        num_quantity: ストックの個数
         status: ストックの状態
         recording_date: 記録日
   attributes:

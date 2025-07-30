@@ -6,58 +6,56 @@
 
   <div class="flex flex-col mb-6">
     <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
-    <%= f.text_field :name, placeholder: "入力してください", size: 40, class: "bg-white border-black border rounded p-2" %>
+    <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-1/2" %>
   </div>
 
   <!-- stimulusを活用した非同期処理 -->
+  <%# FIXME:labelとformの使い方がよくないらしい %>
   <div data-controller="quantity-visibility">
     <%= f.label :model, class: "text-2xl font-bold text-f-head" %>
     <div class="grid grid-cols-3 auto-cols-min gap-2 mb-6">
       <%= f.radio_button :model, :existence, checked: true,
         data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
-        id: "model_existence",
         class: "accent-dull-green" %>
       <p>チェックボックス</p>
       <p>チェックマークでストック状態を管理します</p>
       <%= f.radio_button :model, :number,
         data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
-        id: "model_number",
         class: "accent-dull-green" %>
       <p>残数表示</p>
       <p>残数でストック数を管理します</p>
     </div>
 
-    <%# FIXME: createもupdateもエラーになってしまう %>
-    <%= f.fields_for :histories, stock.histories.select(&:new_record?) do |h| %>
-      <div class="flex flex-col mb-6">
-        <!-- ラジオで選択されている型によって表示を切り替え -->
-        <%= h.label :quantity, class: "text-2xl font-bold text-f-head" %>
-        <div class="" data-quantity-visibility-target="existenceField">
-          <div class="flex items-center space-x-6">
+    <%# DONE: create, update の成功時失敗時ともに正常動作確認 %>
+    <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
+      <!-- ラジオで選択されている型によって表示を切り替え -->
+      <div class="mb-6" data-quantity-visibility-target="existenceField">
+        <%= h.label :exist_quantity, class: "text-2xl font-bold text-f-head" %>
+        <div class="flex items-center space-x-6">
 
-            <!-- チェックありアイコン -->
-            <div class="" data-quantity-visibility-target="checkedIcon">
-              <svg data-action='click->quantity-visibility#toggleIcon' class="h-12 w-12 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/>
-                <polyline points="9 11 12 14 20 6" />
-                <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
-              </svg>
-            </div>
-            <!-- チェックなしアイコン -->
-            <div class="hidden" data-quantity-visibility-target="notCheckedIcon">
-              <svg data-action='click->quantity-visibility#toggleIcon' class="h-12 w-12 text-f-body cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/>
-                <rect x="4" y="4" width="16" height="16" rx="2" />
-              </svg>
-            </div>
-            <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
+          <!-- チェックありアイコン -->
+          <div class="" data-quantity-visibility-target="checkedIcon">
+            <svg data-action='click->quantity-visibility#toggleIcon' class="h-12 w-12 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"/>
+              <polyline points="9 11 12 14 20 6" />
+              <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+            </svg>
           </div>
-          <%= h.hidden_field :exist_quantity, value: 1, data: { quantity_visibility_target: "existenceQuantity" } %>
+          <!-- チェックなしアイコン -->
+          <div class="hidden" data-quantity-visibility-target="notCheckedIcon">
+            <svg data-action='click->quantity-visibility#toggleIcon' class="h-12 w-12 text-f-body cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"/>
+              <rect x="4" y="4" width="16" height="16" rx="2" />
+            </svg>
           </div>
-          
-          <div class="hidden" data-quantity-visibility-target="numberField">
-          <%= h.number_field :num_quantity, value: nil, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
+          <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
         </div>
+        <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
+      </div>
+
+      <div class="hidden flex flex-col mb-6" data-quantity-visibility-target="numberField">
+        <%= h.label :num_quantity, class: "text-2xl font-bold text-f-head" %>
+        <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
       </div>
     <% end %>
   </div>
@@ -67,7 +65,7 @@
     <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
   </div>
   
-  <%# TODO: editのみ直近の履歴10件を表示 <= 簡易的に実装済 %>
+  <%# TODO: 日時の表示形式、enum_helpでステータスの日本語化 %>
   <% if action_name == "edit" || action_name == "update" %>
     <div class="text-2xl font-bold text-f-head">過去の購入履歴（直近１０件）</div>
     <% histories.each do |history| %>
