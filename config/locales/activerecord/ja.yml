@@ -17,7 +17,8 @@ ja:
         name: ストック名
         model: ストック型の選択
       history:
-        quantity: ストックの個数
+        exist_quantity: ストックの状態
+        num_quantity: ストックの個数
         status: ストックの状態
         recording_date: 記録日
   attributes:
