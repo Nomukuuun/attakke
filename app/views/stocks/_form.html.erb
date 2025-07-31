@@ -1,8 +1,12 @@
 <%= form_with model: stock do |f| %>
-  <%# TODO: アクションに応じた保管場所の変更可否 %>
+  <%# DONE: アクションに応じた保管場所の変更可否 <= 実装済 %>
   <div class="text-2xl font-bold text-f-head mt-8">ストックの保管場所</div>
-  <div class="text-xl mb-6"><%= location.name %></div>
-  <%= f.hidden_field :location_id, value: location.id %>
+  <% if action_name.in?(["new", "create"]) %>
+    <div class="text-xl mb-6"><%= location.name %></div>
+    <%= f.hidden_field :location_id, value: location.id %>
+  <% elsif action_name.in?(["edit", "update"]) %>
+    <%= f.collection_select :location_id, locations, :id, :name,{ selected: stock.location_id }, { class: "bg-white border-black border rounded p-2 w-1/2 mb-6" } %>
+  <% end %>
 
   <div class="flex flex-col mb-6">
     <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
@@ -11,7 +15,6 @@
   </div>
 
   <!-- stimulusを活用した非同期処理 -->
-  <%# DONE: labelとformの使い方がよくないらしい <= labelを使わないようにした %>
   <div data-controller="quantity-visibility">
     <div class="text-2xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
     <table class="table-fixed mb-6">

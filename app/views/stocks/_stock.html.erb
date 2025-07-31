@@ -25,8 +25,12 @@
               <% if stock.existence? %>
                 <div class=""><%= stock.latest_exist_quantity == 0 ? "なし" : "あり" %></div>
               <% else %>
-                <div class="text-f-head text-xl font-bold"><%= "残#{ stock.latest_num_quantity }" %></div>
-              <% end %>
+                <%= link_to edit_stock_path(stock) do %>
+                  <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">
+                    <%= "残#{ stock.latest_num_quantity }" %>
+                  </div>
+                <% end %>
+                  <% end %>
             </div>
             <div class="text-f-body text-right mb-4">最終更新日：<%= stock.number_of_days_elapsed %></div>
             <div class="flex justify-end items-center space-x-2">

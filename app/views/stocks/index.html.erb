@@ -1,8 +1,9 @@
 <div class="container mx-auto absolute top-24">
   <% if @locations.present? %>
     <div class="flex justify-between items-center my-6">
+    <%# TODO: ボタンでの絞り込み機能 (Turbo-frame?) %>
       <div class="flex justify-start space-x-4">
-        <div class="text-xl text-f-head box-border border-2 border-black rounded p-4 ">すべて</div>
+        <div class="text-xl text-f-head box-border border-2 border-black rounded p-4">すべて</div>
         <div class="text-xl text-f-head box-border border-2 border-black rounded p-4">あり</div>
         <div class="text-xl text-f-head box-border border-2 border-black rounded p-4">なし</div>
       </div>
@@ -14,7 +15,10 @@
   <% else %>
     <div class="my-6">
       <%= link_to new_location_path do %>
-        <span class="text-xl font-bold text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">ストックの保管場所を登録しましょう</span>
+        <span class="text-xl font-bold text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">
+        ストックの保管場所を登録しましょう<br>
+        (登録フォームを開く)
+        </span>
       <% end %>
     </div>
   <% end %>
