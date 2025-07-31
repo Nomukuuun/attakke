@@ -3,10 +3,10 @@
     <div class="flex justify-between items-center mb-6">
       <div class="flex justify-start items-center space-x-2">
         <h2 class="text-f-head text-2xl font-bold pl-6"><%= location.name %></h2>
-        <%= link_to "#" do %>
+        <%= link_to edit_location_path(location) do %>
           <div class="text-xl">編集</div>
         <% end %>
-        <%= link_to "#" do %>
+        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm.location') } do %>
           <div class="text-xl">削除</div>
         <% end %>
       </div>
@@ -33,7 +33,7 @@
               <%= link_to edit_stock_path(stock) do %>
                 <div class="text-xl">編集</div>
               <% end %>
-              <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') } do %>
+              <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm.stock') } do %>
                 <div class="text-xl">削除</div>
               <% end %>
             </div>
@@ -41,7 +41,9 @@
         <% end %>
       </div>
     <% else %>
-      <p class="text-xl text-f-body pl-6">ストックが登録されていません</p>
+      <%= link_to new_stock_path(location: location.id), class: "pl-6" do %>
+        <span class="text-xl text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">ストックが登録されていません</span>
+      <% end %>
     <% end %>
   </div>
 <% end %>

@@ -11,26 +11,37 @@
   </div>
 
   <!-- stimulusを活用した非同期処理 -->
-  <%# FIXME:labelとformの使い方がよくないらしい %>
+  <%# DONE: labelとformの使い方がよくないらしい <= labelを使わないようにした %>
   <div data-controller="quantity-visibility">
-    <%= f.label :model, class: "text-2xl font-bold text-f-head" %>
-    <div class="grid grid-cols-3 auto-cols-min gap-2 mb-6">
-      <%= f.radio_button :model, :existence, checked: true,
-        data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
-        class: "accent-dull-green" %>
-      <p>チェックボックス</p>
-      <p>チェックマークでストック状態を管理します</p>
-      <%= f.radio_button :model, :number,
-        data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
-        class: "accent-dull-green" %>
-      <p>残数表示</p>
-      <p>残数でストック数を管理します</p>
-    </div>
+    <div class="text-2xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
+    <table class="table-fixed mb-6">
+      <tbody>
+        <tr>
+          <td class="pl-4 py-2">
+            <%= f.radio_button :model, :existence, checked: true,
+              data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
+              class: "accent-dull-green" %>
+          </td>
+          <td class="pl-4 py-2 text-gray-700">チェックボックス</td>
+          <td class="pl-4 py-2 text-gray-700">チェックマークでストック状態を管理します</td>
+        </tr>
+        <tr>
+          <td class="pl-4 py-2">
+            <%= f.radio_button :model, :number,
+              data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
+              class: "accent-dull-green" %>
+          </td>
+          <td class="pl-4 py-2 text-gray-700">残数表示</td>
+          <td class="pl-4 py-2 text-gray-700">残数でストック数を管理します</td>
+        </tr>
+      </tbody>
+    </table>
 
     <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
       <!-- ラジオで選択されている型によって表示を切り替え -->
       <div class="mb-6" data-quantity-visibility-target="existenceField">
         <%= h.label :exist_quantity, class: "text-2xl font-bold text-f-head" %>
+        <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
         <div class="flex items-center space-x-6">
 
           <!-- チェックありアイコン -->
@@ -48,9 +59,9 @@
               <rect x="4" y="4" width="16" height="16" rx="2" />
             </svg>
           </div>
+
           <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
         </div>
-        <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
       </div>
 
       <div class="hidden flex flex-col mb-6" data-quantity-visibility-target="numberField">
@@ -66,8 +77,9 @@
     <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
   </div>
   
+<% end %>
+  
   <%# TODO: 日時の表示形式、enum_helpでステータスの日本語化 %>
-  <% if action_name == "edit" || action_name == "update" %>
-    <%= render 'history', histories: histories %>
-  <% end %>
+<% if action_name.in?(["edit", "update"]) %>
+  <%= render 'history', histories: histories %>
 <% end %>

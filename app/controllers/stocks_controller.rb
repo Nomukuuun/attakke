@@ -1,7 +1,7 @@
 class StocksController < ApplicationController
   def index
     # 最新履歴を取得するためのサブクエリ用変数
-    latest_histories = History.select("DISTINCT ON (stock_id) *").order("stock_id, id DESC, recording_date DESC")
+    latest_histories = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
 
     @stocks = current_user.stocks
               .joins("LEFT JOIN (#{latest_histories.to_sql}) AS latest_histories ON latest_histories.stock_id = stocks.id")
@@ -23,8 +23,6 @@ class StocksController < ApplicationController
     if @stock.save
       redirect_to stocks_path, success: t("defaults.flash_message.created", item: t("defaults.models.stock"))
     else
-      # NOTE:以下１行最終的に削除
-      p @stock.errors if !@stock.errors.nil?
       flash.now[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.stock"))
       render :new, status: :unprocessable_entity
     end
@@ -36,7 +34,6 @@ class StocksController < ApplicationController
     @locations = current_user.locations.order(:name)
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
     build_latest_history(@stock) if @stock.histories.none?(&:new_record?)
-    p build_latest_history(@stock)
   end
   
   def update
@@ -45,7 +42,6 @@ class StocksController < ApplicationController
     if @stock.update(stock_params)
       redirect_to stocks_path, success: t("defaults.flash_message.updated", item: t("defaults.models.stock"))
     else
-      p @stock.errors.full_messages if !@stock.errors.nil?
       @location = @stock.location
       @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
       flash.now[:error] = t("defaults.flash_message.not_updated", item: t("defaults.models.stock"))

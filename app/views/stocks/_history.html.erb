@@ -1,12 +1,14 @@
 <div class="text-2xl font-bold text-f-head">ストック履歴（直近１０件）</div>
-<table>
-  <tbody>
-  <% histories.each do |history| %>
-    <tr>
-      <td class="w-1/10"><%= history.recording_date.strftime("%Y/%m/%d") %></td>
-      <td class="w-1/10"><%= history.status %></td>
-      <td class="w-1/10"><%= "#{history.num_quantity}個" if history.num_quantity.present? %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<div class="bg-white rounded">
+  <table class="table-fixed">
+    <tbody>
+    <% histories.each do |history| %>
+      <tr>
+        <td class="pl-4 py-2"><%= history.recording_date.strftime("%Y/%m/%d") %></td>
+        <td class="pl-4 py-2"><%= history.status %></td>
+        <td class="pl-4 py-2"><%= "#{history.num_quantity}個" if history.num_quantity.present? %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

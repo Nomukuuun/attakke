@@ -16,10 +16,12 @@ ja:
       stock:
         name: ストック名
         model: ストック型の選択
+      location:
+        name: 保管場所名
       history:
         exist_quantity: ストックの状態
         num_quantity: ストックの個数
-        status: ストックの状態
+        status: 履歴
         recording_date: 記録日
   attributes:
     id: ID

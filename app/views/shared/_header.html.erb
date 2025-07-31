@@ -1,9 +1,16 @@
 <header class="fixed top-0 left-0 z-10 w-full max-h-92px bg-white">
   <div class=" container mx-auto px-6 py-4 w-full">
     <div class="flex items-center justify-between">
-      <%= link_to root_path, class: "shadow-sm min-h-full" do %>
-        <%= image_tag 'logo_svg.svg' %>
+      <% if user_signed_in? %>
+        <%= link_to stocks_path, class: "shadow-sm min-h-full" do %>
+          <%= image_tag 'logo_svg.svg' %>
+        <% end %>
+      <% else %>    
+        <%= link_to root_path, class: "shadow-sm min-h-full" do %>
+          <%= image_tag 'logo_svg.svg' %>
+        <% end %>
       <% end %>
+
       <div class="flex items-center space-x-6">
         <% if user_signed_in? %>
         <%= link_to "使い方(準備中)", '#', class: "text-xl text-f-head" %>

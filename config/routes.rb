@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   }
   root 'top_pages#top'
   resources :stocks, except: %i[show]
+  resources :locations, except: %i[index show]
 
   devise_scope :user do
     delete "logout", to: "users/sessions#destroy", as: :logout
