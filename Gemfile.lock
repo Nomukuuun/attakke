@@ -116,6 +116,8 @@ GEM
       dotenv (= 3.1.8)
       railties (>= 6.1)
     drb (2.2.3)
+    enum_help (0.0.19)
+      activesupport (>= 3.0.0)
     erb (5.0.1)
     erubi (1.13.1)
     faraday (2.13.2)
@@ -406,6 +408,7 @@ DEPENDENCIES
   debug
   devise (~> 4.9, >= 4.9.4)
   dotenv-rails
+  enum_help (~> 0.0.19)
   jbuilder
   jsbundling-rails
   omniauth-google-oauth2

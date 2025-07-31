@@ -1,5 +1,4 @@
 <%= form_with model: stock do |f| %>
-  <%# DONE: アクションに応じた保管場所の変更可否 <= 実装済 %>
   <div class="text-2xl font-bold text-f-head mt-8">ストックの保管場所</div>
   <% if action_name.in?(["new", "create"]) %>
     <div class="text-xl mb-6"><%= location.name %></div>
@@ -25,7 +24,7 @@
               data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
               class: "accent-dull-green" %>
           </td>
-          <td class="pl-4 py-2 text-gray-700">チェックボックス</td>
+          <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.existence') %></td>
           <td class="pl-4 py-2 text-gray-700">チェックマークでストック状態を管理します</td>
         </tr>
         <tr>
@@ -34,7 +33,7 @@
               data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
               class: "accent-dull-green" %>
           </td>
-          <td class="pl-4 py-2 text-gray-700">残数表示</td>
+          <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.number') %></td>
           <td class="pl-4 py-2 text-gray-700">残数でストック数を管理します</td>
         </tr>
       </tbody>
@@ -82,7 +81,7 @@
   
 <% end %>
   
-  <%# TODO: 日時の表示形式、enum_helpでステータスの日本語化 %>
+  <%# DONE: 日時の表示形式、enum_helpでステータスの日本語化 <= 実施済 %>
 <% if action_name.in?(["edit", "update"]) %>
   <%= render 'history', histories: histories %>
 <% end %>

@@ -5,7 +5,7 @@
     <% histories.each do |history| %>
       <tr>
         <td class="pl-4 py-2"><%= history.recording_date.strftime("%Y/%m/%d") %></td>
-        <td class="pl-4 py-2"><%= history.status %></td>
+        <td class="pl-4 py-2"><%= history.status_i18n %></td>
         <td class="pl-4 py-2"><%= "#{history.num_quantity}個" if history.num_quantity.present? %></td>
       </tr>
     <% end %>
