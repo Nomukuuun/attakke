@@ -10,7 +10,7 @@
   <div data-delete-confirm-target="dialog" class="bg-white p-4 rounded shadow">
     <p data-delete-confirm-target="message" class="mb-4 text-lg"></p>
 
-    <%# ボタン %>
+    <%# ボタン系 <= confirmボタンはデフォルトでは「削除」表示 %>
     <div class="flex justify-end space-x-4">
       <button
         type="button"
@@ -18,7 +18,6 @@
         data-action="click->delete-confirm#confirm"
         class="px-4 py-2 bg-dull-red rounded hover:brightness-70"
       >
-        削除する
       </button>
       <button
         type="button"
