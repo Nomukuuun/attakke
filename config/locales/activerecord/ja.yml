@@ -16,12 +16,25 @@ ja:
       stock:
         name: ストック名
         model: ストック型の選択
+      location:
+        name: 保管場所名
       history:
         exist_quantity: ストックの状態
         num_quantity: ストックの個数
-        status: ストックの状態
+        status: 履歴
         recording_date: 記録日
+      histories:
+        num_quantity: ストックの個数
   attributes:
     id: ID
     created_at: 作成日時
     updated_at: 更新日時
+  enums:
+    stock:
+      model:
+        existence: チェックボックス
+        number: 残数表示
+    history:
+      status:
+        purchase: 購入
+        consumption: 消費

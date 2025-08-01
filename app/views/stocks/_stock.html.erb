@@ -3,10 +3,10 @@
     <div class="flex justify-between items-center mb-6">
       <div class="flex justify-start items-center space-x-2">
         <h2 class="text-f-head text-2xl font-bold pl-6"><%= location.name %></h2>
-        <%= link_to "#" do %>
+        <%= link_to edit_location_path(location) do %>
           <div class="text-xl">編集</div>
         <% end %>
-        <%= link_to "#" do %>
+        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm.location') } do %>
           <div class="text-xl">削除</div>
         <% end %>
       </div>
@@ -21,19 +21,31 @@
           <div class="bg-dull-beige p-4 rounded border border-black">
             <div class="flex justify-between items-center mb-4">
               <p class="text-f-head text-xl font-bold"><%= stock.name %></p>
-              <%# TODO: renderで有無型の場合はアイコン、残数型の場合は残数を表示する %>
+              <%# TODO: existence型にアイコンを表示、リンクに histories_path(stock: stock.id) と data: {turbo_confirm} をつける %>
               <% if stock.existence? %>
-                <div class=""><%= stock.latest_exist_quantity == 0 ? "なし" : "あり" %></div>
+                <% if stock.latest_exist_quantity == 0 %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                    <div class="text-xl text-f-body font-bold hover:text-dull-green border-dull-green">なし</div>
+                  <% end %>
+                <% else %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                    <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">あり</div>
+                  <% end %>
+                <% end %>
               <% else %>
-                <div class="text-f-head text-xl font-bold"><%= "残#{ stock.latest_num_quantity }" %></div>
+                <%= link_to edit_stock_path(stock) do %>
+                  <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">
+                    <%= "残#{ stock.latest_num_quantity }" %>
+                  </div>
+                <% end %>
               <% end %>
             </div>
-            <div class="text-f-body text-right mb-4">最終購入日：<%= stock.number_of_days_elapsed %></div>
+            <div class="text-f-body text-right mb-4">最終更新日：<%= stock.number_of_days_elapsed %></div>
             <div class="flex justify-end items-center space-x-2">
               <%= link_to edit_stock_path(stock) do %>
                 <div class="text-xl">編集</div>
               <% end %>
-              <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') } do %>
+              <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm.stock') } do %>
                 <div class="text-xl">削除</div>
               <% end %>
             </div>
@@ -41,7 +53,9 @@
         <% end %>
       </div>
     <% else %>
-      <p class="text-xl text-f-body pl-6">ストックが登録されていません</p>
+      <%= link_to new_stock_path(location: location.id), class: "pl-6" do %>
+        <span class="text-xl text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">ストックが登録されていません</span>
+      <% end %>
     <% end %>
   </div>
 <% end %>

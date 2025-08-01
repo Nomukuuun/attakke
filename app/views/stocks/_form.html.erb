@@ -1,36 +1,49 @@
 <%= form_with model: stock do |f| %>
-  <%# TODO: アクションに応じた保管場所の変更可否 %>
   <div class="text-2xl font-bold text-f-head mt-8">ストックの保管場所</div>
-  <div class="text-xl mb-6"><%= location.name %></div>
-  <%= f.hidden_field :location_id, value: location.id %>
+  <% if action_name.in?(["new", "create"]) %>
+    <div class="text-xl mb-6"><%= location.name %></div>
+    <%= f.hidden_field :location_id, value: location.id %>
+  <% elsif action_name.in?(["edit", "update"]) %>
+    <%= f.collection_select :location_id, locations, :id, :name, { selected: stock.location_id }, { class: "bg-white border-black border rounded p-2 w-1/2 mb-6" } %>
+  <% end %>
 
   <div class="flex flex-col mb-6">
     <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
     <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-1/2" %>
+    <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
   <!-- stimulusを活用した非同期処理 -->
-  <%# FIXME:labelとformの使い方がよくないらしい %>
   <div data-controller="quantity-visibility">
-    <%= f.label :model, class: "text-2xl font-bold text-f-head" %>
-    <div class="grid grid-cols-3 auto-cols-min gap-2 mb-6">
-      <%= f.radio_button :model, :existence, checked: true,
-        data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
-        class: "accent-dull-green" %>
-      <p>チェックボックス</p>
-      <p>チェックマークでストック状態を管理します</p>
-      <%= f.radio_button :model, :number,
-        data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
-        class: "accent-dull-green" %>
-      <p>残数表示</p>
-      <p>残数でストック数を管理します</p>
-    </div>
+    <div class="text-2xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
+    <table class="table-fixed mb-6">
+      <tbody>
+        <tr>
+          <td class="pl-4 py-2">
+            <%= f.radio_button :model, :existence, checked: true,
+              data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
+              class: "accent-dull-green" %>
+          </td>
+          <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.existence') %></td>
+          <td class="pl-4 py-2 text-gray-700">チェックマークでストック状態を管理します</td>
+        </tr>
+        <tr>
+          <td class="pl-4 py-2">
+            <%= f.radio_button :model, :number,
+              data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
+              class: "accent-dull-green" %>
+          </td>
+          <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.number') %></td>
+          <td class="pl-4 py-2 text-gray-700">残数でストック数を管理します</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <%# DONE: create, update の成功時失敗時ともに正常動作確認 %>
     <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
       <!-- ラジオで選択されている型によって表示を切り替え -->
       <div class="mb-6" data-quantity-visibility-target="existenceField">
         <%= h.label :exist_quantity, class: "text-2xl font-bold text-f-head" %>
+        <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
         <div class="flex items-center space-x-6">
 
           <!-- チェックありアイコン -->
@@ -48,31 +61,25 @@
               <rect x="4" y="4" width="16" height="16" rx="2" />
             </svg>
           </div>
+
           <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
         </div>
-        <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
       </div>
 
       <div class="hidden flex flex-col mb-6" data-quantity-visibility-target="numberField">
         <%= h.label :num_quantity, class: "text-2xl font-bold text-f-head" %>
         <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
+        <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
       </div>
     <% end %>
   </div>
 
-  <div class="flex justify-between items-center mb-6">
+  <div class="flex justify-between items-center mb-12">
     <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 " %>
     <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
   </div>
-  
-  <%# TODO: 日時の表示形式、enum_helpでステータスの日本語化 %>
-  <% if action_name == "edit" || action_name == "update" %>
-    <div class="text-2xl font-bold text-f-head">過去の購入履歴（直近１０件）</div>
-    <% histories.each do |history| %>
-      <div class="flex justify-start items-center space-x-4 mb-2">
-        <%= history.recording_date %>
-        <%= history.status %>
-      </div>
-    <% end %>
-  <% end %>
+<% end %>
+
+<% if action_name.in?(["edit", "update"]) %>
+  <%= render 'history', histories: histories %>
 <% end %>
