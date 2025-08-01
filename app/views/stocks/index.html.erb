@@ -8,7 +8,7 @@
         <div class="text-xl text-f-head box-border border-2 border-black rounded p-4">なし</div>
       </div>
       <div class="">
-        <%= link_to "保管場所追加", new_location_path, class: "text-xl text-dull-green bg-white rounded box-border border-dull-green border-2 p-4" %>
+        <%= link_to "保管場所追加", new_location_path, class: "text-xl text-dull-green bg-white rounded box-border border-dull-green border-2 p-4 hover:bg-dull-green hover:text-white" %>
       </div>
     </div>
     <%= render 'stock', { stocks: @stocks, locations: @locations } %>

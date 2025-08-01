@@ -9,7 +9,6 @@ class HistoriesController < ApplicationController
     if history.save
       redirect_to stocks_path, success: t("defaults.flash_message.created", item: t("defaults.models.history"))
     else
-      p history.errors.full_messages if history.errors.present?
       flash[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.history"))
       redirect_to stocks_path
     end

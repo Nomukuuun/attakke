@@ -21,7 +21,7 @@
           <div class="bg-dull-beige p-4 rounded border border-black">
             <div class="flex justify-between items-center mb-4">
               <p class="text-f-head text-xl font-bold"><%= stock.name %></p>
-              <%# TODO: existence型にアイコンを表示、リンクに histories_path(stock: stock.id) と data: {turbo_confirm} をつける %>
+              <%# TODO: existence型にアイコンを表示 %>
               <% if stock.existence? %>
                 <% if stock.latest_exist_quantity == 0 %>
                   <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>

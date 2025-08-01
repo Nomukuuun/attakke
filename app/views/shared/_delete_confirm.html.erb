@@ -1,0 +1,33 @@
+<%# 背景 %>
+<div
+  data-controller="delete-confirm"
+  data-delete-confirm-target="modal"
+  data-action="click->delete-confirm#clickOutside"
+  class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50"
+>
+
+  <%# 確認メッセージ %>
+  <div data-delete-confirm-target="dialog" class="bg-white p-4 rounded shadow">
+    <p data-delete-confirm-target="message" class="mb-4 text-lg"></p>
+
+    <%# ボタン %>
+    <div class="flex justify-end space-x-4">
+      <button
+        type="button"
+        data-delete-confirm-target="confirmButton"
+        data-action="click->delete-confirm#confirm"
+        class="px-4 py-2 bg-dull-red rounded hover:brightness-70"
+      >
+        削除する
+      </button>
+      <button
+        type="button"
+        data-delete-confirm-target="cancelButton"
+        data-action="click->delete-confirm#cancel"
+        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+      >
+        キャンセル
+      </button>
+    </div>
+  </div>
+</div>
