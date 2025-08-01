@@ -23,6 +23,8 @@ ja:
         num_quantity: ストックの個数
         status: 履歴
         recording_date: 記録日
+      histories:
+        num_quantity: ストックの個数
   attributes:
     id: ID
     created_at: 作成日時

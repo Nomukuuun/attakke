@@ -4,7 +4,7 @@
     <div class="text-xl mb-6"><%= location.name %></div>
     <%= f.hidden_field :location_id, value: location.id %>
   <% elsif action_name.in?(["edit", "update"]) %>
-    <%= f.collection_select :location_id, locations, :id, :name,{ selected: stock.location_id }, { class: "bg-white border-black border rounded p-2 w-1/2 mb-6" } %>
+    <%= f.collection_select :location_id, locations, :id, :name, { selected: stock.location_id }, { class: "bg-white border-black border rounded p-2 w-1/2 mb-6" } %>
   <% end %>
 
   <div class="flex flex-col mb-6">
@@ -78,10 +78,8 @@
     <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 " %>
     <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
   </div>
-  
 <% end %>
-  
-  <%# DONE: 日時の表示形式、enum_helpでステータスの日本語化 <= 実施済 %>
+
 <% if action_name.in?(["edit", "update"]) %>
   <%= render 'history', histories: histories %>
 <% end %>

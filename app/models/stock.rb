@@ -1,6 +1,6 @@
 class Stock < ApplicationRecord
   validates :name, presence: true, length: { maximum: 100 }
-  validates :model, presence: true, inclusion: { in: [0, 1] }
+  validates :model, presence: true
 
   enum :model, { existence: 0, number: 1 }
 

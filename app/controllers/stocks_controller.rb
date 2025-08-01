@@ -1,11 +1,11 @@
 class StocksController < ApplicationController
   def index
     # 最新履歴を取得するためのサブクエリ用変数
-    latest_histories = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
+    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
 
     @stocks = current_user.stocks
-              .joins("LEFT JOIN (#{latest_histories.to_sql}) AS latest_histories ON latest_histories.stock_id = stocks.id")
-              .select("stocks.*, latest_histories.recording_date AS latest_recording_date, latest_histories.exist_quantity AS latest_exist_quantity, latest_histories.num_quantity AS latest_num_quantity")
+              .joins("LEFT JOIN (#{latest_history.to_sql}) AS latest_history ON latest_history.stock_id = stocks.id")
+              .select("stocks.*, latest_history.recording_date AS latest_recording_date, latest_history.exist_quantity AS latest_exist_quantity, latest_history.num_quantity AS latest_num_quantity")
               .order(:model ,:name)
     @locations = current_user.locations.order(:name)
   end
@@ -30,7 +30,6 @@ class StocksController < ApplicationController
 
   def edit
     @stock = current_user.stocks.find(params[:id])
-    @location = @stock.location
     @locations = current_user.locations.order(:name)
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
     build_latest_history(@stock) if @stock.histories.none?(&:new_record?)
@@ -42,7 +41,7 @@ class StocksController < ApplicationController
     if @stock.update(stock_params)
       redirect_to stocks_path, success: t("defaults.flash_message.updated", item: t("defaults.models.stock"))
     else
-      @location = @stock.location
+      @locations = current_user.locations.order(:name)
       @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
       flash.now[:error] = t("defaults.flash_message.not_updated", item: t("defaults.models.stock"))
       render :edit, status: :unprocessable_entity

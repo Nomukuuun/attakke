@@ -21,16 +21,24 @@
           <div class="bg-dull-beige p-4 rounded border border-black">
             <div class="flex justify-between items-center mb-4">
               <p class="text-f-head text-xl font-bold"><%= stock.name %></p>
-              <%# TODO: renderで有無型の場合はアイコン、残数型の場合は残数を表示する %>
+              <%# TODO: existence型にアイコンを表示、リンクに histories_path(stock: stock.id) と data: {turbo_confirm} をつける %>
               <% if stock.existence? %>
-                <div class=""><%= stock.latest_exist_quantity == 0 ? "なし" : "あり" %></div>
+                <% if stock.latest_exist_quantity == 0 %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                    <div class="text-xl text-f-body font-bold hover:text-dull-green border-dull-green">なし</div>
+                  <% end %>
+                <% else %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                    <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">あり</div>
+                  <% end %>
+                <% end %>
               <% else %>
                 <%= link_to edit_stock_path(stock) do %>
                   <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">
                     <%= "残#{ stock.latest_num_quantity }" %>
                   </div>
                 <% end %>
-                  <% end %>
+              <% end %>
             </div>
             <div class="text-f-body text-right mb-4">最終更新日：<%= stock.number_of_days_elapsed %></div>
             <div class="flex justify-end items-center space-x-2">
