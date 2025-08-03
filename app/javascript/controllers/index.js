@@ -2,13 +2,10 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "./application";
 
-import DeleteConfirmController from "./delete_confirm_controller"
-application.register("delete-confirm", DeleteConfirmController)
+import DeleteConfirmController from "./delete_confirm_controller";
+application.register("delete-confirm", DeleteConfirmController);
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
-
-import QuantityVisibilityController from "./quantity_visibility_controller"
-application.register("quantity-visibility", QuantityVisibilityController)
+import QuantityVisibilityController from "./quantity_visibility_controller";
+application.register("quantity-visibility", QuantityVisibilityController);
