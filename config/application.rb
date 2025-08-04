@@ -32,6 +32,9 @@ module Myapp
       g.test_framework nil
     end
 
+    # 本番環境でbun installによるエラーを起こさないために追記
+    config.cssbundling.skip_css_install_on_assets_precompile = true
+    
     config.i18n.default_locale = :ja
     config.time_zone = 'Tokyo'
   end
