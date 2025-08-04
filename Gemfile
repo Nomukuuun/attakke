@@ -15,7 +15,7 @@ gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
-gem "cssbundling-rails"
+# gem "cssbundling-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
@@ -37,7 +37,7 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 
-gem "tailwindcss-rails"
+gem "tailwindcss-rails", '~> 4.3'
 
 gem 'devise', '~> 4.9', '>= 4.9.4'
 gem "omniauth-google-oauth2"
