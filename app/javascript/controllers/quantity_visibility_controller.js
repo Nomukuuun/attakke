@@ -16,7 +16,7 @@ export default class extends Controller {
 
   connect() {
     this.changeModel(); // ラジオボタンによる表示制御
-    this.setInitialIconState(); // ← 追加：exist_quantityの初期値に応じたアイコン表示
+    this.setInitialIconState(); // exist_quantityの初期値に応じたアイコン表示
   }
 
   changeModel() {

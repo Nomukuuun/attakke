@@ -1,16 +1,22 @@
 <div class="container mx-auto absolute top-24">
   <% if @locations.present? %>
     <div class="flex justify-between items-center my-6">
-    <%# TODO: ボタンでの絞り込み機能 <= 簡易実装済 activeボタンの活性化 %>
+    <%# DONE: ボタンでの絞り込み機能、activeボタンの活性化 %>
       <div class="flex justify-start space-x-4">
         <%= link_to stocks_path do %>
-          <div class="text-xl text-f-head box-border border-2 border-black rounded p-4">すべて</div>
+          <div class="text-xl box-border border-2 rounded p-4 <%= active_filter_button?('index') %>">
+            すべて
+          </div>
         <% end %>
         <%= link_to in_stocks_stocks_path do %>
-          <div class="text-xl text-f-head box-border border-2 border-black rounded p-4">あり</div>
+          <div class="text-xl box-border border-2 rounded p-4 <%= active_filter_button?('in_stocks') %>">
+            あり
+          </div>
         <% end %>
         <%= link_to out_of_stocks_stocks_path do %>
-          <div class="text-xl text-f-head box-border border-2 border-black rounded p-4">なし</div>
+          <div class="text-xl box-border border-2 rounded p-4 <%= active_filter_button?('out_of_stocks') %>">
+            なし
+          </div>
         <% end %>
       </div>
       <div class="">
