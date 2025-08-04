@@ -2,6 +2,7 @@ set -o errexit
 
 bundle install
 
+npm install
 npx tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify
 
 bundle exec rails tailwindcss:build
