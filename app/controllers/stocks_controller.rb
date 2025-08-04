@@ -1,28 +1,16 @@
 class StocksController < ApplicationController
-  before_action :stocks_and_locations, only: %i[index in_stocks out_of_stocks]
+  before_action :latest_history_and_locations, only: %i[index in_stocks out_of_stocks]
+  before_action :set_stocks_base, only: %i[index in_stocks out_of_stocks]
 
-  def index
-    @stocks = current_user.stocks
-          .joins("LEFT JOIN (#{@latest_history.to_sql}) AS latest_history ON latest_history.stock_id = stocks.id")
-          .select("stocks.*, latest_history.recording_date AS latest_recording_date, latest_history.exist_quantity AS latest_exist_quantity, latest_history.num_quantity AS latest_num_quantity")
-          .order(:model ,:name)
-  end
+  def index; end
 
   def in_stocks
-    @stocks = current_user.stocks
-          .joins("LEFT JOIN (#{@latest_history.to_sql}) AS latest_history ON latest_history.stock_id = stocks.id")
-          .select("stocks.*, latest_history.recording_date AS latest_recording_date, latest_history.exist_quantity AS latest_exist_quantity, latest_history.num_quantity AS latest_num_quantity")
-          .where("COALESCE(latest_history.exist_quantity, 0) > 0 OR COALESCE(latest_history.num_quantity, 0) > 0")
-          .order(:model ,:name)
+    @stocks = @stocks.in_stocks
     render :index
   end
 
   def out_of_stocks
-    @stocks = current_user.stocks
-      .joins("LEFT JOIN (#{@latest_history.to_sql}) AS latest_history ON latest_history.stock_id = stocks.id")
-      .select("stocks.*, latest_history.recording_date AS latest_recording_date, latest_history.exist_quantity AS latest_exist_quantity, latest_history.num_quantity AS latest_num_quantity")
-      .where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0")
-      .order(:model ,:name)
+    @stocks = @stocks.out_of_stocks
     render :index
   end
 
@@ -91,10 +79,15 @@ class StocksController < ApplicationController
   end
 
   # indexアクションで使用する共通メソッド
-  def stocks_and_locations
+  def latest_history_and_locations
     # 最新履歴を取得するためのサブクエリ用変数
     @latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
-
     @locations = current_user.locations.order(:name)
+  end
+
+  def set_stocks_base
+    @stocks = Stock.joins_latest_history(@latest_history)
+              .merge(current_user.stocks)
+              .order_asc_model_and_name
   end
 end
