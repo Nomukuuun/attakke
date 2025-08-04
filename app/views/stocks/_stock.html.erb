@@ -25,11 +25,11 @@
               <%# TODO: existence型にアイコンを表示 %>
               <% if stock.existence? %>
                 <% if stock.latest_exist_quantity == 0 %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history'), confirm_button_text: "更新" } do %>
                     <div class="text-xl text-f-body font-bold hover:text-dull-green border-dull-green">なし</div>
                   <% end %>
                 <% else %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { confirm_button_text: "更新", turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history'), confirm_button_text: "更新" } do %>
                     <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">あり</div>
                   <% end %>
                 <% end %>

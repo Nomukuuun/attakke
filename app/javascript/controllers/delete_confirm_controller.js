@@ -16,6 +16,7 @@ export default class extends Controller {
     });
   }
 
+  // elementはformタグが取得されることに注意
   showModal(message, element) {
     this.resolve = null;
     return new Promise((resolve) => {
@@ -23,7 +24,8 @@ export default class extends Controller {
       this.messageTarget.innerHTML = message;
       this.modalTarget.classList.remove("hidden");
 
-      const confirmText = element.dataset.confirmButtonText || "削除";
+      const button = element.querySelector("button");
+      const confirmText = button?.dataset.confirmButtonText || "削除";
       this.confirmButtonTarget.textContent = confirmText;
     });
   }
