@@ -21,14 +21,15 @@
           <div class="bg-dull-beige p-4 rounded border border-black">
             <div class="flex justify-between items-center mb-4">
               <p class="text-f-head text-xl font-bold"><%= stock.name %></p>
-              <%# TODO: existence型にアイコンを表示、リンクに histories_path(stock: stock.id) と data: {turbo_confirm} をつける %>
+
+              <%# TODO: existence型にアイコンを表示 %>
               <% if stock.existence? %>
                 <% if stock.latest_exist_quantity == 0 %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history'), confirm_button_text: "更新" } do %>
                     <div class="text-xl text-f-body font-bold hover:text-dull-green border-dull-green">なし</div>
                   <% end %>
                 <% else %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history') } do %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history'), confirm_button_text: "更新" } do %>
                     <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">あり</div>
                   <% end %>
                 <% end %>
@@ -40,7 +41,9 @@
                 <% end %>
               <% end %>
             </div>
+
             <div class="text-f-body text-right mb-4">最終更新日：<%= stock.number_of_days_elapsed %></div>
+
             <div class="flex justify-end items-center space-x-2">
               <%= link_to edit_stock_path(stock) do %>
                 <div class="text-xl">編集</div>

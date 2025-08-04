@@ -1,13 +1,17 @@
 class StocksController < ApplicationController
-  def index
-    # 最新履歴を取得するためのサブクエリ用変数
-    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
+  before_action :latest_history_and_locations, only: %i[index in_stocks out_of_stocks]
+  before_action :set_stocks_base, only: %i[index in_stocks out_of_stocks]
 
-    @stocks = current_user.stocks
-              .joins("LEFT JOIN (#{latest_history.to_sql}) AS latest_history ON latest_history.stock_id = stocks.id")
-              .select("stocks.*, latest_history.recording_date AS latest_recording_date, latest_history.exist_quantity AS latest_exist_quantity, latest_history.num_quantity AS latest_num_quantity")
-              .order(:model ,:name)
-    @locations = current_user.locations.order(:name)
+  def index; end
+
+  def in_stocks
+    @stocks = @stocks.in_stocks
+    render :index
+  end
+
+  def out_of_stocks
+    @stocks = @stocks.out_of_stocks
+    render :index
   end
 
   def new
@@ -72,5 +76,18 @@ class StocksController < ApplicationController
       history = stock.histories.build(exist_quantity: 1, quantity_type => old_quantity)
     end
     history
+  end
+
+  # indexアクションで使用する共通メソッド
+  def latest_history_and_locations
+    # 最新履歴を取得するためのサブクエリ用変数
+    @latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
+    @locations = current_user.locations.order(:name)
+  end
+
+  def set_stocks_base
+    @stocks = Stock.joins_latest_history(@latest_history)
+              .merge(current_user.stocks)
+              .order_asc_model_and_name
   end
 end

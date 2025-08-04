@@ -4,7 +4,7 @@ class History < ApplicationRecord
   before_validation :set_status_and_date
   before_validation :nillify_unused_quantity
 
-  enum :status, { purchase: 0, consumption: 1 }
+  enum :status, { purchase: 0, consumption: 1, maintenance: 2 }
 
   belongs_to :stock
 
@@ -44,7 +44,7 @@ class History < ApplicationRecord
       when 1  then :consumption
       when -1 then :purchase
       # TODO: 数量を変更しなかったときは履歴のみ更新するロジックを作る
-      when 0 then :purchase
+      when 0 then :maintenance
       end
   end
 
