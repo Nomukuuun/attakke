@@ -6,11 +6,11 @@
         <%= link_to edit_location_path(location) do %>
           <div class="text-xl">編集</div>
         <% end %>
-        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm.location') } do %>
+        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.location') } do %>
           <div class="text-xl">削除</div>
         <% end %>
       </div>
-      <%= link_to new_stock_path(location: location.id), class: "pr-6" do %>
+      <%= link_to new_stock_path(location_id: location.id), class: "pr-6" do %>
         <div class="text-xl">追加</div>
       <% end %>
     </div>
@@ -25,11 +25,11 @@
               <%# TODO: existence型にアイコンを表示 %>
               <% if stock.existence? %>
                 <% if stock.latest_exist_quantity == 0 %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history'), confirm_button_text: "更新" } do %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.confirm.history'), confirm_button_text: "更新" } do %>
                     <div class="text-xl text-f-body font-bold hover:text-dull-green border-dull-green">なし</div>
                   <% end %>
                 <% else %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.delete_confirm.history'), confirm_button_text: "更新" } do %>
+                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.confirm.history'), confirm_button_text: "更新" } do %>
                     <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">あり</div>
                   <% end %>
                 <% end %>
@@ -48,7 +48,7 @@
               <%= link_to edit_stock_path(stock) do %>
                 <div class="text-xl">編集</div>
               <% end %>
-              <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm.stock') } do %>
+              <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') } do %>
                 <div class="text-xl">削除</div>
               <% end %>
             </div>

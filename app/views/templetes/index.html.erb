@@ -1,0 +1,34 @@
+<div class="container mx-auto absolute top-24">
+  <div class="bg-white px-4">
+    <% if @templetes.present? %>
+      <% @locations.each do |location| %>
+        <div class="text-xl fond-bold text-f-head p-4 rounded border-box border-2" id=<%= location %> ><%= location %></div>
+
+        <div class="rounded mb-6">
+          <table class="table-fixed">
+            <tbody>
+              <% @templetes.where(location_name: location).each do |t| %>
+                <tr>
+                  <td class="p-4 py-2"><%= t.stock_name %></td>
+                  <td class="p-4 py-2"><%= t.stock_model == 0 ? t('enums.stock.model.existence') : t('enums.stock.model.number') %></td>
+                  <td class="p-4 py-2"><%= displey_quantity(t) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="flex justify-end mr-4">
+            <%= button_to templetes_path, params: { location_name: location }, data: { turbo_confirm: t('defaults.confirm.templete', item: location ) , confirm_button_text: "使用する" } do %>
+              <div class="bg-dull-green text-white p-4 rounded hover:brightness-70">このテンプレートを使う</div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+    <% else %>
+      <div>テンプレートが読み込まれていません</div>
+    <% end %>
+  </div>
+  <div class="flex justify-end mr-4 mb-6">
+    <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
+  </div>
+  </div>
