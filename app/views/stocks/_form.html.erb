@@ -78,7 +78,7 @@
     <div class="flex justify-start items-center space-x-4">
       <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 hover:brightness-70" %>
       <% if action_name.in?(["edit", "update"]) %>
-        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm.stock') } do %>
+        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') } do %>
           <div class="text-xl text-f-body bg-gray-300 rounded p-4 hover:bg-gray-400">削除</div>
         <% end %>
       <% end %>

@@ -1,6 +1,8 @@
 class History < ApplicationRecord
   validates :exist_quantity, inclusion: { in: [0, 1] }, if: -> { stock.existence? }
   validates :num_quantity, numericality: { greater_than_or_equal_to: 0, less_than: 100, message: "は必須入力です" }, if: -> { stock.number? }
+  validates :status, presence: true
+  validates :recording_date, presence: true
   before_validation :set_status_and_date
   before_validation :nillify_unused_quantity
 
@@ -43,7 +45,6 @@ class History < ApplicationRecord
       case diff <=> 0
       when 1  then :consumption
       when -1 then :purchase
-      # TODO: 数量を変更しなかったときは履歴のみ更新するロジックを作る
       when 0 then :maintenance
       end
   end

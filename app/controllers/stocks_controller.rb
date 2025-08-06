@@ -16,7 +16,7 @@ class StocksController < ApplicationController
 
   def new
     @stock = Stock.new
-    @location = Location.find(params[:location])
+    @location = Location.find(params[:location_id])
     @stock.histories.build(exist_quantity: 1)
   end
 

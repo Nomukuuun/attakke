@@ -11,9 +11,9 @@ export default class extends Controller {
   ];
 
   connect() {
-    Turbo.setConfirmMethod((message, element) => {
+    Turbo.config.forms.confirm = (message, element) => {
       return this.showModal(message, element);
-    });
+    };
   }
 
   // elementはformタグが取得されることに注意

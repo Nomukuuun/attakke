@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
   resources :locations, except: %i[index show]
   resources :histories, only: %i[create]
+  resources :templetes, only: %i[index create]
 
   devise_scope :user do
     delete "logout", to: "users/sessions#destroy", as: :logout

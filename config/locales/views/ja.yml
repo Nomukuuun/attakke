@@ -20,7 +20,7 @@ ja:
       stock: ストック
       location: 保管場所
       history: 履歴
-    delete_confirm:
+    confirm:
       stock: |
         ストックを削除します<br>
         ストック履歴も削除されますがよろしいですか？
@@ -29,4 +29,8 @@ ja:
         保管場所に登録されたストックも削除されますがよろしいですか？
       history: |
         履歴を更新します<br>
+        よろしいですか？
+      templete: |
+        <strong>%{item}</strong> がすでに存在する場合はストックを追加します<br>
+        存在しない場合は保管場所とストックを作成します<br>
         よろしいですか？
