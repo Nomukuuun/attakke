@@ -1,17 +1,29 @@
-<div class="container mx-auto absolute top-24">
-  <div class="bg-white px-4">
+<div class="container mx-auto absolute top-24" data-controller="templete-toggle">
+  <div class="bg-white p-4">
     <% if @templetes.present? %>
       <% @locations.each do |location| %>
-        <div class="text-xl fond-bold text-f-head p-4 rounded border-box border-2" id=<%= location %> ><%= location %></div>
+        <% toggle_id = location %>
+        <div class="text-xl fond-bold text-f-head p-4 mt-2 rounded border-box border-2"
+             data-action="click->templete-toggle#toggle"
+             data-toggle-target="<%= toggle_id %>">
+          <%= location %>
+        </div>
 
-        <div class="rounded mb-6">
-          <table class="table-fixed">
+        <div class="hidden bg-dull-beige rounded border-box border-1 border-gray-700 pb-4" id=<%= toggle_id %> >
+          <table class="table-fixed p-4">
+            <thead>
+              <tr>
+                <th>ストック名</th>
+                <th>ストックの型</th>
+                <th>ストックの状態</th>
+              </tr>
+            </thead>
             <tbody>
               <% @templetes.where(location_name: location).each do |t| %>
                 <tr>
-                  <td class="p-4 py-2"><%= t.stock_name %></td>
-                  <td class="p-4 py-2"><%= t.stock_model == 0 ? t('enums.stock.model.existence') : t('enums.stock.model.number') %></td>
-                  <td class="p-4 py-2"><%= displey_quantity(t) %></td>
+                  <td class="w-xs/3 p-4 py-2"><%= t.stock_name %></td>
+                  <td class="w-xs/3 p-4 py-2"><%= t.stock_model == 0 ? t('enums.stock.model.existence') : t('enums.stock.model.number') %></td>
+                  <td class="w-xs/3 p-4 py-2"><%= displey_quantity(t) %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -28,7 +40,7 @@
       <div>テンプレートが読み込まれていません</div>
     <% end %>
   </div>
-  <div class="flex justify-end mr-4 mb-6">
+  <div class="flex justify-end mr-4 mt-6">
     <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
   </div>
-  </div>
+</div>
