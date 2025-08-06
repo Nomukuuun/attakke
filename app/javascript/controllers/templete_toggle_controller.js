@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["content"];
 
   toggle(event) {
-    const toggleId = event.currentTarget.dataset.toggleTarget;
+    const toggleId = event.currentTarget.dataset.templeteToggleTarget;
     const contentElement = document.getElementById(toggleId);
     if (contentElement) {
       contentElement.classList.toggle("hidden");

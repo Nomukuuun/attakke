@@ -1,17 +1,28 @@
 <% locations.each do |location| %>
   <div class="bg-white p-4 mb-6 rounded">
     <div class="flex justify-between items-center mb-6">
-      <div class="flex justify-start items-center space-x-2">
-        <h2 class="text-f-head text-2xl font-bold pl-6"><%= location.name %></h2>
+
+      <div class="flex justify-start items-center space-x-3">
+        <h2 class="text-f-head text-2xl font-bold pl-4"><%= location.name %></h2>
         <%= link_to edit_location_path(location) do %>
-          <div class="text-xl">編集</div>
+          <svg class="size-6 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+          </svg>
         <% end %>
         <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.location') } do %>
-          <div class="text-xl">削除</div>
+          <svg class="size-6 text-f-head" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
+            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+          </svg>
         <% end %>
       </div>
-      <%= link_to new_stock_path(location_id: location.id), class: "pr-6" do %>
-        <div class="text-xl">追加</div>
+
+      <%= link_to new_stock_path(location_id: location.id), class: "flex item-center pr-6" do %>
+        <svg class="size-6 text-dull-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+        </svg>
+        <span class="text-lg text-dull-red">ストック追加</span>
       <% end %>
     </div>
 
@@ -19,37 +30,26 @@
       <div class="grid grid-cols-3 gap-4">
         <% stocks.where(location_id: location.id).each do |stock| %>
           <div class="bg-dull-beige p-4 rounded border border-black">
+
             <div class="flex justify-between items-center mb-4">
               <p class="text-f-head text-xl font-bold"><%= stock.name %></p>
-
-              <%# TODO: existence型にアイコンを表示 %>
-              <% if stock.existence? %>
-                <% if stock.latest_exist_quantity == 0 %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.confirm.history'), confirm_button_text: "更新" } do %>
-                    <div class="text-xl text-f-body font-bold hover:text-dull-green border-dull-green">なし</div>
-                  <% end %>
-                <% else %>
-                  <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.confirm.history'), confirm_button_text: "更新" } do %>
-                    <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">あり</div>
-                  <% end %>
-                <% end %>
-              <% else %>
-                <%= link_to edit_stock_path(stock) do %>
-                  <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">
-                    <%= "残#{ stock.latest_num_quantity }" %>
-                  </div>
-                <% end %>
-              <% end %>
+              <%= render 'quantity_icon', stock: stock %>
             </div>
 
             <div class="text-f-body text-right mb-4">最終更新日：<%= stock.number_of_days_elapsed %></div>
 
             <div class="flex justify-end items-center space-x-2">
               <%= link_to edit_stock_path(stock) do %>
-                <div class="text-xl">編集</div>
+                <svg class="size-5 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                </svg>
               <% end %>
               <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') } do %>
-                <div class="text-xl">削除</div>
+                <svg class="size-5 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
+                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                </svg>
               <% end %>
             </div>
           </div>

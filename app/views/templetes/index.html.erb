@@ -3,14 +3,17 @@
     <% if @templetes.present? %>
       <% @locations.each do |location| %>
         <% toggle_id = location %>
-        <div class="text-xl fond-bold text-f-head p-4 mt-2 rounded border-box border-2"
+        <div class="flex justify-between p-4 mt-2 rounded border-box border-2"
              data-action="click->templete-toggle#toggle"
-             data-toggle-target="<%= toggle_id %>">
-          <%= location %>
+             data-templete-toggle-target="<%= toggle_id %>">
+          <div class="text-xl fond-bold text-f-head"><%= location %></div>
+          <svg class="size-6 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </div>
 
         <div class="hidden bg-dull-beige rounded border-box border-1 border-gray-700 pb-4" id=<%= toggle_id %> >
-          <table class="table-fixed p-4">
+          <table class="p-4">
             <thead>
               <tr>
                 <th>ストック名</th>

@@ -1,0 +1,24 @@
+<% if stock.existence? %>
+  <% if stock.latest_exist_quantity == 0 %>
+    <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.confirm.history'), confirm_button_text: "更新" }, class: "flex item-center" do %>
+      <svg class="size-6 text-f-head cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z"/>
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+      </svg>
+    <% end %>
+  <% else %>
+    <%= button_to histories_path, params: { stock_id: stock.id }, data: { turbo_confirm: t('defaults.confirm.history'), confirm_button_text: "更新" }, class: "flex item-center" do %>
+      <svg class="size-6 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z"/>
+        <polyline points="9 11 12 14 20 6" />
+        <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+      </svg>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= link_to edit_stock_path(stock) do %>
+    <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">
+      <%= "残#{ stock.latest_num_quantity }" %>
+    </div>
+  <% end %>
+<% end %>

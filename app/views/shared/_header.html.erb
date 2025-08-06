@@ -13,8 +13,13 @@
 
       <div class="flex items-center space-x-6">
         <% if user_signed_in? %>
-        <%= link_to "使い方(準備中)", '#', class: "text-xl text-f-head" %>
-          <%= button_to "ログアウト", logout_path, method: :delete, class: "text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" %>
+          <%= link_to "使い方(準備中)", '#', class: "text-xl text-f-head" %>
+          <%= button_to logout_path, method: :delete, class: "flex item-center text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
+            <svg class="size-6 text-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+            </svg>
+            ログアウト
+          <% end %>
         <% else %>
           <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
             <%= image_tag 'google_icon.svg', class: "inline-block size-6 mr-2" %>
