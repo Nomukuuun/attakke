@@ -19,7 +19,8 @@ class TempletesController < ApplicationController
 
         stock.histories.create!(
           exist_quantity: t.history_exist_quantity,
-          num_quantity: t.history_num_quantity
+          num_quantity: t.history_num_quantity,
+          status: :templete
         )
       end
     end
