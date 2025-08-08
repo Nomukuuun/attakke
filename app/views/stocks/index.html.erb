@@ -1,38 +1,40 @@
-<div class="container mx-auto absolute top-24">
+<div id="index" class="container mx-auto absolute top-24">
   <div class="flex justify-between items-center my-6">
-    <div class="flex justify-start space-x-4">
-      <%= link_to stocks_path do %>
-        <div class="text-xl box-border border-2 rounded p-4 <%= active_filter_button?('index') %>">
+    <div data-controller="filter-buttons" class="flex justify-start space-x-4">
+      <%= link_to stocks_path, data: { turbo_frame: "stocks_frame", action: "click->filter-buttons#activate" } do %>
+        <div data-filter-buttons-target="button" class="text-xl box-border border-2 rounded p-4 text-white border-dull-green bg-dull-green hover:brightness-70">
           すべて
         </div>
       <% end %>
-      <%= link_to in_stocks_stocks_path do %>
-        <div class="text-xl box-border border-2 rounded p-4 <%= active_filter_button?('in_stocks') %>">
+      <%= link_to in_stocks_stocks_path, data: { turbo_frame: "stocks_frame", action: "click->filter-buttons#activate" } do %>
+        <div data-filter-buttons-target="button" class="text-xl box-border border-2 rounded p-4 text-f-head border-black bg-white hover:text-white hover:bg-dull-green hover:border-dull-green">
           あり
         </div>
       <% end %>
-      <%= link_to out_of_stocks_stocks_path do %>
-        <div class="text-xl box-border border-2 rounded p-4 <%= active_filter_button?('out_of_stocks') %>">
+      <%= link_to out_of_stocks_stocks_path, data: { turbo_frame: "stocks_frame", action: "click->filter-buttons#activate" } do %>
+        <div data-filter-buttons-target="button" class="text-xl box-border border-2 rounded p-4 text-f-head border-black bg-white hover:text-white hover:bg-dull-green hover:border-dull-green">
           なし
         </div>
       <% end %>
     </div>
     <div class="flex justify-end space-x-4">
-      <%= link_to "テンプレート", templetes_path, class: "text-xl text-dull-green bg-white rounded box-border border-dull-green border-2 p-4 hover:bg-dull-green hover:text-white" %>
-      <%= link_to "保管場所追加", new_location_path, class: "text-xl text-dull-green bg-white rounded box-border border-dull-green border-2 p-4 hover:bg-dull-green hover:text-white" %>
+      <%= link_to "テンプレート", templetes_path, data: { turbo_frame: 'modal_frame' }, class: "text-xl text-dull-green bg-white rounded box-border border-dull-green border-2 p-4 hover:bg-dull-green hover:text-white" %>
+      <%= link_to "保管場所追加", new_location_path, data: { turbo_frame: 'modal_frame' }, class: "text-xl text-dull-green bg-white rounded box-border border-dull-green border-2 p-4 hover:bg-dull-green hover:text-white" %>
     </div>
   </div>
 
-  <% if @locations.present? %>
-    <%= render 'stock', { stocks: @stocks, locations: @locations } %>
-  <% else %>
-    <div class="bg-white rounded my-6 p-4">
-      <%= link_to new_location_path do %>
-        <span class="text-xl font-bold text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">
-          ストックの保管場所を登録しましょう<br>
-          (登録フォームを開く)
-        </span>
-      <% end %>
-    </div>
+  <%= turbo_frame_tag "stocks_frame" do %>
+    <% if @locations.present? %>
+      <%= render 'stocks/location', { stocks: @stocks, locations: @locations } %>
+    <% else %>
+      <div class="bg-white rounded my-6 p-4">
+        <%= link_to new_location_path, data: { turbo_frame: 'modal_frame' } do %>
+          <span class="text-xl font-bold text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">
+            ストックの保管場所を登録しましょう<br>
+            (登録フォームを開く)
+          </span>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </div>

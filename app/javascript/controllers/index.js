@@ -7,6 +7,12 @@ import { application } from "./application"
 import ConfirmController from "./confirm_controller"
 application.register("confirm", ConfirmController)
 
+import FilterButtonsController from "./filter_buttons_controller"
+application.register("filter-buttons", FilterButtonsController)
+
+import ModalFrameController from "./modal_frame_controller"
+application.register("modal-frame", ModalFrameController)
+
 import QuantityVisibilityController from "./quantity_visibility_controller"
 application.register("quantity-visibility", QuantityVisibilityController)
 

@@ -1,0 +1,13 @@
+<%= turbo_frame_tag 'modal_frame' do %>
+  <%# 背景 %>
+  <div data-controller="modal-frame"
+       data-modal-frame-target="modal"
+       data-action="click->modal-frame#clickOutside"
+       class="fixed inset-0 bg-black/50 flex items-center justify-center z-30"
+  >
+    <%# ダイアログ <= yield には各アクションの部分テンプレートが入る %>
+    <div data-modal-frame-target="dialog" class="bg-white p-4 rounded shadow overflow-auto">
+      <%= yield %>
+    </div>
+  </div>
+<% end %>

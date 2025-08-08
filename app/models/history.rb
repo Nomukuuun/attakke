@@ -26,7 +26,6 @@ class History < ApplicationRecord
       self.status ||= quantity == 0 ? :consumption : :purchase
     else
       # update時のstatus設定
-      p "update_flag_true"
       update_status_based_on_previous_history
     end
   end

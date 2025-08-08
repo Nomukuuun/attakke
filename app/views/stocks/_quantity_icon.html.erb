@@ -16,7 +16,7 @@
     <% end %>
   <% end %>
 <% else %>
-  <%= link_to edit_stock_path(stock) do %>
+  <%= link_to edit_stock_path(stock), data: { turbo_frame: 'modal_frame' } do %>
     <div class="text-f-head text-xl font-bold hover:text-dull-green border-dull-green">
       <%= "残#{ stock.latest_num_quantity }" %>
     </div>

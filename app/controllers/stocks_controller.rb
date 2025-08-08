@@ -1,17 +1,22 @@
 class StocksController < ApplicationController
-  before_action :latest_history_and_locations, only: %i[index in_stocks out_of_stocks]
-  before_action :set_stocks_base, only: %i[index in_stocks out_of_stocks]
+  before_action :latest_history_and_locations, only: %i[index in_stocks out_of_stocks create update]
+  before_action :set_stocks_base, only: %i[index in_stocks out_of_stocks create update]
+  before_action :set_stock_and_locations, only: %i[edit update]
 
-  def index; end
+  # FIXME: locationが１つもない状態でリレンダリングするとcontent missingとなる
+  def index
+    render_stocks_and_locations
+  end
 
+  # inとout_ofはフィルタリングアクション
   def in_stocks
     @stocks = @stocks.in_stocks
-    render :index
+    render_stocks_and_locations
   end
 
   def out_of_stocks
     @stocks = @stocks.out_of_stocks
-    render :index
+    render_stocks_and_locations
   end
 
   def new
@@ -25,7 +30,11 @@ class StocksController < ApplicationController
     @location = @stock.location
 
     if @stock.save
-      redirect_to stocks_path, success: t("defaults.flash_message.created", item: t("defaults.models.stock"))
+      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
+      render turbo_stream: [
+      turbo_stream.append("#{@location.name}_stock_list", partial: "stock", locals: { stock: @stocks.find(@stock.id) }),
+      turbo_stream.update("flash", partial: "shared/flash_message")
+      ]
     else
       flash.now[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.stock"))
       render :new, status: :unprocessable_entity
@@ -33,20 +42,25 @@ class StocksController < ApplicationController
   end
 
   def edit
-    @stock = current_user.stocks.find(params[:id])
-    @locations = current_user.locations.order(:name)
-    @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
     build_latest_history(@stock) if @stock.histories.none?(&:new_record?)
   end
-  
-  def update
-    @stock = current_user.stocks.find(params[:id])
 
+  # FIXME: location変更時にnilでエラーになる
+  def update
     if @stock.update(stock_params)
-      redirect_to stocks_path, success: t("defaults.flash_message.updated", item: t("defaults.models.stock"))
+      flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))
+      if @stock.previous_changes.has_key?(:location_id)
+        render turbo_stream: [
+          turbo_stream.replace("stocks_frame", partial: location, locals: { stocks: @stocks, locations: @locations }),
+          turbo_stream.update("flash", partial: "shared/flash_message")
+        ]
+      else
+        render turbo_stream: [
+          turbo_stream.replace(view_context.dom_id(@stock), partial: "stock", locals: { stock: @stocks.find(@stock.id) }),
+          turbo_stream.update("flash", partial: "shared/flash_message")
+        ]
+      end
     else
-      @locations = current_user.locations.order(:name)
-      @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
       flash.now[:error] = t("defaults.flash_message.not_updated", item: t("defaults.models.stock"))
       render :edit, status: :unprocessable_entity
     end
@@ -55,7 +69,11 @@ class StocksController < ApplicationController
   def destroy
     stock = current_user.stocks.find(params[:id])
     stock.destroy!
-    redirect_to stocks_path, success: t("defaults.flash_message.deleted", item: t("defaults.models.stock")), status: :see_other
+    flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.stock"))
+    render turbo_stream: [
+    turbo_stream.remove(view_context.dom_id(stock)),
+    turbo_stream.update("flash", partial: "shared/flash_message")
+    ]
   end
 
   private
@@ -64,7 +82,26 @@ class StocksController < ApplicationController
     params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [:exist_quantity, :num_quantity])
   end
 
-  # editアクション時に直近の履歴から数量を取得したhistoryインスタンスを作成するメソッド
+  # new,edit以外でアクション実行前にセットするメソッド
+  def latest_history_and_locations
+    @latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
+    @locations = current_user.locations.order(:name)
+  end
+
+  def set_stocks_base
+    @stocks = Stock.joins_latest_history(@latest_history)
+              .merge(current_user.stocks)
+              .order_asc_model_and_name
+  end
+
+  # edit, updateアクションで使用する共通メソッド
+  def set_stock_and_locations
+    @stock = current_user.stocks.find(params[:id])
+    @locations = current_user.locations.order(:name)
+    @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
+  end
+
+  # editで直近の履歴を反映したhistoryインスタンスを作成するメソッド
   def build_latest_history(stock)
     latest_history = stock.histories.order(id: :desc).first
     quantity_type = stock.existence? ? :exist_quantity : :num_quantity
@@ -78,16 +115,15 @@ class StocksController < ApplicationController
     history
   end
 
-  # indexアクションで使用する共通メソッド
-  def latest_history_and_locations
-    # 最新履歴を取得するためのサブクエリ用変数
-    @latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
-    @locations = current_user.locations.order(:name)
-  end
-
-  def set_stocks_base
-    @stocks = Stock.joins_latest_history(@latest_history)
-              .merge(current_user.stocks)
-              .order_asc_model_and_name
+  # フィルタリングアクションのレンダリングメソッド
+  def render_stocks_and_locations
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace("stocks_frame", partial: location, locals: { stocks: @stocks, locations: @locations })
+      }
+      format.html {
+        render :index
+      }
+    end
   end
 end
