@@ -35,7 +35,7 @@
             <div class="flex justify-end mr-4">
               <%= button_to templetes_path,
                   params: { location_name: location },
-                  data: { turbo_confirm: t('defaults.confirm.templete', item: location ) , confirm_button_text: "使用する"},
+                  data: { turbo_confirm: t('defaults.confirm.templete', item: location ) , confirm_button_text: "使用する", turbo_frame: "stocks_frame" },
                   form: { data: { action: "turbo:submit-end->modal-frame#close" } } do
               %>
                 <div class="bg-dull-green text-white p-4 rounded hover:brightness-70">このテンプレートを使う</div>
