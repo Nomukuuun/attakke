@@ -79,7 +79,6 @@ class StocksController < ApplicationController
     stock.destroy!
     flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.stock"))
     if location.stocks.count == 0
-      p "replace"
       render turbo_stream: [
         turbo_stream.replace(location, partial: "location", locals: { location: location, stocks: @stocks }),
         turbo_stream.update("flash", partial: "shared/flash_message")

@@ -5,7 +5,7 @@
         <%= render 'stocks/location', { location: location, stocks: stocks } %>
       <% end %>
     <% else %>
-      <div class="bg-white rounded my-6 p-4">
+      <div class="bg-white rounded my-4 p-6">
         <%= link_to new_location_path, data: { turbo_frame: 'modal_frame' } do %>
           <span class="text-xl font-bold text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">
             ストックの保管場所を登録しましょう<br>

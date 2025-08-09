@@ -1,5 +1,5 @@
-<header class="fixed top-0 left-0 z-10 w-full max-h-92px bg-white flex-none">
-  <div class=" container mx-auto px-6 py-4 w-full">
+<header class="fixed top-0 left-0 z-10 w-full h-72px md:h-92px shadow-sm bg-white flex-none">
+  <div class="container mx-auto px-4 py-2 md:px-6 md:py-4 w-full">
     <div class="flex items-center justify-between">
       <% if user_signed_in? %>
         <%= link_to stocks_path, class: "shadow-sm min-h-full" do %>
@@ -11,10 +11,10 @@
         <% end %>
       <% end %>
 
-      <div class="flex items-center space-x-6">
+      <div class="flex items-center space-x-4 md:space-x-6">
         <% if user_signed_in? %>
-          <%= link_to "使い方(準備中)", '#', class: "text-xl text-f-head" %>
-          <%= button_to logout_path, method: :delete, class: "flex item-center text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
+          <%= link_to "使い方", '#', class: "text-base md:text-xl text-f-head" %>
+          <%= button_to logout_path, method: :delete, class: "flex item-center text-base md:text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
             <svg class="size-6 text-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
             </svg>

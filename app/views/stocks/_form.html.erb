@@ -1,5 +1,5 @@
 <%= form_with model: stock, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
-  <div class="text-2xl font-bold text-f-head mt-8">ストックの保管場所</div>
+  <div class="text-xl font-bold text-f-head">ストックの保管場所</div>
   <% if action_name.in?(["new", "create"]) %>
     <div class="text-xl mb-6"><%= location.name %></div>
     <%= f.hidden_field :location_id, value: location.id %>
@@ -8,14 +8,14 @@
   <% end %>
 
   <div class="flex flex-col mb-6">
-    <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
+    <%= f.label :name, class: "text-xl font-bold text-f-head" %>
     <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-full" %>
     <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
   <!-- stimulusを活用した非同期処理 -->
   <div data-controller="quantity-visibility">
-    <div class="text-2xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
+    <div class="text-xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
     <table class="table-fixed mb-6">
       <tbody>
         <tr>
@@ -41,8 +41,8 @@
 
     <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
       <!-- ラジオで選択されている型によって表示を切り替え -->
-      <div class="mb-12" data-quantity-visibility-target="existenceField">
-        <%= h.label :exist_quantity, class: "text-2xl font-bold text-f-head" %>
+      <div class="mb-10" data-quantity-visibility-target="existenceField">
+        <%= h.label :exist_quantity, class: "text-xl font-bold text-f-head" %>
         <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
         <div class="flex items-center space-x-6">
 
@@ -66,7 +66,7 @@
         </div>
       </div>
 
-      <div class="hidden flex flex-col mb-12" data-quantity-visibility-target="numberField">
+      <div class="hidden flex flex-col mb-10" data-quantity-visibility-target="numberField">
         <%= h.label :num_quantity, class: "text-2xl font-bold text-f-head" %>
         <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
         <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
@@ -74,16 +74,14 @@
     <% end %>
   </div>
 
-  <div class="flex justify-between items-center mb-12">
-    <div class="flex justify-start items-center space-x-4">
-      <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 hover:brightness-70" %>
-      <% if action_name.in?(["edit", "update"]) %>
-        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') } do %>
-          <div class="text-xl text-f-body bg-gray-300 rounded p-4 hover:bg-gray-400">削除</div>
-        <% end %>
+
+  <div class="flex justify-start items-center space-x-4 mb-10">
+    <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 hover:brightness-70" %>
+    <% if action_name.in?(["edit", "update"]) %>
+      <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') } do %>
+        <div class="text-xl text-f-body bg-gray-300 rounded p-4 hover:bg-gray-400">削除</div>
       <% end %>
-    </div>
-    <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
+    <% end %>
   </div>
 <% end %>
 
