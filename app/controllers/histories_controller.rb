@@ -1,6 +1,5 @@
 class HistoriesController < ApplicationController
   # existence型のストックがindex画面で使用するメソッド
-  # DONE: 一応描画できるようになったが効率は悪そう
   def create
     latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
     set_latest_history_stock(latest_history)

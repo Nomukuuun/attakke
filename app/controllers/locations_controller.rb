@@ -6,7 +6,6 @@ class LocationsController < ApplicationController
     @location = Location.new
   end
 
-  # DONE: locationがない状態だとリレンダリングされない <= stocks_frameを_locationに移譲したため解決
   def create
     @location = current_user.locations.build(location_params)
 

@@ -1,29 +1,29 @@
-<div id="index" class="container mx-auto absolute top-24">
-  <div class="flex justify-between items-center p-4">
-    <div data-controller="filter-buttons" class="flex justify-start space-x-2 md:space-x-4">
-      <%= link_to stocks_path, data: { turbo_frame: "main_frame", action: "click->filter-buttons#activate" } do %>
-        <div data-filter-buttons-target="button" class="text-base md:text-xl p-2 md:p-4 box-border border-2 rounded text-white border-dull-green bg-dull-green hover:brightness-70">
+<div id="index" class="container mx-auto absolute top-18 md:top-24">
+  <div class="flex justify-end space-x-2 md:space-x-4 m-4">
+    <%= link_to "テンプレート", templetes_path, data: { turbo_frame: 'modal_frame' }, class: "text-base md:text-xl p-2 md:p-4 text-dull-green bg-white rounded box-border border-dull-green border-2 hover:bg-dull-green hover:text-white" %>
+    <%= link_to new_location_path, data: { turbo_frame: 'modal_frame' }, class: "flex item-center text-base md:text-xl p-2 md:p-4 text-dull-green bg-white rounded box-border border-dull-green border-2 hover:bg-dull-green hover:text-white" do %>
+      <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+      </svg>
+      <span>保管場所</span>
+    <% end %>
+  </div>
+  <div class="sticky top-18 md:top-24">
+    <div data-controller="filter-buttons" class="flex justify-start space-x-0">
+      <%= link_to stocks_path, data: { turbo_frame: "main_frame", action: "click->filter-buttons#activate" }, class: "basis-1/3 text-center" do %>
+        <div data-filter-buttons-target="button" class="text-base md:text-xl p-2 box-border border-2 rounded text-white border-dull-green bg-dull-green hover:brightness-70">
           すべて
         </div>
       <% end %>
-      <%= link_to in_stocks_stocks_path, data: { turbo_frame: "main_frame", action: "click->filter-buttons#activate" } do %>
-        <div data-filter-buttons-target="button" class="text-base md:text-xl p-2 md:p-4 box-border border-2 rounded text-f-head border-black bg-white hover:text-white hover:bg-dull-green hover:border-dull-green">
+      <%= link_to in_stocks_stocks_path, data: { turbo_frame: "main_frame", action: "click->filter-buttons#activate" }, class: "basis-1/3 text-center" do %>
+        <div data-filter-buttons-target="button" class="text-base md:text-xl p-2 box-border border-2 rounded text-f-head border-black bg-white hover:text-white hover:bg-dull-green hover:border-dull-green">
           あり
         </div>
       <% end %>
-      <%= link_to out_of_stocks_stocks_path, data: { turbo_frame: "main_frame", action: "click->filter-buttons#activate" } do %>
-        <div data-filter-buttons-target="button" class="text-base md:text-xl p-2 md:p-4 box-border border-2 rounded text-f-head border-black bg-white hover:text-white hover:bg-dull-green hover:border-dull-green">
+      <%= link_to out_of_stocks_stocks_path, data: { turbo_frame: "main_frame", action: "click->filter-buttons#activate" }, class: "basis-1/3 text-center" do %>
+        <div data-filter-buttons-target="button" class="text-base md:text-xl p-2 box-border border-2 rounded text-f-head border-black bg-white hover:text-white hover:bg-dull-green hover:border-dull-green">
           なし
         </div>
-      <% end %>
-    </div>
-    <div class="flex justify-end space-x-2 md:space-x-4">
-      <%= link_to "テンプレート", templetes_path, data: { turbo_frame: 'modal_frame' }, class: "text-base md:text-xl p-2 md:p-4 text-dull-green bg-white rounded box-border border-dull-green border-2 hover:bg-dull-green hover:text-white" %>
-      <%= link_to new_location_path, data: { turbo_frame: 'modal_frame' }, class: "flex item-center text-base md:text-xl p-2 md:p-4 text-dull-green bg-white rounded box-border border-dull-green border-2 hover:bg-dull-green hover:text-white" do %>
-        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
-        </svg>
-        <span>保管場所</span>
       <% end %>
     </div>
   </div>

@@ -2,7 +2,6 @@ class StocksController < ApplicationController
   before_action :set_stocks_and_locations, only: %i[index in_stocks out_of_stocks create update destroy]
   before_action :set_stock_locations_histories, only: %i[edit update]
 
-  # DONE: locationが１件もない状態だとcontains missingとなる <= stocks_frameを部分テンプレート内に移譲することで解決
   def index
     render_stocks_and_locations
   end
@@ -51,7 +50,6 @@ class StocksController < ApplicationController
     build_latest_history(@stock) if @stock.histories.none?(&:new_record?)
   end
 
-  # DONE: location変更時にnilでエラーになる <= partial: location となっていた（"location"に修正）
   def update
     if @stock.update(stock_params)
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))

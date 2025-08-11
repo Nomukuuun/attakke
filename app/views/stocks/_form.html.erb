@@ -19,22 +19,20 @@
     <table class="table-fixed mb-6">
       <tbody>
         <tr>
-          <td class="pl-4 py-2">
+          <td class="pl-2 py-2">
             <%= f.radio_button :model, :existence, checked: true,
               data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
-              class: "accent-dull-green" %>
+              class: "accent-dull-green scale-150" %>
           </td>
           <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.existence') %></td>
-          <td class="pl-4 py-2 text-gray-700">チェックマークでストック状態を管理します</td>
         </tr>
         <tr>
-          <td class="pl-4 py-2">
+          <td class="pl-2 py-2">
             <%= f.radio_button :model, :number,
               data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
-              class: "accent-dull-green" %>
+              class: "accent-dull-green scale-150" %>
           </td>
           <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.number') %></td>
-          <td class="pl-4 py-2 text-gray-700">残数でストック数を管理します</td>
         </tr>
       </tbody>
     </table>
@@ -67,7 +65,7 @@
       </div>
 
       <div class="hidden flex flex-col mb-10" data-quantity-visibility-target="numberField">
-        <%= h.label :num_quantity, class: "text-2xl font-bold text-f-head" %>
+        <%= h.label :num_quantity, class: "text-xl font-bold text-f-head" %>
         <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
         <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
       </div>
@@ -75,12 +73,16 @@
   </div>
 
 
-  <div class="flex justify-start items-center space-x-4 mb-10">
-    <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 hover:brightness-70" %>
-    <% if action_name.in?(["edit", "update"]) %>
-      <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') } do %>
-        <div class="text-xl text-f-body bg-gray-300 rounded p-4 hover:bg-gray-400">削除</div>
-      <% end %>
+  <div class="mb-10">
+    <% if action_name.in?(["new", "create"]) %>
+      <%= f.submit "保存", class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
+    <% elsif action_name.in?(["edit", "update"]) %>
+      <div class="flex items-center text-center space-x-2">
+        <%= f.submit "保存", class: "basis-1/2 text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
+        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') }, class: "basis-1/2" do %>
+          <div class="text-lg text-f-body bg-gray-300 rounded p-2 hover:bg-gray-400">削除</div>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% end %>

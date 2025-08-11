@@ -6,7 +6,7 @@
           <div class="flex justify-between p-4 mt-2 rounded border-box border-2"
               data-action="click->templete-toggle#toggle"
               data-id="<%= location %>">
-            <div class="text-xl fond-bold text-f-head"><%= location %></div>
+            <div class="text-lg fond-bold text-f-head"><%= location %></div>
             <svg class="size-6 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
@@ -15,32 +15,33 @@
           <div id=<%= location %>
                class="hidden bg-dull-beige rounded border-box border-1 border-gray-700 pb-4"
                data-templete-toggle-target="content">
-            <table class="p-4">
-              <thead>
-                <tr>
-                  <th>ストック名</th>
-                  <th>ストックの型</th>
-                  <th>ストックの状態</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @templetes.where(location_name: location).each do |t| %>
+            <div class="px-4 py-2">
+              <table class="w-full border-separate border-spacing-2 border">
+                <thead>
                   <tr>
-                    <td class="w-xs/3 p-4 py-2"><%= t.stock_name %></td>
-                    <td class="w-xs/3 p-4 py-2"><%= t.stock_model == 0 ? t('enums.stock.model.existence') : t('enums.stock.model.number') %></td>
-                    <td class="w-xs/3 p-4 py-2"><%= displey_quantity(t) %></td>
+                    <th class="w-2/3">ストック名</th>
+                    <th class="w-1/3">状態・個数</th>
                   </tr>
-                <% end %>
-              </tbody>
-            </table>
-            <div class="flex justify-end mr-4">
-              <%= button_to templetes_path,
+                </thead>
+                <tbody>
+                  <% @templetes.where(location_name: location).each do |t| %>
+                    <tr>
+                      <td class="w-2/3 pl-6"><%= t.stock_name %></td>
+                      <td class="w-1/3 text-center"><%= render 'status_icon', t: t %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="w-full px-4">
+              <div class="text-center py-2 bg-dull-green text-white rounded hover:brightness-70 cursor-pointer">
+                <%= button_to "このテンプレートを使う",
+                  templetes_path,
                   params: { location_name: location },
                   data: { turbo_confirm: t('defaults.confirm.templete', item: location ) , confirm_button_text: "使用する", turbo_frame: "main_frame" },
-                  form: { data: { action: "turbo:submit-end->modal-frame#close" } } do
-              %>
-                <div class="bg-dull-green text-white p-4 rounded hover:brightness-70">このテンプレートを使う</div>
-              <% end %>
+                  form: { data: { action: "turbo:submit-end->modal-frame#close" } }
+                %>
+              </div>
             </div>
           </div>
         <% end %>

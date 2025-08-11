@@ -6,7 +6,6 @@ class TempletesController < ApplicationController
     @locations = @templetes.pluck(:location_name).uniq
   end
 
-  # DONE: 一応実装できた
   def create
     location_name = templete_params[:location_name]
     templetes = Templete.where(location_name: location_name)
