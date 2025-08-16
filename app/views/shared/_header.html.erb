@@ -5,9 +5,9 @@
         <%= link_to stocks_path, class: "shadow-sm min-h-full" do %>
           <%= image_tag 'logo_svg.svg' %>
         <% end %>
-      <% else %>    
-        <%= link_to root_path, class: "shadow-sm min-h-full" do %>
-          <%= image_tag 'logo_svg.svg' %>
+      <% else %>
+        <%= link_to root_path, class: "shadow-sm" do %>
+          <%= image_tag 'logo_svg.svg', class: "h-auto md:h-15" %>
         <% end %>
       <% end %>
 
@@ -21,7 +21,7 @@
             ログアウト
           <% end %>
         <% else %>
-          <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
+          <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-base md:text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
             <%= image_tag 'google_icon.svg', class: "inline-block size-6 mr-2" %>
             ログイン
           <% end %>

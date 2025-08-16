@@ -25,6 +25,7 @@ function adjustMainHeight() {
 window.addEventListener("DOMContentLoaded", adjustMainHeight);
 window.addEventListener("resize", adjustMainHeight);
 
+// 画面リサイズ時に高さを自動修正
 const indexDiv = document.getElementById("index");
 if (indexDiv && "ResizeObserver" in window) {
   const resizeObserver = new ResizeObserver(adjustMainHeight);

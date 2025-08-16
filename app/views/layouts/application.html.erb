@@ -14,7 +14,6 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <%# TODO:footerが常に画面下部に固定されない <= jsでmainタグの高さを伸縮するようにしたが微修正が必要 %>
   <body class="flex flex-col min-h-screen bg-dull-beige text-base text-f-body">
     <%= render 'shared/confirm' %>
     <%= render 'shared/flash_message' %>
