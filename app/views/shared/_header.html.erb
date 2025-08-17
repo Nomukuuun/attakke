@@ -3,11 +3,11 @@
     <div class="flex items-center justify-between">
       <% if user_signed_in? %>
         <%= link_to stocks_path, class: "shadow-sm min-h-full" do %>
-          <%= image_tag 'logo_svg.svg' %>
+          <%= image_tag 'logo.svg', class: "h-auto md:h-15" %>
         <% end %>
       <% else %>
         <%= link_to root_path, class: "shadow-sm" do %>
-          <%= image_tag 'logo_svg.svg', class: "h-auto md:h-15" %>
+          <%= image_tag 'logo.svg', class: "h-auto md:h-15" %>
         <% end %>
       <% end %>
 
@@ -15,8 +15,8 @@
         <% if user_signed_in? %>
           <%= link_to "使い方", '#', class: "text-base md:text-xl text-f-head" %>
           <%= button_to logout_path, method: :delete, class: "flex item-center text-base md:text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
-            <svg class="size-6 text-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+            <svg class="size-6 text-white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M7 12h14l-3 -3m0 6l3 -3" />
             </svg>
             ログアウト
           <% end %>
