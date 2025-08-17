@@ -1,4 +1,4 @@
-<div class="text-2xl font-bold text-f-head">ストック履歴（直近１０件）</div>
+<div class="text-xl font-bold text-f-head">ストック履歴（直近１０件）</div>
 <div class="bg-white rounded mb-6">
   <table class="table-fixed">
     <tbody>
@@ -6,7 +6,7 @@
       <tr>
         <td class="pl-4 py-2"><%= history.recording_date.strftime("%Y/%m/%d") %></td>
         <td class="pl-4 py-2"><%= history.status_i18n %></td>
-        <td class="pl-4 py-2"><%= "#{history.num_quantity}個" if history.num_quantity.present? %></td>
+        <td class="pl-4 py-2"><%= "残#{history.num_quantity}" if history.num_quantity.present? %></td>
       </tr>
     <% end %>
     </tbody>

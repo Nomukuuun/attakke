@@ -7,23 +7,29 @@
 >
 
   <%# 確認メッセージ %>
-  <div data-confirm-target="dialog" class="bg-white p-4 rounded shadow">
-    <p data-confirm-target="message" class="mb-4 text-lg"></p>
+  <div data-confirm-target="dialog" class="w-sm bg-white p-4 rounded shadow">
+    <div class="flex justify-end item-center mb-2" data-action="click->confirm#hideModal">
+      <svg class="size-6 text-gray-700" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z"/>
+        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </div>
+    <p data-confirm-target="message" class="mb-4 text-base md:text-lg"></p>
 
     <%# ボタン系 <= confirmボタンはデフォルトでは「削除」表示 %>
-    <div class="flex justify-end space-x-4">
+    <div class="flex item-center space-x-4">
       <button
         type="button"
         data-confirm-target="confirmButton"
         data-action="click->confirm#confirm"
-        class="px-4 py-2 bg-dull-red rounded hover:brightness-70"
+        class="basis-1/2 text-lg p-2 bg-dull-red rounded hover:brightness-70"
       >
       </button>
       <button
         type="button"
         data-confirm-target="cancelButton"
         data-action="click->confirm#cancel"
-        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+        class="basis-1/2 text-lg p-2 bg-gray-300 rounded hover:bg-gray-400"
       >
         キャンセル
       </button>

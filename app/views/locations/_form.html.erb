@@ -1,19 +1,20 @@
-<%= form_with model: location do |f| %>
-  <div class="flex flex-col my-6">
-    <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
-    <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-1/2" %>
+<%= form_with model: location, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
+  <div class="flex flex-col mb-6">
+    <%= f.label :name, class: "text-xl font-bold text-f-head" %>
+    <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-full" %>
     <%= render 'shared/error_messages', object: location, attribute: :name %>
   </div>
 
-  <div class="flex justify-between items-center mb-6">
-    <div class="flex justify-start space-x-4">
-      <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 " %>
-      <% if action_name.in?(["edit", "update"]) %>
-        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.location') } do %>
-          <div class="text-xl text-f-body bg-gray-300 rounded p-4 hover:bg-gray-400">削除</div>
+  <div class="mb-4">
+    <% if action_name.in?(["new", "create"]) %>
+      <%= f.submit "保存", class: "w-full text-lg text-f-body bg-dull-red rounded p-2" %>
+    <% elsif action_name.in?(["edit", "update"]) %>
+      <div class="flex items-center text-center space-x-2">
+        <%= f.submit "保存", class: "basis-1/2 text-lg text-f-body bg-dull-red rounded p-2" %>
+        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.location') }, class: "basis-1/2" do %>
+          <div class="text-lg text-f-body bg-gray-300 rounded p-2 hover:bg-gray-400">削除</div>
         <% end %>
-      <% end %>
-    </div>
-    <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
+      </div>
+    <% end %>
   </div>
 <% end %>

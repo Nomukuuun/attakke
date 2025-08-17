@@ -1,38 +1,72 @@
-<div class="container mx-auto absolute top-24">
-  <section class="pl-4 pt-16">
-    <h2 class="font-bold text-2xl">これってまだ家に<span class="text-4xl text-dull-red">あったっけ？</span></h2>
-    <div class="my-6">
-      <p>買い物先でまだ家にストックがあったか分からない…</p>
-      <p>でもメモアプリで管理するのは入力や更新が面倒…</p>
-      <p>そんな経験ありませんか？</p>
+<div id="index" class="w-full">
+  <section class="py-10 md:py-16 flex-col justify-center">
+    <div class="mb-4 ">
+      <%= image_tag 'logo.svg', class: "w-300px md:w-480px mx-auto h-25 md:h-40 border-box border border-gray-700 rounded-xl shadow-lg" %>
     </div>
-    <p><span class="text-4xl text-dull-red">Attakke？</span>には簡単にストックを管理・更新できる機能が備わっています！<br>
-      アプリを活用して買い物上手を目指しましょう！</p>
+    <div class="w-4/5 max-w-600px mx-auto text-center text-lg md:text-2xl">
+      「<span class="text-dull-red font-bold">Attakke?(あったっけ？)</span>」は<br>
+      ご家庭の消耗品ストックを可視化し<br>
+      買いすぎや買い忘れを防止する<br>
+      ストック管理アプリです
+    </div>
   </section>
 
-  <section class="pl-4 mt-4">
-    <h2 class="font-bold text-2xl">機能紹介</h2>
-    <ul class="mx-2">
-      <li>
-        <h3 class="font-bold">１選べる管理型</h3>
-        <p>ストックのタイプに合った型で管理することができます！</p>
-        <p>管理したいものに合わせて型を選びましょう！</p>
-      </li>
-      <li>
-        <h3 class="font-bold">２場所ごとに管理</h3>
-        <p>ストックの保管場所は決まっていますか？</p>
-        <p>アプリ上でも保管場所ごとにストックを管理することで状態を把握しやすくなります！</p>
-      </li>
-      <li>
-        <h3 class="font-bold">３テンプレートで楽々入力</h3>
-        <p>キッチン用品はキッチン付近など、ストックと保管場所には近い関係がありませんか？</p>
-        <p>テンプレート入力で面倒な入力作業を簡単に終わらせてしまいましょう！</p>
-      </li>
-      <li>
-        <h3 class="font-bold">４購入履歴で更新漏れにも対応</h3>
-        <p>ストックを補充したけど、ついつい更新するのを忘れてしまう…</p>
-        <p>でも大丈夫！ストックごとに更新履歴が残るので、前回いつ更新したのかを確認することができます！</p>
-      </li>
-    </ul>
+  <section class="max-w-[800px] mx-auto mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-[430px_1fr] grid-rows-auto gap-2 auto-rows-min text-base md:text-xl p-4 md:p-6">
+      <div class="col-span-1 md:col-span-2 flex space-x-2 font-bold text-lg md:text-2xl my-2 h-7">
+        <span class="bg-dull-green text-white rounded-full size-7 text-center">１</span>
+        <span>保管場所ごとに管理</span>
+      </div>
+      <div><%= image_tag 'top_1.svg', class: "w-auto md:w-[400px] rounded pl-0 pb-0 md:pl-7 md:pb-4" %></div>
+      <div class="bg-white text-center md:text-left rounded border border-gray-700 p-2 md:p-4 mb-4">
+        ストックを保管場所ごとに記録することで<br>
+        管理や確認がしやすくなります<br>
+        ご家庭の実態に合わせて<br>
+        保管場所を設定しましょう
+      </div>
+
+      <div class="col-span-1 md:col-span-2 flex space-x-2 font-bold text-lg md:text-2xl my-2 h-7">
+        <span class="bg-dull-green text-white rounded-full size-7 text-center">２</span>
+        <span>選べる管理型</span>
+      </div>
+      <div><%= image_tag 'top_2.svg', class: "w-auto md:w-[400px] rounded pl-0 pb-0 md:pl-7 md:pb-4" %></div>
+      <div class="bg-white text-center md:text-left rounded border border-gray-700 p-2 md:p-4 mb-4">
+        ストックの有無を管理する<br>
+        <strong>チェックボックス</strong><br>
+        ストックの個数を管理する<br>
+        <strong>残数表示</strong><br>
+        ストックに合わせた型で管理できます
+      </div>
+
+      <div class="col-span-1 md:col-span-2 flex space-x-2 font-bold text-lg md:text-2xl my-2 h-7">
+        <span class="bg-dull-green text-white rounded-full size-7 text-center">３</span>
+        <span>テンプレートで楽々入力</span>
+      </div>
+      <div><%= image_tag 'top_3.svg', class: "w-auto md:w-[400px] rounded pl-0 pb-0 md:pl-7 md:pb-4" %></div>
+      <div class="bg-white text-center md:text-left rounded border border-gray-700 p-2 md:p-4 mb-4">
+        面倒な入力作業を楽にするための<br>
+        テンプレート機能が使えます<br>
+        保管場所名やストック名は<br>
+        後から変更することも可能です
+      </div>
+
+      <div class="col-span-1 md:col-span-2 flex space-x-2 font-bold text-lg md:text-2xl my-2 h-7">
+        <span class="bg-dull-green text-white rounded-full size-7 text-center">４</span>
+        <span>ストックごとに履歴を確認可能</span>
+      </div>
+      <div><%= image_tag 'top_4.svg', class: "w-auto md:w-[400px] rounded pl-0 pb-0 md:pl-7 md:pb-4" %></div>
+      <div class="bg-white text-center md:text-left rounded border border-gray-700 p-2 md:p-4 mb-4">
+        ストックごとに履歴を確認することができます<br>
+        ついつい記録を忘れてしまっても<br>
+        出先で購入頻度を確認して<br>
+        今買うべきか判断できます
+      </div>
+    </div>
   </section>
+  <div class="w-full mb-10">
+    <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-xl md:text-2xl text-white bg-dull-green rounded mx-auto px-8 py-4 cursor-pointer hover:brightness-70" do %>
+      <%= image_tag 'google_icon.svg', class: "inline-block size-6 md:size-8 mr-2" %>
+      Google でログイン
+    <% end %>
+  </div>
 </div>

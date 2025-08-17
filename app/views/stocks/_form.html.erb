@@ -1,54 +1,52 @@
-<%= form_with model: stock do |f| %>
-  <div class="text-2xl font-bold text-f-head mt-8">ストックの保管場所</div>
+<%= form_with model: stock, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
+  <div class="text-xl font-bold text-f-head">ストックの保管場所</div>
   <% if action_name.in?(["new", "create"]) %>
     <div class="text-xl mb-6"><%= location.name %></div>
     <%= f.hidden_field :location_id, value: location.id %>
   <% elsif action_name.in?(["edit", "update"]) %>
-    <%= f.collection_select :location_id, locations, :id, :name, { selected: stock.location_id }, { class: "bg-white border-black border rounded p-2 w-1/2 mb-6" } %>
+    <%= f.collection_select :location_id, locations, :id, :name, { selected: stock.location_id }, { class: "bg-white border-black border rounded p-2 w-full mb-6" } %>
   <% end %>
 
   <div class="flex flex-col mb-6">
-    <%= f.label :name, class: "text-2xl font-bold text-f-head" %>
-    <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-1/2" %>
+    <%= f.label :name, class: "text-xl font-bold text-f-head" %>
+    <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-full" %>
     <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
   <!-- stimulusを活用した非同期処理 -->
   <div data-controller="quantity-visibility">
-    <div class="text-2xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
+    <div class="text-xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
     <table class="table-fixed mb-6">
       <tbody>
         <tr>
-          <td class="pl-4 py-2">
+          <td class="pl-2 py-2">
             <%= f.radio_button :model, :existence, checked: true,
               data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
-              class: "accent-dull-green" %>
+              class: "accent-dull-green scale-150" %>
           </td>
           <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.existence') %></td>
-          <td class="pl-4 py-2 text-gray-700">チェックマークでストック状態を管理します</td>
         </tr>
         <tr>
-          <td class="pl-4 py-2">
+          <td class="pl-2 py-2">
             <%= f.radio_button :model, :number,
               data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
-              class: "accent-dull-green" %>
+              class: "accent-dull-green scale-150" %>
           </td>
           <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.number') %></td>
-          <td class="pl-4 py-2 text-gray-700">残数でストック数を管理します</td>
         </tr>
       </tbody>
     </table>
 
     <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
       <!-- ラジオで選択されている型によって表示を切り替え -->
-      <div class="mb-12" data-quantity-visibility-target="existenceField">
-        <%= h.label :exist_quantity, class: "text-2xl font-bold text-f-head" %>
+      <div class="mb-10" data-quantity-visibility-target="existenceField">
+        <%= h.label :exist_quantity, class: "text-xl font-bold text-f-head" %>
         <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
         <div class="flex items-center space-x-6">
 
           <!-- チェックありアイコン -->
           <div class="" data-quantity-visibility-target="checkedIcon">
-            <svg data-action='click->quantity-visibility#toggleIcon' class="h-12 w-12 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg data-action='click->quantity-visibility#toggleIcon' class="size-12 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z"/>
               <polyline points="9 11 12 14 20 6" />
               <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
@@ -56,7 +54,7 @@
           </div>
           <!-- チェックなしアイコン -->
           <div class="hidden" data-quantity-visibility-target="notCheckedIcon">
-            <svg data-action='click->quantity-visibility#toggleIcon' class="h-12 w-12 text-f-body cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg data-action='click->quantity-visibility#toggleIcon' class="size-12 text-f-body cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z"/>
               <rect x="4" y="4" width="16" height="16" rx="2" />
             </svg>
@@ -66,24 +64,26 @@
         </div>
       </div>
 
-      <div class="hidden flex flex-col mb-12" data-quantity-visibility-target="numberField">
-        <%= h.label :num_quantity, class: "text-2xl font-bold text-f-head" %>
+      <div class="hidden flex flex-col mb-10" data-quantity-visibility-target="numberField">
+        <%= h.label :num_quantity, class: "text-xl font-bold text-f-head" %>
         <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
         <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
       </div>
     <% end %>
   </div>
 
-  <div class="flex justify-between items-center mb-12">
-    <div class="flex justify-start items-center space-x-4">
-      <%= f.submit "保存", class: "text-xl text-f-body bg-dull-red rounded p-4 hover:brightness-70" %>
-      <% if action_name.in?(["edit", "update"]) %>
-        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') } do %>
-          <div class="text-xl text-f-body bg-gray-300 rounded p-4 hover:bg-gray-400">削除</div>
+
+  <div class="mb-10">
+    <% if action_name.in?(["new", "create"]) %>
+      <%= f.submit "保存", class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
+    <% elsif action_name.in?(["edit", "update"]) %>
+      <div class="flex items-center text-center space-x-2">
+        <%= f.submit "保存", class: "basis-1/2 text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
+        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') }, class: "basis-1/2" do %>
+          <div class="text-lg text-f-body bg-gray-300 rounded p-2 hover:bg-gray-400">削除</div>
         <% end %>
-      <% end %>
-    </div>
-    <%= link_to "ストック一覧に戻る", stocks_path, class: "hover:text-dull-green hover:border-b-2 border-dull-green" %>
+      </div>
+    <% end %>
   </div>
 <% end %>
 

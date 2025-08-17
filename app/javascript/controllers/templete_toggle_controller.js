@@ -5,8 +5,17 @@ export default class extends Controller {
   static targets = ["content"];
 
   toggle(event) {
-    const toggleId = event.currentTarget.dataset.toggleTarget;
-    const contentElement = document.getElementById(toggleId);
+    const clickedId = event.currentTarget.dataset.id;
+    const contentElement = document.getElementById(clickedId);
+
+    // clickedされたel以外はhiddenを付与して閉じる
+    this.contentTargets.forEach((el) => {
+      if (el !== contentElement) {
+        el.classList.add("hidden");
+      }
+    });
+
+    // clickedされた要素のみトグルする
     if (contentElement) {
       contentElement.classList.toggle("hidden");
     }

@@ -1,19 +1,21 @@
-<% flash.each do |type, message| %>
-  <%
-    case type.to_s
-    when "success"
-      color = "bg-green-100 text-green-800 border-green-700"
-    when "error", "warning"
-      color = "bg-red-100 text-red-800 border-red-700"
-    when "info"
-      color = "bg-blue-100 text-blue-800 border-blue-700"
-    else
-      color = "bg-gray-100 text-gray-800 border-gray-700"
-    end
-  %>
-  <div class="animate-fadeinout container mx-auto flex justify-end absolute top-9 right-0 z-5">
-    <div class="box-border w-1/2 md:w-1/4 h-10 text-center mt-2 p-1 rounded border-2 <%= color %>">
-      <%= message %>
+<%= turbo_frame_tag 'flash' do %>
+  <% flash.each do |type, message| %>
+    <%
+      case type.to_s
+      when "success"
+        color = "bg-green-100 text-green-800 border-green-700"
+      when "error", "warning"
+        color = "bg-red-100 text-red-800 border-red-700"
+      when "info"
+        color = "bg-blue-100 text-blue-800 border-blue-700"
+      else
+        color = "bg-gray-100 text-gray-800 border-gray-700"
+      end
+    %>
+    <div class="fixed animate-fadeinout container mx-auto px-4 top-4 md:top-9 z-5">
+      <div class="box-border w-full md:w-1/2 mx-0 md:mx-auto h-10 text-center mt-2 p-1 rounded border-2 <%= color %>">
+        <%= message %>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
