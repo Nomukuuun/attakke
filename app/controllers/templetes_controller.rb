@@ -28,7 +28,7 @@ class TempletesController < ApplicationController
     end
 
     flash.now[:success] = t('defaults.flash_message.created', item: t('defaults.models.stock'))
-    if Location.count == 1
+    if current_user.locations.count == 1
       render turbo_stream: [
         turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
         turbo_stream.update("flash", partial: "shared/flash_message")
