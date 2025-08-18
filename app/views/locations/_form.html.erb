@@ -11,7 +11,7 @@
     <% elsif action_name.in?(["edit", "update"]) %>
       <div class="flex items-center text-center space-x-2">
         <%= f.submit "保存", class: "basis-1/2 text-lg text-f-body bg-dull-red rounded p-2" %>
-        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.location') }, class: "basis-1/2" do %>
+        <%= link_to location_path(location), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.location'), turbo_frame: "location_#{location.id}" }, class: "basis-1/2" do %>
           <div class="text-lg text-f-body bg-gray-300 rounded p-2 hover:bg-gray-400">削除</div>
         <% end %>
       </div>
