@@ -2,6 +2,7 @@
   <div data-controller="templete-toggle">
     <div class="bg-white mb-4">
       <% if @templetes.present? %>
+        <div class="text-xl font-bold text-f-head">テンプレート一覧</div>
         <% @locations.each do |location| %>
           <div class="flex justify-between p-4 mt-2 rounded border-box border-2"
               data-action="click->templete-toggle#toggle"
@@ -38,7 +39,7 @@
                 <%= button_to "このテンプレートを使う",
                   templetes_path,
                   params: { location_name: location },
-                  data: { turbo_confirm: t('defaults.confirm.templete', item: location ) , confirm_button_text: "使用する", turbo_frame: "main_frame" },
+                  data: { turbo_confirm: t('defaults.confirm.templete', item: location ) , confirm_button_text: "使う", turbo_frame: "main_frame" },
                   form: { data: { action: "turbo:submit-end->modal-frame#close" } }
                 %>
               </div>

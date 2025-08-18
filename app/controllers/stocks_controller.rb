@@ -83,7 +83,7 @@ class StocksController < ApplicationController
       ]
     else
       render turbo_stream: [
-        turbo_stream.remove(stock),
+        turbo_stream.remove("stock_#{stock.id}"),
         turbo_stream.update("flash", partial: "shared/flash_message")
       ]
     end
@@ -95,7 +95,7 @@ class StocksController < ApplicationController
     params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [:exist_quantity, :num_quantity])
   end
 
-  # new,edit以外でアクション実行前にセットするメソッド
+  # new, edit以外でアクション実行前にセットするメソッド
   def set_stocks_and_locations
     latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
     @locations = current_user.locations.order(:name)

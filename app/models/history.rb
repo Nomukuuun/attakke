@@ -18,12 +18,12 @@ class History < ApplicationRecord
 
   # フォームから受け取らないカラムを保存前に設定
   def set_status_and_date
-    self.recording_date ||= Date.today
-    return if status.in?([0, 1])
+    self.recording_date = Date.today
+    return if self.status == "templete"
 
     if stock.histories.size.in?([0, 1])
       # create時のstatus設定
-      self.status ||= quantity == 0 ? :consumption : :purchase
+      self.status = quantity == 0 ? :consumption : :purchase
     else
       # update時のstatus設定
       update_status_based_on_previous_history
@@ -36,7 +36,7 @@ class History < ApplicationRecord
     # stock型の変更有無又は保存済の履歴の有無によって分岐
     update_stock_model = stock.changes.has_key?(:model)
     previous_history = stock.histories.where.not(id: id).order(id: :desc).first
-    return self.status ||= quantity == 0 ? :consumption : :purchase if previous_history.blank? || update_stock_model
+    return self.status = quantity == 0 ? :consumption : :purchase if previous_history.blank? || update_stock_model
 
     old_quantity = stock.existence? ? previous_history.exist_quantity.to_i : previous_history.num_quantity.to_i
     diff = old_quantity - quantity
