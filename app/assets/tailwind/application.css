@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -14,8 +15,8 @@
   /* dull-beige メイン背景色 */
   --color-dull-beige: #f8f5f2;
 
-  /* sansの上書き */
-  --font-sans: "Zen Maru Gothic", "Hiragino Sans", "Yu Gothic", sans-serif;
+  /* GoogleFontsの導入 */
+  --font-yusei: "Yusei Magic", sans-serif;
 
   /* flash_messageのアニメーション */
   --animate-fadeinout: fadeinout 4s ease-in-out 1;
