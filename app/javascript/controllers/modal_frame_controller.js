@@ -4,8 +4,30 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["modal", "dialog"];
 
-  connect() {}
+  // modal_frame外の要素が削除された際にモーダルを非表示にする
+  connect() {
+    document.addEventListener(
+      "turbo:before-stream-render",
+      this.beforeStreamRender
+    );
+  }
 
+  disconnect() {
+    // コントローラが外れたときにイベントリスナを解除
+    document.removeEventListener(
+      "turbo:after-stream-render",
+      this.beforeStreamRender
+    );
+  }
+
+  beforeStreamRender = () => {
+    // DOMを走査してmodalがhiddenになっていないなら閉じる
+    if (!this.modalTarget.classList.contains("hidden")) {
+      this.hideModal();
+    }
+  };
+
+  // form送信が成功したときにモーダルを閉じる
   close(event) {
     // event.detail.successは、レスポンスが成功ならtrueを返す。
     // バリデーションエラー時は、falseを返す。

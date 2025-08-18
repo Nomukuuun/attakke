@@ -11,7 +11,7 @@ class LocationsController < ApplicationController
 
     if @location.save
       flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.location"))
-      if Location.count == 1
+      if current_user.locations.count == 1
         render_main_frame
       else
         render turbo_stream: [
@@ -44,11 +44,11 @@ class LocationsController < ApplicationController
     @location.destroy!
     @locations.reload
     flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.location"))
-    if Location.count == 0
+    if current_user.locations.count == 0
       render_main_frame
     else
       render turbo_stream: [
-        turbo_stream.remove(@location),
+        turbo_stream.remove("location_#{@location.id}"),
         turbo_stream.update("flash", partial: "shared/flash_message")
       ]
     end

@@ -72,14 +72,13 @@
     <% end %>
   </div>
 
-
   <div class="mb-10">
     <% if action_name.in?(["new", "create"]) %>
       <%= f.submit "保存", class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
     <% elsif action_name.in?(["edit", "update"]) %>
       <div class="flex items-center text-center space-x-2">
         <%= f.submit "保存", class: "basis-1/2 text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
-        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock') }, class: "basis-1/2" do %>
+        <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock'), turbo_frame: "stock_#{stock.id}" }, class: "basis-1/2" do %>
           <div class="text-lg text-f-body bg-gray-300 rounded p-2 hover:bg-gray-400">削除</div>
         <% end %>
       </div>

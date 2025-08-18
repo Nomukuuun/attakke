@@ -12,9 +12,11 @@
         color = "bg-gray-100 text-gray-800 border-gray-700"
       end
     %>
-    <div class="fixed animate-fadeinout container mx-auto px-4 top-4 md:top-9 z-5">
-      <div class="box-border w-full md:w-1/2 mx-0 md:mx-auto h-10 text-center mt-2 p-1 rounded border-2 <%= color %>">
-        <%= message %>
+    <div class="fixed animate-fadeinout px-4 top-4 md:top-9 z-5 w-full">
+      <div class="container mx-auto">
+        <div class="box-border w-full md:w-1/2 mx-0 md:mx-auto h-10 text-center mt-2 p-1 rounded border-2 <%= color %>">
+          <%= message %>
+        </div>
       </div>
     </div>
   <% end %>
