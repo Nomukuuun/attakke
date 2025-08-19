@@ -49,7 +49,7 @@ presets = [
 
 # presetsをループして保存する
 presets.each do |p|
-  templete.create!(
+  Templete.create!(
     tag: p[:tag],
     location_name: p[:l_name],
     stock_name: p[:s_name],
