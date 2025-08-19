@@ -1,6 +1,8 @@
-# レコードひな形　{ tag: , l_name: , s_name: , model: , exist_quantity: , num_quantity: },
-# stock_model(enum) { existence: 0, number: 1 }
+# 毎回db:seedが実行されるため、既存のテンプレートを削除する
+Templete.delete_all
 
+# プリセットひな形　{ tag: , l_name: , s_name: , model: , exist_quantity: , num_quantity: },
+# stock_model(enum) { existence: 0, number: 1 }
 presets = [
   { tag: 1, l_name: "キッチン収納（調味料）", s_name: "醤油", model: 0, exist_quantity: 1, num_quantity: nil },
   { tag: 1, l_name: "キッチン収納（調味料）", s_name: "みりん", model: 0, exist_quantity: 1, num_quantity: nil },
@@ -45,8 +47,9 @@ presets = [
   { tag: 7, l_name: "リビング収納", s_name: "マスク", model: 0, exist_quantity: 1, num_quantity: nil },
 ]
 
+# presetsをループして保存する
 presets.each do |p|
-  Templete.create!(
+  templete.create!(
     tag: p[:tag],
     location_name: p[:l_name],
     stock_name: p[:s_name],
