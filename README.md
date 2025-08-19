@@ -45,7 +45,7 @@ Attakke?は、ご家庭の消耗品を管理するストック管理アプリで
   <table>
     <tr>
       <td>
-        <a href="https://gyazo.com/9e29bd5a9f0500a1a5cadc5be460c77e">
+        <a href="https://gyazo.com/9e29bd5a9f0500a1a5cadc5be460c77e" target="_blank" rel="noopener">
           <img src="https://i.gyazo.com/9e29bd5a9f0500a1a5cadc5be460c77e.png" alt="Image from Gyazo" width="300"/>
         </a>
       </td>
@@ -62,7 +62,7 @@ Attakke?は、ご家庭の消耗品を管理するストック管理アプリで
   <table>
     <tr>
       <td>
-        <a href="https://gyazo.com/cacc070558241d861bd30f33bf72c358">
+        <a href="https://gyazo.com/cacc070558241d861bd30f33bf72c358" target="_blank" rel="noopener">
           <img src="https://i.gyazo.com/cacc070558241d861bd30f33bf72c358.png" alt="Image from Gyazo" width="300"/>
         </a>
       </td>
@@ -79,7 +79,7 @@ Attakke?は、ご家庭の消耗品を管理するストック管理アプリで
   <table>
     <tr>
       <td>
-        <a href="https://gyazo.com/e3b7804e923bb08a11af3a205417c8b5">
+        <a href="https://gyazo.com/e3b7804e923bb08a11af3a205417c8b5" target="_blank" rel="noopener">
           <img src="https://i.gyazo.com/e3b7804e923bb08a11af3a205417c8b5.png" alt="Image from Gyazo" width="300"/>
         </a>
       </td>
@@ -96,7 +96,7 @@ Attakke?は、ご家庭の消耗品を管理するストック管理アプリで
   <table>
     <tr>
       <td>
-        <a href="https://gyazo.com/5b219300288782d329487840d6036605">
+        <a href="https://gyazo.com/5b219300288782d329487840d6036605" target="_blank" rel="noopener">
           <img src="https://i.gyazo.com/5b219300288782d329487840d6036605.png" alt="Image from Gyazo" width="300"/>
         </a>
       </td>
@@ -153,9 +153,9 @@ Attakke?は、ご家庭の消耗品を管理するストック管理アプリで
 メールアドレス：**attakke.demo.app@gmail.com**  
 パスワード：**attakke@123**
 
-> [!注意事項]
-> デモアカウントは共用です。
-> 個人情報などの登録はお控えください。
+> [!Warning]  
+> デモアカウントは共用です。  
+> 個人情報などの登録はお控えください。  
 > また、本サービスの動作確認以外の目的には使用しないでください。
 
 [^1]: 10 代女性の 3 人に 1 人は Twitter、Instagram を３アカウント以上所有（2021 年 5 月 13 日）, https://www.moba-ken.jp/project/lifestyle/20210513.html, 1-1.「Google」「LINE」「Yahoo! Japan」「楽天」「Amazon」は過半数がアカウント所有, 2025-07-16 参照
