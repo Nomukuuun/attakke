@@ -45,8 +45,8 @@ Attakke?は、ご家庭の消耗品を管理するストック管理アプリで
   <table>
     <tr>
       <td>
-        <a href="https://gyazo.com/9e29bd5a9f0500a1a5cadc5be460c77e" target="_blank" rel="noopener">
-          <img src="https://i.gyazo.com/9e29bd5a9f0500a1a5cadc5be460c77e.png" alt="Image from Gyazo" width="300"/>
+        <a href="https://gyazo.com/27e82f916e960b61daade39b7a8136f1" target="_blank" rel="noopener">
+          <img src="https://i.gyazo.com/27e82f916e960b61daade39b7a8136f1.png" alt="Image from Gyazo" width="300"/>
         </a>
       </td>
       <td width="700">
@@ -62,8 +62,8 @@ Attakke?は、ご家庭の消耗品を管理するストック管理アプリで
   <table>
     <tr>
       <td>
-        <a href="https://gyazo.com/cacc070558241d861bd30f33bf72c358" target="_blank" rel="noopener">
-          <img src="https://i.gyazo.com/cacc070558241d861bd30f33bf72c358.png" alt="Image from Gyazo" width="300"/>
+        <a href="https://gyazo.com/f577cab8f904fd8f05ba0448bcacc84f" target="_blank" rel="noopener">
+          <img src="https://i.gyazo.com/f577cab8f904fd8f05ba0448bcacc84f.png" alt="Image from Gyazo" width="300"/>
         </a>
       </td>
       <td width="700">
