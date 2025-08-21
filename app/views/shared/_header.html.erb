@@ -1,27 +1,29 @@
-<header class="fixed top-0 left-0 z-10 w-full h-72px md:h-92px shadow-sm bg-white flex-none">
+<header class="fixed top-0 left-0 z-10 w-full h-18 md:h-24 shadow-sm bg-white">
   <div class="container mx-auto px-4 py-2 md:px-6 md:py-4 w-full">
     <div class="flex items-center justify-between">
       <% if user_signed_in? %>
-        <%= link_to stocks_path, class: "shadow-sm min-h-full" do %>
-          <%= image_tag 'logo.svg', class: "h-auto md:h-15" %>
+        <%= link_to stocks_path, class: "shadow-sm rounded-full" do %>
+          <%= image_tag 'favicon.svg', class: "h-10 md:h-15" %>
         <% end %>
       <% else %>
         <%= link_to root_path, class: "shadow-sm" do %>
-          <%= image_tag 'logo.svg', class: "h-auto md:h-15" %>
+          <%= image_tag 'favicon.svg', class: "h-10 md:h-15" %>
         <% end %>
       <% end %>
 
       <div class="flex items-center space-x-4 md:space-x-6">
         <% if user_signed_in? %>
           <%= link_to "使い方(準備中)", '#', class: "text-base md:text-xl text-f-head" %>
-          <%= button_to logout_path, method: :delete, class: "flex item-center text-base md:text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
-            <svg class="size-6 text-white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M7 12h14l-3 -3m0 6l3 -3" />
-            </svg>
+          <%= button_to logout_path, method: :delete, class: "flex item-center text-base md:text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
+            <div class="flex items-center">
+              <svg class="size-6 text-white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M7 12h14l-3 -3m0 6l3 -3" />
+              </svg>
+            </div>
             <span>ログアウト</span>
           <% end %>
         <% else %>
-          <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-base md:text-xl text-white bg-dull-green rounded p-4 cursor-pointer hover:brightness-70" do %>
+          <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-base md:text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
             <div class="flex items-center size-6 bg-white rounded-full p-[6px] mr-2 text-center">
               <svg class="size-3" version="1.1" viewBox="0 0 48 48">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
