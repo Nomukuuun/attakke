@@ -1,7 +1,7 @@
 <%= turbo_frame_tag location do %>
-  <div class="bg-white px-4 pb-4 mb-6 rounded">
+  <div class="bg-white pb-4 mb-6 rounded">
 
-    <div class="sticky top-31 md:top-37 bg-white border border-box border-white py-4 my-1">
+    <div class="sticky top-30 md:top-36 bg-white border border-box border-white p-4">
       <div class="flex justify-between items-center">
         <div class="flex justify-start items-center space-x-2 md:space-x-4 max-w-4/5">
           <h2 class="text-xl md:text-2xl text-f-head font-bold pl-4"><%= location.name %></h2>
@@ -28,18 +28,20 @@
       </div>
     </div>
 
-    <% if stocks&.find_by(location_id: location.id).present? %>
-      <div id="<%= location.name %>_stock_list" class="lg:grid lg:grid-cols-3 lg:gap-4">
-        <% stocks.where(location_id: location.id).each do |stock| %>
-          <%= render 'stocks/stock', stock: stock %>
+    <div class="px-4">
+      <% if stocks&.find_by(location_id: location.id).present? %>
+        <div id="<%= location.name %>_stock_list" class="lg:grid lg:grid-cols-3 lg:gap-4">
+          <% stocks.where(location_id: location.id).each do |stock| %>
+            <%= render 'stocks/stock', stock: stock %>
+          <% end %>
+        </div>
+      <% elsif action_name.in?(["in_stocks", "out_of_stocks"]) %>
+        <div class="text-lg md:text-xl text-f-body pl-6">表示するストックがありません</div>
+      <% else %>
+        <%= link_to new_stock_path(location_id: location.id), data: { turbo_frame: 'modal_frame' }, class: "pl-6" do %>
+          <span class="text-lg md:text-xl text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">ストックが登録されていません</span>
         <% end %>
-      </div>
-    <% elsif action_name.in?(["in_stocks", "out_of_stocks"]) %>
-      <div class="text-lg md:text-xl text-f-body pl-6">表示するストックがありません</div>
-    <% else %>
-      <%= link_to new_stock_path(location_id: location.id), data: { turbo_frame: 'modal_frame' }, class: "pl-6" do %>
-        <span class="text-lg md:text-xl text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">ストックが登録されていません</span>
       <% end %>
-    <% end %>
+    </div>
   </div>
 <% end %>
