@@ -2,19 +2,22 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "./application";
 
-import ConfirmController from "./confirm_controller"
-application.register("confirm", ConfirmController)
+import ConfirmController from "./confirm_controller";
+application.register("confirm", ConfirmController);
 
-import FilterButtonsController from "./filter_buttons_controller"
-application.register("filter-buttons", FilterButtonsController)
+import MobileMenusController from "./mobile_menus_controller";
+application.register("mobile-menus", MobileMenusController);
 
-import ModalFrameController from "./modal_frame_controller"
-application.register("modal-frame", ModalFrameController)
+import FilterButtonsController from "./filter_buttons_controller";
+application.register("filter-buttons", FilterButtonsController);
 
-import QuantityVisibilityController from "./quantity_visibility_controller"
-application.register("quantity-visibility", QuantityVisibilityController)
+import ModalFrameController from "./modal_frame_controller";
+application.register("modal-frame", ModalFrameController);
 
-import TempleteToggleController from "./templete_toggle_controller"
-application.register("templete-toggle", TempleteToggleController)
+import QuantityVisibilityController from "./quantity_visibility_controller";
+application.register("quantity-visibility", QuantityVisibilityController);
+
+import TempleteToggleController from "./templete_toggle_controller";
+application.register("templete-toggle", TempleteToggleController);
