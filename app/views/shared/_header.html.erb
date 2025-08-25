@@ -1,20 +1,21 @@
 <header class="fixed top-0 left-0 z-10 w-full h-18 md:h-24 shadow-sm bg-white">
-  <div class="container mx-auto px-4 py-2 md:px-6 md:py-4 w-full">
+  <div class="container mx-auto px-4 md:px-6 py-4 w-full">
     <div class="flex items-center justify-between">
       <% if user_signed_in? %>
-        <%= link_to stocks_path, class: "shadow-sm rounded-full" do %>
-          <%= image_tag 'favicon.svg', class: "h-10 md:h-15" %>
+        <%= link_to stocks_path, class: "shadow-sm rounded" do %>
+          <%= image_tag 'logo.svg', class: "h-10 md:h-15" %>
         <% end %>
       <% else %>
-        <%= link_to root_path, class: "shadow-sm" do %>
-          <%= image_tag 'favicon.svg', class: "h-10 md:h-15" %>
+        <%= link_to root_path, class: "shadow-sm rounded" do %>
+          <%= image_tag 'logo.svg', class: "h-10 md:h-15" %>
         <% end %>
       <% end %>
 
-      <div class="flex items-center space-x-4 md:space-x-6">
-        <% if user_signed_in? %>
-          <%= link_to "使い方(準備中)", '#', class: "text-base md:text-xl text-f-head" %>
-          <%= button_to logout_path, method: :delete, class: "flex item-center text-base md:text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
+      <% if user_signed_in? %>
+        <!-- PC: フレックスでメニュー表示 -->
+        <div class="hidden md:flex items-center space-x-6">
+          <%= link_to "使い方(準備中)", '#', class: "text-xl text-f-head" %>
+          <%= button_to logout_path, method: :delete, class: "flex item-center text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
             <div class="flex items-center">
               <svg class="size-6 text-white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M7 12h14l-3 -3m0 6l3 -3" />
@@ -22,21 +23,48 @@
             </div>
             <span>ログアウト</span>
           <% end %>
-        <% else %>
-          <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-base md:text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
-            <div class="flex items-center size-6 bg-white rounded-full p-[6px] mr-2 text-center">
-              <svg class="size-3" version="1.1" viewBox="0 0 48 48">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                <path fill="none" d="M0 0h48v48H0z"></path>
-              </svg>
-            </div>
-            <span>ログイン</span>
-          <% end %>
+        </div>
+
+        <!-- SP: ハンバーガーメニュー -->
+        <div data-controller="mobile-menus" class="block md:hidden">
+          <button class="block md:hidden" data-action="click->mobile-menus#toggle"> 
+            <svg data-mobile-menus-target="open" class="size-8 text-f-head"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg data-mobile-menus-target="close" class="hidden size-8 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          <!-- ドロワーメニュー -->
+          <div data-mobile-menus-target="mobileMenus" class="hidden md:hidden absolute top-18 right-0 w-1/2 bg-white shadow-md border border-gray-700 rounded flex flex-col items-center justify-items-end divide-y-2 divide-gray-700 py-2 px-4">
+            <%= link_to "使い方(準備中)", '#', class: "text-base text-f-head p-3" %>
+            <%= button_to logout_path, method: :delete, class: "flex item-center text-base text-dull-green p-3 cursor-pointer hover:brightness-70" do %>
+              <div class="flex items-center">
+                <svg class="size-6 text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M7 12h14l-3 -3m0 6l3 -3" />
+                </svg>
+              </div>
+              <span class="text-dull-green">ログアウト</span>
+            <% end %>
+          </div>
+        </div>
+
+      <% else %>
+        <!-- 非ログイン時 -->
+        <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-base md:text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
+          <div class="flex items-center size-6 bg-white rounded-full p-[6px] mr-2 text-center">
+            <svg class="size-3" version="1.1" viewBox="0 0 48 48">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+              <path fill="none" d="M0 0h48v48H0z"></path>
+            </svg>
+          </div>
+          <span>ログイン</span>
         <% end %>
-      </div>
+      <% end %>
     </div>
   </div>
 </header>
