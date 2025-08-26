@@ -3,15 +3,15 @@ import { Controller } from "@hotwired/stimulus";
 // Connects to data-controller="quantity-visibility"
 export default class extends Controller {
   static targets = [
-    "existenceField",
-    "numberField",
     "existenceRadio",
     "numberRadio",
+    "existenceField",
     "existenceQuantity",
-    "numberQuantity",
     "checkedIcon",
     "notCheckedIcon",
     "iconExplanation",
+    "numberField",
+    "numberQuantity",
   ];
 
   connect() {
@@ -61,5 +61,28 @@ export default class extends Controller {
       this.notCheckedIconTarget.classList.remove("hidden");
       explanation.textContent = "ストックなし";
     }
+  }
+
+  incrementNumber() {
+    let value = this._safeValue();
+    if (value < 100) {
+      this.numberQuantityTarget.value = value + 1;
+    }
+  }
+
+  decrementNumber() {
+    let value = this._safeValue();
+    if (value === 0) {
+      this.numberQuantityTarget.value = 0;
+    } else if (value > 0) {
+      this.numberQuantityTarget.value = value - 1;
+    }
+  }
+
+  // インクリ、デクリボタンを押したときに閾値内で値をセットする
+  _safeValue() {
+    let val = this.numberQuantityTarget.value;
+    if (val === "" || val === null) return 0; // 入力が空なら 0 とみなす
+    return parseInt(val, 10);
   }
 }

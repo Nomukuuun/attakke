@@ -13,7 +13,7 @@
     <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
-  <!-- stimulusを活用した非同期処理 -->
+  <!-- ストック型を選択するラジオボタン -->
   <div data-controller="quantity-visibility">
     <div class="text-xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
     <table class="table-fixed mb-6">
@@ -38,7 +38,7 @@
     </table>
 
     <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
-      <!-- ラジオで選択されている型によって表示を切り替え -->
+      <!-- チェックボックス型 -->
       <div class="mb-10" data-quantity-visibility-target="existenceField">
         <%= h.label :exist_quantity, class: "text-xl font-bold text-f-head" %>
         <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
@@ -64,9 +64,22 @@
         </div>
       </div>
 
+      <!-- 残数表示型 -->
       <div class="hidden flex flex-col mb-10" data-quantity-visibility-target="numberField">
         <%= h.label :num_quantity, class: "text-xl font-bold text-f-head" %>
-        <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
+        <div class="flex items-center space-x-6">
+          <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
+          <div id="plus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#incrementNumber">
+            <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </div>
+          <div id="minus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#decrementNumber">
+            <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </div>
+        </div>
         <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
       </div>
     <% end %>

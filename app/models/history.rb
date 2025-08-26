@@ -1,6 +1,6 @@
 class History < ApplicationRecord
   validates :exist_quantity, inclusion: { in: [0, 1] }, if: -> { stock.existence? }
-  validates :num_quantity, numericality: { greater_than_or_equal_to: 0, less_than: 100, message: "は必須入力です" }, if: -> { stock.number? }
+  validates :num_quantity, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, message: "は必須入力です" }, if: -> { stock.number? }
   validates :status, presence: true
   validates :recording_date, presence: true
   before_validation :set_status_and_date
