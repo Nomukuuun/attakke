@@ -4,7 +4,7 @@ class CreatePartnerships < ActiveRecord::Migration[7.2]
       t.references :user, null: false, foreign_key: true
       t.references :partner, null: false, foreign_key: { to_table: :users }
       t.integer :status, null: false, default: 0  # 0: pending, 1: approved
-      t.datetime :expires_at
+      t.datetime :expires_at, null: false
       t.string :token, null: false
       t.timestamps
     end

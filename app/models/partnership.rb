@@ -8,9 +8,9 @@ class Partnership < ApplicationRecord
 
   before_create :generate_token
 
-  after_create :create_inverse
-  after_update :update_inverse
-  after_destroy :destroy_inverse
+  after_create :create_inverse, unless: :has_inverse?
+  after_update :update_inverse, if: :has_inverse?
+  after_destroy :destroy_inverse, if: :has_inverse?
 
   scope :active, -> { where(status: :approved) }
   scope :pending, -> { where(status: :pending) }
