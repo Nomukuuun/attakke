@@ -1,0 +1,2 @@
+class PartnershipMailer < ApplicationMailer
+end

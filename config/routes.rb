@@ -16,6 +16,12 @@ Rails.application.routes.draw do
   resources :locations, except: %i[index show]
   resources :histories, only: %i[create]
   resources :templetes, only: %i[index create]
+  resource  :partnerships, only: %i[new create destroy] do
+    member do
+      post :approve
+      delete :reject
+    end
+  end
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

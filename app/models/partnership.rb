@@ -6,7 +6,7 @@ class Partnership < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :partner_id }
 
-  before_create :generate_token
+  before_create :set_token_and_expires_at
 
   after_create :create_inverse, unless: :has_inverse?
   after_update :update_inverse, if: :has_inverse?
@@ -18,19 +18,20 @@ class Partnership < ApplicationRecord
 
   private
 
-  def generate_token
-    self.token ||= Devise.friendly_token[0, 20]
+  def set_token_and_expires_at
+    self.token = Devise.friendly_token[0, 20]
+    self.expires_at = 30.minutes.from_now
   end
 
   # 双方向レコード作成
   def create_inverse
-    self.class.create(user: partner, partner: user, status: status, expires_at: expires_at, token: self.generate_token)
+    self.class.create(user: partner, partner: user, status: :pending)
   end
 
   # 双方向レコード更新
   def update_inverse
     inverse = self.class.find_by(user: partner, partner: user)
-    inverse&.update_columns(status: status, expires_at: expires_at, updated_at: Time.current)
+    inverse&.update_columns(status: :approved, token: nil)
   end
 
   # 双方向レコード削除

@@ -5,6 +5,7 @@ ja:
       stock: ストック
       location: 保管場所
       history: 履歴
+      partnership: パートナー設定
     attributes:
       user:
         name: 名前
@@ -25,6 +26,8 @@ ja:
         recording_date: 記録日
       histories:
         num_quantity: ストックの個数
+      partnerships:
+        email: Gmailアドレス
   attributes:
     id: ID
     created_at: 作成日時
