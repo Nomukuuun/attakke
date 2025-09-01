@@ -97,6 +97,7 @@ class StocksController < ApplicationController
 
   # new, edit以外でアクション実行前にセットするメソッド
   def set_stocks_and_locations
+    # TODO: select以降はHistoryモデルのscopeに移譲、concernを活用してまとめられないか検討
     latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
     @locations = current_user.locations.order(:name)
     @stocks = Stock.joins_latest_history(latest_history)
