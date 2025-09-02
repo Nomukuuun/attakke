@@ -41,7 +41,6 @@ class StocksController < ApplicationController
         ]
       end
     else
-      flash.now[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.stock"))
       render :new, status: :unprocessable_entity
     end
   end
@@ -65,13 +64,12 @@ class StocksController < ApplicationController
         ]
       end
     else
-      flash.now[:error] = t("defaults.flash_message.not_updated", item: t("defaults.models.stock"))
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    stock = current_user.stocks.find(params[:id])
+    stock = our_stocks.find(params[:id])
     location = stock.location
 
     stock.destroy!
@@ -96,19 +94,19 @@ class StocksController < ApplicationController
   end
 
   # new, edit以外でアクション実行前にセットするメソッド
+  # NOTE: location, templetes_controllerと重複記述
   def set_stocks_and_locations
-    # TODO: select以降はHistoryモデルのscopeに移譲、concernを活用してまとめられないか検討
-    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
-    @locations = current_user.locations.order(:name)
+    latest_history = History.latest
+    @locations = our_locations.order(:name)
     @stocks = Stock.joins_latest_history(latest_history)
-              .merge(current_user.stocks)
+              .merge(our_stocks)
               .order_asc_model_and_name
   end
 
   # edit, updateアクションで使用する共通メソッド
   def set_stock_locations_histories
-    @stock = current_user.stocks.find(params[:id])
-    @locations = current_user.locations.order(:name)
+    @stock = our_stocks.find(params[:id])
+    @locations = our_locations.order(:name)
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
   end
 
@@ -123,7 +121,6 @@ class StocksController < ApplicationController
     elsif quantity_type == :num_quantity
       history = stock.histories.build(exist_quantity: 1, quantity_type => old_quantity)
     end
-    history
   end
 
   # フィルタリングアクションのレンダリングメソッド

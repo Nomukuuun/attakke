@@ -8,6 +8,22 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :success, :error, :info, :warning
 
+  # Relationでcurrent_user又はpair_usersを返す
+  def our_users
+    ids = [current_user.id]
+    ids << current_user.partner.id if current_user.partner.present?
+    User.where(id: ids)
+  end
+
+  def our_stocks
+    Stock.where(user_id: our_users.ids)
+  end
+
+  def our_locations
+    Location.where(user_id: our_users.ids)
+  end
+
+  # ログイン後に遷移する画面の指定
   def after_sign_in_path_for(resource)
     stocks_path
   end
