@@ -1,10 +1,26 @@
 <%= form_with url: partnerships_path, method: :post, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
-  <p>パートナー申請を送るユーザーのアドレスを入力してください。</p>
-  <p>なお、送信先は<strong>本アプリに登録済のアドレス</strong>である必要があります。</p>
+  <h2 class="text-xl font-bold text-f-head mb-3">パートナー設定</h2>
+  <p>
+    パートナーは１人しか登録できませんが、
+    設定すると以下の操作が可能になります。
+  </p>
+
   <div class="my-6">
-    <%= f.label :email, "Gmailアドレス",class: "text-xl font-bold text-f-head" %>
+    <p>パートナーの登録した</p>
+    <ul class="bg-dull-beige border-gray-600 border rounded p-2">
+      <li>保管場所・ストックの確認</li>
+      <li>保管場所の編集・削除</li>
+      <li>ストックの編集・削除</li>
+    </ul>
+  </div>
+
+  <p>
+    パートナー申請を送るユーザーの<strong>本アプリに登録済のアドレス</strong>を入力してください。
+  </p>
+  <div class="my-6">
+    <%= f.label :email, "Gmailアドレス", class: "text-xl font-bold text-f-head" %>
     <div class="flex items-center space-x-2">
-      <%= f.text_field :email, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-7/10" %>
+      <%= f.text_field :email, placeholder: "入力してください", class: "bg-white border-gray-600 border-2 rounded p-2 w-7/10" %>
       <p class="text-lg text-gray-600">@gmail.com</p>
     </div>
   </div>
