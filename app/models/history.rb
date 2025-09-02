@@ -3,12 +3,16 @@ class History < ApplicationRecord
   validates :num_quantity, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, message: "は必須入力です" }, if: -> { stock.number? }
   validates :status, presence: true
   validates :recording_date, presence: true
+
   before_validation :set_status_and_date
   before_validation :nillify_unused_quantity
 
   enum :status, { purchase: 0, consumption: 1, maintenance: 2, templete: 3 }
 
   belongs_to :stock
+
+  #最新履歴を取得するためのサブクエリ用scope
+  scope :latest, -> { select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) }
 
   def quantity
     stock.existence? ? exist_quantity.to_i : num_quantity.to_i

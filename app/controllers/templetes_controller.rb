@@ -49,10 +49,10 @@ class TempletesController < ApplicationController
 
   def set_stocks_and_locations
     # TODO: select以降はHistoryモデルのscopeに移譲
-    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
-    @locations = current_user.locations.order(:name)
+    latest_history = History.latest
+    @locations = our_locations.order(:name)
     @stocks = Stock.joins_latest_history(latest_history)
-              .merge(current_user.stocks)
+              .merge(our_stocks)
               .order_asc_model_and_name
   end
 end

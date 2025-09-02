@@ -61,8 +61,7 @@ class LocationsController < ApplicationController
   end
 
   def set_stocks_and_locations
-    # TODO: select以降はHistoryモデルのscopeに移譲
-    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
+    latest_history = History.latest
     @locations = current_user.locations.order(:name)
     @stocks = Stock.joins_latest_history(latest_history)
               .merge(current_user.stocks)

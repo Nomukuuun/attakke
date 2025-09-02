@@ -34,3 +34,6 @@ ja:
         <strong>%{item}</strong> がすでに存在する場合はストックを追加します<br>
         存在しない場合は保管場所とストックを作成します<br>
         よろしいですか？
+  time:
+    formats:
+      default: "%H時%M分"
