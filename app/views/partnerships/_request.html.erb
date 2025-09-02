@@ -1,9 +1,7 @@
 <%= form_with url: partnerships_path, method: :post, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
-  <h2 class="text-xl font-bold text-f-head mb-3">パートナー設定</h2>
-  <p>
-    パートナーは１人しか登録できませんが、
-    設定すると以下の操作が可能になります。
-  </p>
+  <h2 class="text-xl font-bold text-f-head mb-2">パートナー設定</h2>
+  <p>パートナーは１人しか登録できません。</p>
+  <p>設定すると以下の操作が可能になります。</p>
 
   <div class="my-6">
     <p>パートナーの登録した</p>
@@ -14,12 +12,12 @@
     </ul>
   </div>
 
-  <p>
-    パートナー申請を送るユーザーの<strong>本アプリに登録済のアドレス</strong>を入力してください。
-  </p>
   <div class="my-6">
     <%= f.label :email, "Gmailアドレス", class: "text-xl font-bold text-f-head" %>
-    <div class="flex items-center space-x-2">
+    <p class="mb-3">
+      パートナー申請を送るユーザーの<strong>本アプリに登録済のアドレス</strong>を入力してください。
+    </p>
+    <div class="flex items-center space-x-1">
       <%= f.text_field :email, placeholder: "入力してください", class: "bg-white border-gray-600 border-2 rounded p-2 w-7/10" %>
       <p class="text-lg text-gray-600">@gmail.com</p>
     </div>

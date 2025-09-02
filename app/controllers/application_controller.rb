@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :success, :error, :info, :warning
 
+  private
+
   # Relationでcurrent_user又はpair_usersを返す
   def our_users
     ids = [current_user.id]
