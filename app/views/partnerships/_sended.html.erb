@@ -1,0 +1,19 @@
+<h2 class="text-xl font-bold text-f-head mb-3">パートナー申請中</h2>
+
+<p>パートナー申請のメールを送信しました！</p>
+<p>相手の返答を待っています。</p>
+
+<div class="my-6">
+  <p>以下のいずれかを満たすまでメールの再送信はできません。</p>
+  <ul class="bg-dull-beige border-gray-600 border-2 rounded p-2">
+    <li>受信者が申請を拒否した場合</li>
+    <li>あなたが申請を取り下げた場合</li>
+    <li><%= l partnership.expires_at %>を経過した場合</li>
+  </ul>
+</div>
+
+<%= button_to "申請を取り下げる", partnerships_path,
+  method: :delete,
+  data: { action: "click->modal_flame#hideModal" },
+  class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70"
+%>

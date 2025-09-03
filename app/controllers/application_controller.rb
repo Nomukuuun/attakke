@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   # Relationでcurrent_user又はpair_usersを返す
   def our_users
     ids = [current_user.id]
-    ids << current_user.partner.id if current_user.partner.present?
+    ids << current_user.partner.id if current_user.partnership&.approved?
     User.where(id: ids)
   end
 

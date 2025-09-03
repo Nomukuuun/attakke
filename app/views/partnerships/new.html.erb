@@ -1,9 +1,14 @@
 <%= render 'shared/modal_wrapper' do %>
-  <% if @partnership&.pending? %>
-    <%= render 'pending', partnership: @partnership %>
-  <% elsif @partnership&.approved? %>
-    <%= render 'approved', partnership: @partnership %>
+  <% if @partnership.is_a?(PartnershipsForm) %>
+    <%= render 'request', partnership: @partnership %>
   <% else %>
-    <%= render 'request' %>
+    <% case @partnership.status %>
+    <% when "sended" %>
+      <%= render 'sended', partnership: @partnership %>
+    <% when "pending" %>
+      <%= render 'pending', partnership: @partnership %>
+    <% when "approved" %>
+      <%= render 'approved' %>
+    <% end %>
   <% end %>
 <% end %>

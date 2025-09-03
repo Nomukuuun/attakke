@@ -2,7 +2,7 @@ class Partnership < ApplicationRecord
   belongs_to :user
   belongs_to :partner, class_name: "User"
 
-  enum :status, { pending: 0, approved: 1 }
+  enum :status, { sended: 0, pending: 1, approved: 2 }
 
   validates :user_id, uniqueness: { scope: :partner_id }
 
