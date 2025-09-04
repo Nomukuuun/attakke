@@ -1,0 +1,17 @@
+<%= image_tag 'logo.svg' %>
+<h2><%= @partner.name %> さん</h2>
+
+<p>パートナー申請が届いています！</p>
+<p><strong><%= link_to 'こちら', public_partnerships_url %></strong> から確認してください！</p>
+<p><%= link_to 'トップページ', root_url %> からログインして確認することもできます。</p>
+<br>
+
+<h3>パートナー申請とは？</h3>
+<ul class="bg-dull-beige rounded p-2">
+  <li>本アプリのユーザー同士を紐づける申請です。</li>
+  <li>あなたが申請を承諾するとパートナーとして設定されます。</li>
+  <li>パートナーになるとお互いの入力した情報を共有することができます。</li>
+</ul>
+
+<p>※ 申請は<strong><%= l @partnership.expires_at %></strong>に自動拒否されます。</p>
+<p>※ 拒否されても相手に通知等は届きません。</p>

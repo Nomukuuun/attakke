@@ -16,7 +16,9 @@ ja:
       not_updated: "%{item}を更新できませんでした"
       deleted: "%{item}を削除しました"
       mail_sended: 申請メールを送信しました
+      approve: 申請を承諾しました
       withdrawal: 申請を取り下げました
+      reject: 申請を拒否しました
     models:
       user: ユーザー
       stock: ストック
@@ -34,6 +36,19 @@ ja:
         <strong>%{item}</strong> がすでに存在する場合はストックを追加します<br>
         存在しない場合は保管場所とストックを作成します<br>
         よろしいですか？
+      partnership:
+        approve: |
+          <strong>ご確認ください！</strong><br>
+          承諾後にパートナー設定の解除はできません。<br>
+          よろしいですか？
+        withdrawal: |
+          申請を取り下げます。<br>
+          よろしいですか？
+        reject: |
+          申請を拒否します。<br>
+          相手にはあなたが拒否した通知は届きません。<br>
+          よろしいですか？
+
   time:
     formats:
       default: "%H時%M分"

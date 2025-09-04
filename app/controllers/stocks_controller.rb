@@ -94,7 +94,7 @@ class StocksController < ApplicationController
   end
 
   # new, edit以外でアクション実行前にセットするメソッド
-  # NOTE: location, templetes_controllerと重複記述
+  # NOTE: location, templetes, partnerships_controllerと重複記述
   def set_stocks_and_locations
     latest_history = History.latest
     @locations = our_locations.order(:name)

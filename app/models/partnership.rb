@@ -12,10 +12,6 @@ class Partnership < ApplicationRecord
   after_update :update_inverse, if: :has_inverse?
   after_destroy :destroy_inverse, if: :has_inverse?
 
-  scope :active, -> { where(status: :approved) }
-  scope :pending, -> { where(status: :pending) }
-  scope :expired, -> { pending.where("expires_at < ?", Time.current) }
-
   private
 
   def set_token_and_expires_at
