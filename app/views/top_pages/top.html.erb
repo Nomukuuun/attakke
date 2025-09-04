@@ -1,9 +1,9 @@
 <div id="index" class="w-full">
   <section class="py-10 md:py-16 flex-col justify-center">
     <div class="mb-4">
-      <%= image_tag 'logo.svg', class: "w-300px md:w-480px mx-auto h-25 md:h-40 border-box border border-gray-700 rounded-xl shadow-lg" %>
+      <%= image_tag 'logo.svg', class: "w-[300px] md:w-[480px] mx-auto h-25 md:h-40 border-box border border-gray-700 rounded-xl shadow-lg" %>
     </div>
-    <div class="w-4/5 max-w-600px mx-auto text-center text-lg md:text-2xl">
+    <div class="w-4/5 max-w-[600px] mx-auto text-center text-lg md:text-2xl">
       「<span class="text-dull-red font-bold">Attakke?(あったっけ？)</span>」は<br>
       ご家庭の消耗品ストックを可視化し<br>
       買いすぎや買い忘れを防止する<br>
@@ -28,7 +28,7 @@
 
   <div class="w-full mb-10">
     <% if user_signed_in? %>
-      <%= link_to "ストック一覧へ", stocks_path, class: "flex items-center justify-center text-xl md:text-2xl text-white bg-dull-green rounded mx-auto px-8 py-4 cursor-pointer hover:brightness-70" %>
+      <%= link_to "ストック一覧へ", stocks_path, class: "text-xl md:text-2xl text-white bg-dull-green rounded mx-auto px-8 py-4 cursor-pointer hover:brightness-70" %>
     <% else %>
       <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-xl md:text-2xl text-white bg-dull-green rounded mx-auto px-8 py-4 cursor-pointer hover:brightness-70" do %>
         <div class="flex items-center size-6 md:size-8 bg-white rounded-full p-[6px] md:p-2 mr-2">

@@ -2,7 +2,7 @@
 <h2><%= @partner.name %> さん</h2>
 
 <p>パートナー申請が届いています！</p>
-<p><strong><%= link_to 'こちら', public_partnerships_url %></strong> から確認してください！</p>
+<p><strong><%= link_to 'こちら', public_partnerships_url(token: @partnership&.token) %></strong> から確認してください！</p>
 <p><%= link_to 'トップページ', root_url %> からログインして確認することもできます。</p>
 <br>
 

@@ -2,7 +2,7 @@
 <%= @partner.name %>さん
 ========================
 パートナー申請が届いています！
-<%= link_to 'こちら', public_partnerships_url %> から確認してください！
+<%= link_to 'こちら', public_partnerships_url(token: @partnership&.token) %> から確認してください！
 <%= link_to 'トップページ', root_url %> からログインして確認することもできます。
 
 パートナー申請とは？
