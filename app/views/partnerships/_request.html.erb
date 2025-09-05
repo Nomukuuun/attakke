@@ -1,0 +1,33 @@
+<%= form_with model: partnership, url: partnerships_path, method: :post, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
+  <h2 class="text-xl font-bold text-dull-green mb-2">パートナー設定</h2>
+  <p>パートナーは１人しか登録できません。</p>
+  <p>設定すると以下の操作が可能になります。</p>
+
+  <div class="mt-3">
+    <p>パートナーの登録した</p>
+    <ul class="bg-dull-beige border-gray-600 border rounded p-2">
+      <li>保管場所・ストックの確認</li>
+      <li>保管場所の編集・削除</li>
+      <li>ストックの編集・削除</li>
+    </ul>
+  </div>
+
+  <div class="my-6">
+    <%= f.label :gmail, "Gmail", class: "text-xl font-bold text-dull-green mb-2" %>
+    <p>
+      パートナー申請を送るユーザーの<strong>本アプリに登録済のアドレス</strong>を入力してください。
+    </p>
+    <div class="flex items-center space-x-1">
+      <div class="w-7/10">
+        <%= f.text_field :gmail, placeholder: "入力してください", class: "bg-white border-gray-600 border-2 rounded p-2 w-full" %>
+      </div>
+      <p class="text-lg text-gray-600">@gmail.com</p>
+    </div>
+    <p class="text-dull-red text-sm">
+      <%= partnership.errors.full_messages.first if partnership.errors.any? %>
+    </p>
+  </div>
+  <%= f.submit "送信", class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70 mb-6" %>
+  <p>※ 相手からの返答が来るか、申請を取り下げるまでメールの再送信はできません。</p>
+  <p>※ 30分以内に返答がない場合は、申請が自動で取り消されます。</p>
+<% end %>

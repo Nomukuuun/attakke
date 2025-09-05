@@ -54,6 +54,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-remote'
 
+  gem 'letter_opener_web'
+
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 

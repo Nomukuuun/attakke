@@ -23,6 +23,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
+  has_one :partnership
+  has_one :partner, through: :partnership
   has_many :stocks, dependent: :destroy
   has_many :locations, dependent: :destroy
   has_many :histories, through: :stocks, dependent: :destroy

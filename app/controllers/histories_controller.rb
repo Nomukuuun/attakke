@@ -1,9 +1,9 @@
 class HistoriesController < ApplicationController
   # existence型のストックがindex画面で使用するメソッド
   def create
-    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc)
+    latest_history = History.latest
     set_latest_history_stock(latest_history)
-    save_quantity = latest_history.find_by( stock_id: history_params[:stock_id] ).exist_quantity.to_i == 1 ? 0 : 1
+    save_quantity = latest_history.find_by(stock_id: history_params[:stock_id]).exist_quantity.to_i == 1 ? 0 : 1
 
     history = @stock.histories.build(exist_quantity: save_quantity)
     if history.save
@@ -27,6 +27,6 @@ class HistoriesController < ApplicationController
   end
 
   def set_latest_history_stock(latest_history)
-    @stock = Stock.joins_latest_history(latest_history).find( history_params[:stock_id] )
+    @stock = Stock.joins_latest_history(latest_history).find(history_params[:stock_id])
   end
 end

@@ -16,7 +16,7 @@ class Stock < ApplicationRecord
     .select("stocks.*, latest_history.recording_date AS latest_recording_date, latest_history.exist_quantity AS latest_exist_quantity, latest_history.num_quantity AS latest_num_quantity")
   end
 
-  # index画面でフィルタリングに使用するscope
+  # フィルタリングに使用するscope
   scope :order_asc_model_and_name, -> { order(:model ,:name) }
   scope :in_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) > 0 OR COALESCE(latest_history.num_quantity, 0) > 0") }
   scope :out_of_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0") }

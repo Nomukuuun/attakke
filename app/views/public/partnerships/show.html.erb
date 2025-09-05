@@ -1,0 +1,5 @@
+<% if @partnership.blank? %>
+  <%= render 'expired' %>
+<% else %>
+  <%= render 'pending', partnership: @partnership, partner: @partner %>
+<% end %>

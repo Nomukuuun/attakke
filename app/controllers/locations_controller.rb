@@ -11,7 +11,7 @@ class LocationsController < ApplicationController
 
     if @location.save
       flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.location"))
-      if current_user.locations.count == 1
+      if our_locations.count == 1
         render_main_frame
       else
         render turbo_stream: [
@@ -20,7 +20,6 @@ class LocationsController < ApplicationController
         ]
       end
     else
-      flash.now[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.location"))
       render :new, status: :unprocessable_entity
     end
   end
@@ -35,7 +34,6 @@ class LocationsController < ApplicationController
         turbo_stream.update("flash", partial: "shared/flash_message")
       ]
     else
-      flash.now[:error] = t("defaults.flash_message.not_updated", item: t("defaults.models.location"))
       render :edit, status: :unprocessable_entity
     end
   end
@@ -44,7 +42,7 @@ class LocationsController < ApplicationController
     @location.destroy!
     @locations.reload
     flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.location"))
-    if current_user.locations.count == 0
+    if our_locations.count == 0
       render_main_frame
     else
       render turbo_stream: [
@@ -61,15 +59,15 @@ class LocationsController < ApplicationController
   end
 
   def set_stocks_and_locations
-    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
-    @locations = current_user.locations.order(:name)
+    latest_history = History.latest
+    @locations = our_locations.order(:name)
     @stocks = Stock.joins_latest_history(latest_history)
-              .merge(current_user.stocks)
+              .merge(our_stocks)
               .order_asc_model_and_name
   end
 
   def set_location
-    @location = current_user.locations.find(params[:id])
+    @location = our_locations.find(params[:id])
   end
 
   def render_main_frame

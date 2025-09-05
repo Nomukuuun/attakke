@@ -9,7 +9,7 @@ class TempletesController < ApplicationController
   def create
     location_name = templete_params[:location_name]
     templetes = Templete.where(location_name: location_name)
-    location = current_user.locations.find_or_create_by!( name: location_name )
+    location = our_locations.find_by(name: location_name) || current_user.locations.create!(name: location_name)
 
     ActiveRecord::Base.transaction do
       templetes.each do |t|
@@ -28,7 +28,7 @@ class TempletesController < ApplicationController
     end
 
     flash.now[:success] = t('defaults.flash_message.created', item: t('defaults.models.stock'))
-    if current_user.locations.count == 1
+    if our_locations.count == 1
       render turbo_stream: [
         turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
         turbo_stream.update("flash", partial: "shared/flash_message")
@@ -48,10 +48,10 @@ class TempletesController < ApplicationController
   end
 
   def set_stocks_and_locations
-    latest_history = History.select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) #最新履歴を取得するためのサブクエリ用変数
-    @locations = current_user.locations.order(:name)
+    latest_history = History.latest
+    @locations = our_locations.order(:name)
     @stocks = Stock.joins_latest_history(latest_history)
-              .merge(current_user.stocks)
+              .merge(our_stocks)
               .order_asc_model_and_name
   end
 end
