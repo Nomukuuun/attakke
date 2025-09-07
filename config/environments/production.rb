@@ -80,6 +80,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'attakke.onrender.com', protocol: 'https' }
   config.action_mailer.raise_delivery_errors = true
+  config.action_controller.asset_host = "attakke.onrender.com"
+  config.action_mailer.asset_host = "https://attakke.onrender.com"
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
