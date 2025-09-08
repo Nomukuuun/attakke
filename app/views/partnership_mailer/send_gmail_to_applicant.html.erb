@@ -1,0 +1,17 @@
+<div class="w-full py-10 md:py-16">
+  <%= image_tag 'logo.svg', class: "w-[300px] md:w-[480px] mx-auto border-box border border-gray-700 rounded-xl shadow-lg" %>
+</div>
+
+<div class="px-4">
+  <div class="text-xl font-bold"><%= @partner.name %> さん</div>
+  <div class="pb-4">
+    <p>パートナー申請が承諾されました！</p>
+    <p><%= link_to 'こちら', root_url, class: "font-bold text-dull-green underline" %> からアプリにログインして確認してみましょう！</p>
+  </div>
+
+  <div class="text-xl font-bold">パートナーと以下の操作が可能になりました。</div>
+  <ul class="bg-dull-white rounded p-2">
+    <li>お互いの登録した保管場所およびストックの確認</li> 
+    <li>お互いの登録した保管場所およびストックの編集および削除</li>
+  </ul>
+</div>

@@ -25,7 +25,7 @@ class PartnershipsController < ApplicationController
         @partnership = current_user.create_partnership!(partner_id: partner.id, status: :sended)
         # after_create コールバックで反対側も作成
       end
-      PartnershipMailer.send_gmail(@partnership, partner).deliver_later
+      PartnershipMailer.send_gmail_to_recipient(@partnership, partner).deliver_later
     end
     flash.now[:success] = t("defaults.flash_message.mail_sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
@@ -38,6 +38,7 @@ class PartnershipsController < ApplicationController
         @partnership.update!(status: :approved, token: nil)
         # after_update コールバックで反対側も更新
       end
+      PartnershipMailer.send_gmail_to_applicant(partner: current_user.partner).deliver_later
     end
     set_stocks_and_locations
     flash.now[:success] = t("defaults.flash_message.approve")

@@ -19,16 +19,16 @@
   --font-yusei: "Yusei Magic", sans-serif;
 
   /* flash_messageのアニメーション */
-  --animate-fadeinout: fadeinout 4s ease-in-out 1;
+  --animate-fadeinout: fadeinout 3s ease-in-out 1;
 
   @keyframes fadeinout {
     0% {
       transform: translateY(0);
     }
-    12.5% {
+    15% {
       transform: translateY(56px);
     }
-    87.5% {
+    85% {
       transform: translateY(56px);
     }
     100% {

@@ -26,11 +26,11 @@
     </div>
   </section>
 
-  <div class="w-full mb-10">
+  <div class="w-full mb-10 flex justify-center">
     <% if user_signed_in? %>
-      <%= link_to "ストック一覧へ", stocks_path, class: "text-xl md:text-2xl text-white bg-dull-green rounded mx-auto px-8 py-4 cursor-pointer hover:brightness-70" %>
+      <%= link_to "ストック一覧へ", stocks_path, class: "text-xl md:text-2xl text-white bg-dull-green rounded px-8 py-4 cursor-pointer hover:brightness-70" %>
     <% else %>
-      <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-xl md:text-2xl text-white bg-dull-green rounded mx-auto px-8 py-4 cursor-pointer hover:brightness-70" do %>
+      <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-xl md:text-2xl text-white bg-dull-green rounded px-8 py-4 cursor-pointer hover:brightness-70" do %>
         <div class="flex items-center size-6 md:size-8 bg-white rounded-full p-[6px] md:p-2 mr-2">
           <svg class="size-3 md:size-4" version="1.1" viewBox="0 0 48 48">
             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>

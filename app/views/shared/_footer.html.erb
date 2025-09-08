@@ -1,13 +1,13 @@
-<footer class="absolute bottom-0 left-0 w-full h-14 bg-white">
+<footer class="sticky bottom-0 left-0 w-full h-14 bg-white z-5">
   <div class="container mx-auto">
-    <div class="flex-col md:flex items-center justify-center md:justify-between px-6 py-4 text-xs md:text-base">
+    <div class="flex flex-col md:flex-row items-center justify-between px-6 py-3 md:py-4 text-xs md:text-base">
       <div class="flex items-center text-f-head">
         <svg class="size-4 text-f-head" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9" /><path d="M14.5 9a3.5 4 0 1 0 0 6" />
         </svg>
         <span>2025 Attakke?</span>
       </div>
-      <div class="flex space-x-4">
+      <div class="flex space-x-6 md:space-x-4">
         <%= link_to "プライバシーポリシー(準備中)", '#', class: "text-f-head" %>
         <%= link_to "利用規約(準備中)", '#', class: "text-f-head" %>
       </div>

@@ -1,6 +1,6 @@
 <header class="fixed top-0 left-0 z-10 w-full h-18 md:h-24 shadow-sm bg-white">
-  <div class="container mx-auto px-4 md:px-6 py-3 md:py-[18px] w-full">
-    <div class="flex items-center justify-between">
+  <div class="container mx-auto px-4 md:px-6 size-full">
+    <div class="flex items-center justify-between h-full">
       <% if user_signed_in? %>
         <%= link_to stocks_path, class: "shadow-sm rounded" do %>
           <%= image_tag 'logo.svg', class: "h-10 md:h-15" %>

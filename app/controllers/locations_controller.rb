@@ -2,6 +2,10 @@ class LocationsController < ApplicationController
   before_action :set_stocks_and_locations, only: %i[create update destroy]
   before_action :set_location, only: %i[edit update destroy]
 
+  def index
+    @locations = our_locations.order(:name)
+  end
+
   def new
     @location = Location.new
   end

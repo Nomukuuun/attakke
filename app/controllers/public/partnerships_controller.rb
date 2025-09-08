@@ -1,6 +1,7 @@
 class Public::PartnershipsController < ApplicationController
   layout "public"
   skip_before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token, only: %i[approve reject]
   before_action :set_partnership, only: %i[show approve approved reject]
 
   # パートナー申請の受信者がログインせずにメールから確認するためのコントローラ
@@ -17,6 +18,7 @@ class Public::PartnershipsController < ApplicationController
         @partnership.update!(status: :approved, token: nil)
         # after_update コールバックで反対側も更新
       end
+      PartnershipMailer.send_gmail_to_applicant(set_partner(@partnership)).deliver_later
       redirect_to approved_public_partnerships_path, status: :see_other
     else
       render partial: "expired", status: :unauthorized
@@ -53,6 +55,6 @@ class Public::PartnershipsController < ApplicationController
   end
 
   def set_partner(partnership)
-    User.find(@partnership.user_id)
+    User.find(partnership.user_id)
   end
 end
