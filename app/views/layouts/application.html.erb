@@ -28,11 +28,11 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="relative pt-18 md:pt-24 min-h-screen bg-dull-beige text-base text-f-body font-yusei">
+  <body class="flex flex-col pt-18 md:pt-24 min-h-screen bg-dull-beige text-base text-f-body font-yusei">
     <%= render 'shared/confirm' %>
     <%= render 'shared/flash_message' %>
     <%= render 'shared/header' %>
-    <main class="container mx-auto">
+    <main class="container mx-auto grow">
       <%= yield %>
     </main>
     <%= render 'shared/footer_menu' %>

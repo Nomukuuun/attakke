@@ -1,0 +1,38 @@
+<%= render 'shared/modal_wrapper' do %>
+  <% if @locations.present? %>
+    <!-- 保管場所があるとき -->
+    <div class="text-xl font-bold text-f-head">保管場所一覧</div>
+    <% @locations.each do |location| %>
+      <button
+        data-action="click->modal-frame#selectLocation"
+        data-location-id-value="<%= dom_id(location) %>"
+        class="w-full text-lg hover:text-white hover:bg-dull-green border-box border-2 border-f-body hover:border-dull-green rounded shadow-sm py-4 mb-2">
+        <%= location.name %>
+      </button> 
+    <% end %>
+
+  <% else %>
+
+    <!-- 保管場所が作成されてないとき -->
+    <div class="text-f-head pb-4">
+      保管場所が作成されていません。<br>
+      保管場所追加またはテンプレート作成機能を使いましょう！
+    </div>
+    <div class="flex items-center space-x-4 w-full">
+      <%= link_to new_location_path, data: { turbo_frame: 'modal_frame' }, class: "basis-1/2 h-full flex flex-col text-center justify-between text-dull-green hover:text-white bg-white hover:bg-dull-green box-border border-dull-green border-2 rounded py-1" do %>
+        <svg class="size-6 w-full mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+        </svg>
+        <span class="text-sm md:text-base">保管場所追加</span>
+      <% end %>
+
+      <%= link_to templetes_path, data: { turbo_frame: 'modal_frame' }, class: "basis-1/2 h-full flex flex-col text-center justify-between text-dull-green hover:text-white bg-white hover:bg-dull-green box-border border-dull-green border-2 rounded py-1" do %>
+        <svg class="size-6 w-full mx-auto" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/><rect x="4" y="4" width="16" height="4" rx="1" /><rect x="4" y="12" width="6" height="8" rx="1" /><line x1="14" y1="12" x2="20" y2="12" /><line x1="14" y1="16" x2="20" y2="16" /><line x1="14" y1="20" x2="20" y2="20" />
+        </svg>
+        <span class="text-sm md:text-base">テンプレート</span>
+      <% end %>
+    </div>
+
+  <% end %>
+<% end %>

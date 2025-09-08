@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus";
 // Connects to data-controller="modal-frame"
 export default class extends Controller {
   static targets = ["modal", "dialog"];
+  static values = { locationId: String };
 
   // modal_frame外の要素が削除された際にモーダルを非表示にする
   connect() {
@@ -36,10 +37,32 @@ export default class extends Controller {
     }
   }
 
+  // dialog外をクリックしたときにモーダルを閉じる
   clickOutside(event) {
     if (!this.dialogTarget.contains(event.target)) {
       this.hideModal();
     }
+  }
+
+  // 特定の保管場所までスクロールする
+  selectLocation(event) {
+    const id = event.currentTarget.dataset.locationIdValue;
+    this.hideModal();
+
+    setTimeout(() => {
+      const target = document.getElementById(id);
+      if (target) {
+        const offset = 128; // top-32 分の高さ
+        const targetPosition =
+          target.getBoundingClientRect().top + window.scrollY;
+        const scrollTo = targetPosition - offset;
+
+        window.scrollTo({
+          top: scrollTo,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   }
 
   hideModal() {

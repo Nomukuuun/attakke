@@ -14,7 +14,7 @@ export default class extends Controller {
       );
       button.classList.add(
         "text-f-head",
-        "border-black",
+        "border-f-head",
         "bg-white",
         "hover:text-white",
         "hover:bg-dull-green",
@@ -31,7 +31,7 @@ export default class extends Controller {
     );
     currentButtonTarget.classList.remove(
       "text-f-head",
-      "border-black",
+      "border-f-head",
       "bg-white",
       "hover:text-white",
       "hover:bg-dull-green",

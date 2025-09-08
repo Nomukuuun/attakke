@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       get :out_of_stocks
     end
   end
-  resources :locations, except: %i[index show]
+  resources :locations, except: %i[show]
   resources :histories, only: %i[create]
   resources :templetes, only: %i[index create]
   resource  :partnerships, only: %i[new create update destroy] do
