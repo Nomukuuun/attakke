@@ -1,7 +1,8 @@
 <%= turbo_frame_tag location do %>
   <div class="bg-white pb-4 mb-6 rounded">
 
-    <div class="sticky top-32 md:top-38 bg-white border border-box border-white p-4">
+    <!-- 保管場所のヘッダー -->
+    <div class="sticky top-32 md:top-38 bg-white border border-box border-white p-4 mb-1">
       <div class="flex justify-between items-center">
         <div class="flex justify-start items-center space-x-2 md:space-x-4 max-w-4/5">
           <%= link_to edit_location_path(location), data: { turbo_frame: 'modal_frame' } do %>
@@ -17,6 +18,7 @@
       </div>
     </div>
 
+    <!-- ストックリスト -->
     <div class="px-4">
       <% if stocks&.find_by(location_id: location.id).present? %>
         <div id="<%= location.name %>_stock_list" class="lg:grid lg:grid-cols-3 lg:gap-4">

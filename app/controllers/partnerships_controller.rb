@@ -38,12 +38,13 @@ class PartnershipsController < ApplicationController
         @partnership.update!(status: :approved, token: nil)
         # after_update コールバックで反対側も更新
       end
-      PartnershipMailer.send_gmail_to_applicant(partner: current_user.partner).deliver_later
+      PartnershipMailer.send_gmail_to_applicant(current_user.partner).deliver_later
     end
     set_stocks_and_locations
     flash.now[:success] = t("defaults.flash_message.approve")
     render turbo_stream: [
       turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
+      turbo_stream.update("bell_icon", partial: "shared/bell_icon"),
       turbo_stream.update("flash", partial: "shared/flash_message")
     ]
   end
@@ -69,7 +70,10 @@ class PartnershipsController < ApplicationController
       end
     end
     flash.now[:success] = t("defaults.flash_message.reject")
-    render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
+    render turbo_stream: [
+      turbo_stream.update("bell_icon", partial: "shared/bell_icon"),
+      turbo_stream.update("flash", partial: "shared/flash_message")  
+    ]
   end
 
   private
