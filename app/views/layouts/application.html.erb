@@ -32,9 +32,10 @@
     <%= render 'shared/confirm' %>
     <%= render 'shared/flash_message' %>
     <%= render 'shared/header' %>
-    <main class="container mx-auto pb-16">
+    <main class="container mx-auto">
       <%= yield %>
     </main>
+    <%= render 'shared/footer_menu' %>
     <%= render 'shared/footer' %>
     <%= turbo_frame_tag 'modal_frame' %>
   </body>
