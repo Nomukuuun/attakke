@@ -7,9 +7,9 @@ class PartnershipsForm
   attribute :current_user_email, :string
 
   validates :gmail, presence: { message: "が入力されていません" }
-  validate :own_gmail_or_blank
+  validate :own_gmail
 
-  def own_gmail_or_blank
-    errors.add(:gmail, "アドレスはパートナーに設定するユーザーのものを入力してください") if "#{gmail}@gmail.com" == current_user_email
+  def own_gmail
+    errors.add(:gmail, "アドレスはパートナーに設定するユーザーのアドレスを入力してください") if "#{gmail}@gmail.com" == current_user_email
   end
 end
