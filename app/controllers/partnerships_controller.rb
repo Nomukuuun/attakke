@@ -26,6 +26,7 @@ class PartnershipsController < ApplicationController
         # after_create コールバックで反対側も作成
       end
       PartnershipMailer.send_gmail_to_recipient(@partnership, partner).deliver_later
+      DestroyExpiredPartnershipJob.set(wait_until: @partnership.expires_at).perform_later(@partnership.id)
     end
     flash.now[:success] = t("defaults.flash_message.mail_sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
