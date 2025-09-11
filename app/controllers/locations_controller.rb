@@ -51,7 +51,8 @@ class LocationsController < ApplicationController
     else
       render turbo_stream: [
         turbo_stream.remove("location_#{@location.id}"),
-        turbo_stream.update("flash", partial: "shared/flash_message")
+        turbo_stream.update("flash", partial: "shared/flash_message"),
+        turbo_stream.update("modal_frame")
       ]
     end
   end
@@ -77,7 +78,8 @@ class LocationsController < ApplicationController
   def render_main_frame
     render turbo_stream: [
       turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
-      turbo_stream.update("flash", partial: "shared/flash_message")
+      turbo_stream.update("flash", partial: "shared/flash_message"),
+      turbo_stream.update("modal_frame")
     ]
   end
 end

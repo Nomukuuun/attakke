@@ -77,12 +77,14 @@ class StocksController < ApplicationController
     if location.stocks.count == 0
       render turbo_stream: [
         turbo_stream.replace(location, partial: "location", locals: { location: location, stocks: @stocks }),
-        turbo_stream.update("flash", partial: "shared/flash_message")
+        turbo_stream.update("flash", partial: "shared/flash_message"),
+        turbo_stream.update("modal_frame")
       ]
     else
       render turbo_stream: [
         turbo_stream.remove("stock_#{stock.id}"),
-        turbo_stream.update("flash", partial: "shared/flash_message")
+        turbo_stream.update("flash", partial: "shared/flash_message"),
+        turbo_stream.update("modal_frame")
       ]
     end
   end
