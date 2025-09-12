@@ -44,7 +44,7 @@ gem "omniauth-google-oauth2"
 gem 'omniauth-rails_csrf_protection'
 
 gem 'rails-i18n', '~> 7.0.0'
-gem 'enum_help', '~> 0.0.19'
+gem 'enum_help', '~> 0.0.20'
 
 # 一旦ActiveJobで対応
 # gem 'sidekiq'
