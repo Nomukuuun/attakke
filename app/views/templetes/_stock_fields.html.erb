@@ -1,0 +1,15 @@
+<%= f.fields_for :stock_forms, stock_el, child_index: index do |stock_fields| %>
+  <div id=<%= "#{index}" %> class="w-full flex space-x-2 mb-2" data-templete-select-target="row">
+    <%= button_tag type: "button", data: { action: "templete-select#remove" }, class: "basis-1/10" do %>
+      <div id="remove_form_<%= "#{index}" %>" class="size-4 border-3 border-dull-red rounded-full cursor-pointer flex justify-center items-center">
+        <svg class="size-2 text-dull-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </div>
+    <% end %>
+    <%= stock_fields.text_field :name, class: "basis-3/5 border rounded p-1" %>
+    <%= stock_fields.hidden_field :model %>
+    <%= stock_fields.number_field :exist_quantity, class: "basis-1/10 border rounded p-1" %>
+    <%= stock_fields.number_field :num_quantity, class: "basis-1/10 border rounded p-1" %>
+  </div>
+<% end %>
