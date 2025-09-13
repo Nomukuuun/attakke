@@ -19,15 +19,18 @@
     <%= render 'stock_fields', f: f, stock_el: TempletesStockForm.new, index: "__INDEX__" %>
   </template>
 
-  <div class="mb-4">
-    <%= button_tag type: "button", data: { action: "click->templete-select#add" }, id: "add_form" do %>
-      <div class="border-2 border-dull-green text-dull-green rounded cursor-pointer flex justify-center items-center space-x-2 px-2 py-1">
-        <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
-        <span>追加</span>
-      </div>
-    <% end %>
+  <div class="mt-2 mb-4">
+    <div class="flex items-center space-x-2">
+      <%= button_tag type: "button", data: { action: "click->templete-select#add" }, id: "add_form" do %>
+        <div class="border-2 border-dull-green text-dull-green rounded cursor-pointer flex justify-center items-center space-x-2 px-2 py-1">
+          <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          <span>追加</span>
+        </div>
+      <% end %>
+      <span data-templete-select-target="notice" class="hidden text-sm text-dull-green">フォームは10個まで追加できます</span>
+    </div>
   </div>
 
   <%= f.submit "保存", class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>

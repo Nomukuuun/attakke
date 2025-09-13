@@ -12,14 +12,21 @@ export default class extends Controller {
   close(event) {
     // event.detail.successは、レスポンスが成功ならtrueを返す。
     // バリデーションエラー時は、falseを返す。
+    console.log("closeアクション");
     if (event.detail.success) {
       this.modalTarget.classList.add("hidden");
     }
   }
 
+  // dialog内をクリックしたときにclickOutsideまで伝搬しないようにする
+  stopPropagation(event) {
+    event.stopPropagation();
+  }
+
   // dialog外をクリックしたときにモーダルを閉じる
   clickOutside(event) {
     if (!this.dialogTarget.contains(event.target)) {
+      console.log("clickOutsideアクション");
       this.hideModal();
     }
   }
@@ -46,6 +53,7 @@ export default class extends Controller {
   }
 
   hideModal() {
+    console.log("hideアクション");
     this.modalTarget.classList.add("hidden");
   }
 }

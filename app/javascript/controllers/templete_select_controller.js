@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="templete-select"
 export default class extends Controller {
-  static targets = ["container", "row", "templete"];
+  static targets = ["container", "row", "templete", "notice"];
 
   connect() {}
 
@@ -25,7 +25,6 @@ export default class extends Controller {
     event.preventDefault();
     // テンプレート HTML を取得
     const templete = this.templeteTarget.innerHTML;
-    console.log(templete);
 
     // 既存フォームの最大 index を取得
     const existingIndexes = Array.from(
@@ -33,21 +32,30 @@ export default class extends Controller {
         "[data-templete-select-target='row']"
       )
     ).map((row) => parseInt(row.id, 10));
-    console.log(existingIndexes);
-    const maxIndex = existingIndexes.length ? Math.max(...existingIndexes) : -1;
+    console.log("existingIndexes", existingIndexes);
 
-    const newIndex = maxIndex + 1;
+    // フォーム数が10以下かどうかでアクションを分岐
+    if (existingIndexes.length < 10) {
+      const maxIndex = existingIndexes.length
+        ? Math.max(...existingIndexes)
+        : -1;
+      const newIndex = maxIndex + 1;
 
-    // __INDEX__ を置換してユニークな name 属性にする
-    const content = templete.replace(/__INDEX__/g, newIndex);
+      // __INDEX__ を置換してユニークな name 属性にする
+      const content = templete.replace(/__INDEX__/g, newIndex);
 
-    // フォームを追加
-    this.containerTarget.insertAdjacentHTML("beforeend", content);
+      // フォームを追加
+      this.containerTarget.insertAdjacentHTML("beforeend", content);
+      this.noticeTarget.classList.add("hidden");
+    } else {
+      this.noticeTarget.classList.remove("hidden");
+    }
   }
 
   remove(event) {
     event.preventDefault();
-    const row = event.target.closest("[data-templete-target='row']");
+    const row = event.target.closest("[data-templete-select-target='row']");
+    this.noticeTarget.classList.add("hidden");
     if (row) row.remove();
   }
 }
