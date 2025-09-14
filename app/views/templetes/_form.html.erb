@@ -16,7 +16,7 @@
 
   <%# NOTE: 追加フォーム用に忍ばせる隠しDOM %>
   <template data-templete-select-target="templete">
-    <%= render 'stock_fields', f: f, stock_el: TempletesStockForm.new, index: "__INDEX__" %>
+    <%= render 'stock_fields', f: f, stock_el: TempletesStockForm.new(model: 0, exist_quantity: 1), index: "__INDEX__" %>
   </template>
 
   <div class="mt-2 mb-4">
