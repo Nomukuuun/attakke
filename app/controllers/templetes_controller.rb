@@ -1,6 +1,6 @@
 class TempletesController < ApplicationController
   before_action :set_stocks_and_locations, only: %i[create]
-  before_action :set_location_name, only: %i[form create]
+  before_action :set_location_name, only: %i[form]
 
   def index
     @templetes = Templete.all.order(:id)
@@ -10,7 +10,7 @@ class TempletesController < ApplicationController
   # 選択された location_name のテンプレートからフォームを返す
   def form
     @templetes = Templete.filter_location(@location_name)
-    @forms = TempletesForm.new(location_name: @location_name)
+    @forms = TempletesForm.new({ location_name: @location_name })
 
     @forms.stock_forms.concat(@templetes.map do |t|
       TempletesStockForm.new(
@@ -30,36 +30,23 @@ class TempletesController < ApplicationController
   end
 
   def create
-    templetes = Templete.filter_location(@location_name)
-    location = our_locations.find_by(name: @location_name) || current_user.locations.create!(name: @location_name)
+    @templetes = TempletesForm.new(templetes_form_params, our_locations: our_locations, current_user: current_user)
 
-    ActiveRecord::Base.transaction do
-      templetes.each do |t|
-        stock = current_user.stocks.create!(
-          location_id: location.id,
-          name: t.stock_name,
-          model: t.stock_model
-        )
-
-        stock.histories.create!(
-          exist_quantity: t.history_exist_quantity,
-          num_quantity: t.history_num_quantity,
-          status: :templete
-        )
+    if @templetes.save
+      flash.now[:success] = t('defaults.flash_message.created', item: t('defaults.models.stock'))
+      if our_locations.count == 1
+        render turbo_stream: [
+          turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
+          turbo_stream.update("flash", partial: "shared/flash_message")
+        ]
+      else
+        render turbo_stream: [
+          turbo_stream.prepend("locations", partial: "stocks/location", locals: { location: @templetes.location, stocks: @stocks }),
+          turbo_stream.update("flash", partial: "shared/flash_message")
+        ]
       end
-    end
-
-    flash.now[:success] = t('defaults.flash_message.created', item: t('defaults.models.stock'))
-    if our_locations.count == 1
-      render turbo_stream: [
-        turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
-        turbo_stream.update("flash", partial: "shared/flash_message")
-      ]
     else
-      render turbo_stream: [
-        turbo_stream.prepend("locations", partial: "stocks/location", locals: { location: location, stocks: @stocks }),
-        turbo_stream.update("flash", partial: "shared/flash_message")
-      ]
+      render :new, status: :unprocessable_entity
     end
   end
 

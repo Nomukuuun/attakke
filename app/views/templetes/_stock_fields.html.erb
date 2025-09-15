@@ -88,4 +88,13 @@
       </svg>
     <% end %>
   </div>
+
+  <!-- エラーメッセージ -->
+  <% if stock_el.errors.any? %>
+    <ul>
+      <%= stock_el.errors.full_messages.each do |message| %>
+        <li class="text-xs text-dull-red"><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
 <% end %>

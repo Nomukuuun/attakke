@@ -55,13 +55,18 @@ export default class extends Controller {
     const numField = fieldRow.querySelector(
       "[data-templete-select-target='numField']"
     );
+    const model = fieldRow.querySelector(
+      "[data-templete-select-target='model']"
+    );
 
     if (existField.classList.contains("hidden")) {
       numField.classList.add("hidden");
       existField.classList.remove("hidden");
+      model.value = 0;
     } else {
       numField.classList.remove("hidden");
       existField.classList.add("hidden");
+      model.value = 1;
     }
   }
 
@@ -87,7 +92,6 @@ export default class extends Controller {
     event.preventDefault();
     // テンプレート HTML を取得
     const templete = this.templeteTarget.innerHTML;
-    console.log(templete);
 
     // 既存フォームの最大 index を取得
     const existingIndexes = Array.from(
