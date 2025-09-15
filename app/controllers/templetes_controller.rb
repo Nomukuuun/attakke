@@ -46,7 +46,7 @@ class TempletesController < ApplicationController
         ]
       end
     else
-      render :new, status: :unprocessable_entity
+      render turbo_stream: turbo_stream.update("templete_form_frame", partial: "templetes/form", locals: { forms: @templetes }), status: :unprocessable_entity
     end
   end
 

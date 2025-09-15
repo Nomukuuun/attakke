@@ -15,7 +15,8 @@ class TempletesForm
   # コントローラ側でlocationを読み取れるようにする
   attr_reader :location
 
-  validates :location_name, presence: true
+  validates :location_name, presence: { message: "入力してください" }
+  validate :validate_stock_forms
 
   def initialize(attributes = {}, our_locations: nil, current_user: nil)
     super(attributes)
@@ -28,7 +29,6 @@ class TempletesForm
     self.stock_forms = attrs.values.map { |row| TempletesStockForm.new(row) }
   end
 
-  # FIXME: 画面更新時のlocationをどう与えるか検討
   def save
     return false unless valid?
 
@@ -50,5 +50,17 @@ class TempletesForm
     end
 
     true
+  end
+
+  private
+
+  def validate_stock_forms
+    stock_forms.each_with_index do |form, i|
+      next if form.valid?
+
+      form.errors.each do |attr, message|
+        errors.add("stock_forms[#{i}].#{attr}", message)
+      end
+    end
   end
 end

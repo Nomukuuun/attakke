@@ -5,7 +5,8 @@
 
   <div class="flex flex-col mb-4">
     <label for="input_location_name" class="text-lg font-bold text-head">保管場所名</label>
-    <%= f.text_field :location_name, id: "input_location_name", class: "border-box border-2 rounded p-2" %>
+    <%= f.text_field :location_name, id: "input_location_name", class: "w-full border-box border-2 rounded p-2" %>
+    <span class="text-xs text-dull-red"><%= forms.errors[:location_name].first if forms.errors[:location_name].present? %></span>
   </div>
 
   <div data-templete-select-target="container" class="w-full">
@@ -19,7 +20,7 @@
     <%= render 'stock_fields', f: f, stock_el: TempletesStockForm.new(model: 0, exist_quantity: 1), index: "__INDEX__" %>
   </template>
 
-  <div class="mt-2 mb-4">
+  <div class="my-4">
     <div class="flex items-center space-x-2">
       <%= button_tag type: "button", data: { action: "click->templete-select#add" }, id: "add_form" do %>
         <div class="border-2 border-dull-green text-dull-green rounded cursor-pointer flex justify-center items-center space-x-2 px-2 py-1">
