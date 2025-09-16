@@ -32,7 +32,7 @@ class TempletesForm
   def save
     return false unless valid?
 
-    @location = @our_locations.find_by(name: location_name) || Location.create!(user_id: @current_user.id, name: location_name)
+    @location = @our_locations.find_by(name: location_name) || @current_user.locations.create!(name: location_name)
 
     ActiveRecord::Base.transaction do
       stock_forms.each do |form|
