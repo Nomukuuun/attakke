@@ -26,8 +26,17 @@ ja:
         recording_date: 記録日
       histories:
         num_quantity: ストックの個数
-      partnership:
-        email: Gmailアドレス
+  activemodel:
+    attributes:
+      partnerships_form:
+        gmail: Gmail
+      templetes_form:
+        location_name: 保管場所名
+      templetes_stock_form:
+        name: ストック名
+        model: ストック型
+        exist_quantity: ストックの状態
+        num_quantity: ストックの個数
   attributes:
     id: ID
     created_at: 作成日時

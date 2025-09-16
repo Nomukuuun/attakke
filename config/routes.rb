@@ -16,7 +16,11 @@ Rails.application.routes.draw do
   end
   resources :locations, except: %i[show]
   resources :histories, only: %i[create]
-  resources :templetes, only: %i[index create]
+  resources :templetes, only: %i[index create] do
+    collection do
+      get :form
+    end
+  end
   resource  :partnerships, only: %i[new create update destroy] do
     member do
       delete :reject

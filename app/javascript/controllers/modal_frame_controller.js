@@ -5,41 +5,28 @@ export default class extends Controller {
   static targets = ["modal", "dialog"];
   static values = { locationId: String };
 
-  // modal_frame外の要素が削除された際にモーダルを非表示にする
-  connect() {
-    document.addEventListener(
-      "turbo:before-stream-render",
-      this.beforeStreamRender
-    );
-  }
-
-  disconnect() {
-    // コントローラが外れたときにイベントリスナを解除
-    document.removeEventListener(
-      "turbo:after-stream-render",
-      this.beforeStreamRender
-    );
-  }
-
-  beforeStreamRender = () => {
-    // DOMを走査してmodalがhiddenになっていないなら閉じる
-    if (!this.modalTarget.classList.contains("hidden")) {
-      this.hideModal();
-    }
-  };
+  connect() {}
+  disconnect() {}
 
   // form送信が成功したときにモーダルを閉じる
   close(event) {
     // event.detail.successは、レスポンスが成功ならtrueを返す。
     // バリデーションエラー時は、falseを返す。
+    console.log("closeアクション");
     if (event.detail.success) {
       this.modalTarget.classList.add("hidden");
     }
   }
 
+  // dialog内をクリックしたときにclickOutsideまで伝搬しないようにする
+  stopPropagation(event) {
+    event.stopPropagation();
+  }
+
   // dialog外をクリックしたときにモーダルを閉じる
   clickOutside(event) {
     if (!this.dialogTarget.contains(event.target)) {
+      console.log("clickOutsideアクション");
       this.hideModal();
     }
   }
@@ -66,6 +53,7 @@ export default class extends Controller {
   }
 
   hideModal() {
+    console.log("hideアクション");
     this.modalTarget.classList.add("hidden");
   }
 }

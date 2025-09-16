@@ -7,11 +7,11 @@ import { application } from "./application";
 import ConfirmController from "./confirm_controller";
 application.register("confirm", ConfirmController);
 
-import MobileMenusController from "./mobile_menus_controller";
-application.register("mobile-menus", MobileMenusController);
-
 import FilterButtonsController from "./filter_buttons_controller";
 application.register("filter-buttons", FilterButtonsController);
+
+import MobileMenusController from "./mobile_menus_controller";
+application.register("mobile-menus", MobileMenusController);
 
 import ModalFrameController from "./modal_frame_controller";
 application.register("modal-frame", ModalFrameController);
@@ -19,5 +19,5 @@ application.register("modal-frame", ModalFrameController);
 import QuantityVisibilityController from "./quantity_visibility_controller";
 application.register("quantity-visibility", QuantityVisibilityController);
 
-import TempleteToggleController from "./templete_toggle_controller";
-application.register("templete-toggle", TempleteToggleController);
+import TempleteSelectController from "./templete_select_controller";
+application.register("templete-select", TempleteSelectController);

@@ -9,6 +9,8 @@ class PartnershipsForm
   validates :gmail, presence: { message: "が入力されていません" }
   validate :own_gmail
 
+  private
+
   def own_gmail
     errors.add(:gmail, "アドレスはパートナーに設定するユーザーのアドレスを入力してください") if "#{gmail}@gmail.com" == current_user_email
   end
