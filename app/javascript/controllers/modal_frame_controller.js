@@ -20,6 +20,7 @@ export default class extends Controller {
 
   // dialog内をクリックしたときにclickOutsideまで伝搬しないようにする
   stopPropagation(event) {
+    if (event.target.closest("a")) return;
     event.stopPropagation();
   }
 
