@@ -68,7 +68,7 @@
       <div class="hidden flex flex-col mb-10" data-quantity-visibility-target="numberField">
         <%= h.label :num_quantity, class: "text-xl font-bold text-f-head" %>
         <div class="flex items-center space-x-6">
-          <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 h-12 w-16" %>
+          <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 mr-6 h-12 w-16" %>
           <div id="plus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#incrementNumber">
             <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
