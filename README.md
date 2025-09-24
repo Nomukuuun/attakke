@@ -51,7 +51,7 @@ Todo リスト型の買い物メモアプリでは、記録してきたものを
 
 #### 【類似しているアプリ】
 
-**LisTa! -家族とシェアする買い物リスト-**
+**LisTa! -家族とシェアする買い物リスト-**  
 （参考 URL：https://play.google.com/store/apps/details?id=dev.templat.lista&hl=ja&pli=1）
 
 こちらのアプリは、複数の買い物リストを作ることができるため、  
@@ -136,5 +136,8 @@ Todo リスト型の買い物メモアプリでは、記録してきたものを
 | 開発環境 | Docker |
 | インフラ | Render |
 | 認証 | Devise / Omniauth (Google OAuth 2.0)  |
+
+## ⬜ 画面遷移図
+[Figmaで作成](https://www.figma.com/design/mvEe6hSXwwJiDg1PwbAS9v/Attakke-_%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=4-30&t=SiPF4yKIkrv30xmM-1)
 
 [^1]: 10 代女性の 3 人に 1 人は Twitter、Instagram を３アカウント以上所有（2021 年 5 月 13 日）, https://www.moba-ken.jp/project/lifestyle/20210513.html, 1-1.「Google」「LINE」「Yahoo! Japan」「楽天」「Amazon」は過半数がアカウント所有, 2025-07-16 参照
