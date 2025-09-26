@@ -55,8 +55,8 @@ Todo リスト型の買い物メモアプリでは、記録してきたものを
 （参考 URL：https://play.google.com/store/apps/details?id=dev.templat.lista&hl=ja&pli=1）
 
 こちらのアプリは、複数の買い物リストを作ることができるため、  
-冷蔵庫、キッチン...と保管場所ごとにリストを作ることでストック管理アプリとして機能します。
-ただ、機能が豊富なこともあり、操作に慣れるまで少し時間を要しました。　　
+冷蔵庫、キッチン...と保管場所ごとにリストを作ることでストック管理アプリとして機能します。  
+ただ、機能が豊富なこともあり、操作に慣れるまで少し時間を要しました。  
 また、ストックの登録が１つずつしか行えないこともあり、初期入力のハードルが高いと感じました。
 
 ## ⬜ 本アプリの推しポイント
@@ -139,7 +139,6 @@ Todo リスト型の買い物メモアプリでは、記録してきたものを
 
 ## ⬜ 画面遷移図
 [Figmaで作成](https://www.figma.com/design/mvEe6hSXwwJiDg1PwbAS9v/Attakke-_%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=4-30&t=SiPF4yKIkrv30xmM-1)
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="750" height="450" src="https://embed.figma.com/design/mvEe6hSXwwJiDg1PwbAS9v/Attakke-_%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&embed-host=share" allowfullscreen></iframe>
 
 ## ⬜ ER図
 <img src="https://github.com/user-attachments/assets/1bf14231-998d-4542-a4f4-77532ba4fe75" width="750"/>
