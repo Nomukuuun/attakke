@@ -5,12 +5,12 @@ class TempletesForm
   # Locationの属性
   attribute :location_name, :string
 
-  # 複数フォーム用の属性
+  # Stock及びHistoryをまとめて扱うフォーム
   attribute :stock_forms
 
   # コントローラから受け取るモデルオブジェクト用
-  attribute :current_user
   attribute :our_locations
+  attribute :current_user
 
   # コントローラ側でlocationを読み取れるようにする
   attr_reader :location
@@ -25,6 +25,8 @@ class TempletesForm
     self.stock_forms ||= []
   end
 
+  # fields_forはaccepts_nested_attributes_forで定義したattributesから値のみを取り出してくれる
+  # FormObjectでは自動で取り出してくれないので、オーバーライドして自前で定義している
   def stock_forms_attributes=(attrs)
     self.stock_forms = attrs.values.map { |row| TempletesStockForm.new(row) }
   end

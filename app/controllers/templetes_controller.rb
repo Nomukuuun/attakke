@@ -3,29 +3,44 @@ class TempletesController < ApplicationController
   before_action :set_location_name, only: %i[form]
 
   def index
-    @templetes = Templete.all.order(:id)
-    @locations = @templetes.pluck(:location_name).uniq
+    # TODO: 新規保存とまとめて追加用のフォームを制御する
+    @locations = ["【新規作成】"]
+    @locations << "【まとめて追加】" if our_locations.present?
+    @locations.concat(Templete.select(:location_name, :id)
+                              .group_by(&:location_name)
+                              .values
+                              .map { |records| records.min_by(&:id).location_name })
   end
 
-  # 選択された location_name のテンプレートからフォームを返す
+  # select_fieldの選択に応じてstimulusでフォーム切替
   def form
-    @templetes = Templete.filter_location(@location_name)
-    @forms = TempletesForm.new({ location_name: @location_name })
+    case @location_name
+    when "【新規作成】"
+      @forms = TempletesForm.new
+      @forms.stock_forms << TempletesStockForm.new(model: 0, exist_quantity: 1)
+    when "【まとめて追加】"
+      @locations = our_locations.pluck(:name)
+      @forms = TempletesForm.new({ location_name: @location_name })
+      @forms.stock_forms << TempletesStockForm.new(model: 0, exist_quantity: 1)
+    else # テンプレートの呼び出し
+      @templetes = Templete.by_location_name(@location_name)
+      @forms = TempletesForm.new({ location_name: @location_name })
 
-    @forms.stock_forms.concat(@templetes.map do |t|
-      TempletesStockForm.new(
-        name: t.stock_name,
-        model: t.stock_model,
-        exist_quantity: t.history_exist_quantity,
-        num_quantity: t.history_num_quantity,
+      @forms.stock_forms.concat(@templetes.map do |t|
+        TempletesStockForm.new(
+          name: t.stock_name,
+          model: t.stock_model,
+          exist_quantity: t.history_exist_quantity,
+          num_quantity: t.history_num_quantity,
+        )
+      end
       )
     end
-    )
 
     render turbo_stream: turbo_stream.update(
       "templete_form_frame",
       partial: "templetes/form",
-      locals: { forms: @forms }
+      locals: { forms: @forms, locations: @locations }
     )
   end
 
@@ -51,17 +66,6 @@ class TempletesController < ApplicationController
   end
 
   private
-
-#   パラメータ例
-#   {"authenticity_token"=>"[FILTERED]",
-#  "templetes_form"=>
-#   {"location_name"=>"トイレ収納棚",
-#    "0"=>{"name"=>"トイレットペーパー", "exist_quantity"=>"", "num_quantity"=>"8", "model"=>"1"},
-#    "1"=>{"name"=>"トイレ用洗剤", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"},
-#    "2"=>{"name"=>"除菌スプレー", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"},
-#    "3"=>{"name"=>"便座除菌シート", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"},
-#    "4"=>{"name"=>"消臭剤", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"}},
-#  "commit"=>"保存"}
 
   def templete_params
     params.permit(:location_name)
