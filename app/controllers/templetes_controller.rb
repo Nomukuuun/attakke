@@ -1,9 +1,7 @@
 class TempletesController < ApplicationController
   before_action :set_stocks_and_locations, only: %i[create]
-  before_action :set_location_name, only: %i[form]
 
   def index
-    # TODO: 新規保存とまとめて追加用のフォームを制御する
     @locations = ["【新規作成】"]
     @locations << "【まとめて追加】" if our_locations.present?
     @locations.concat(Templete.select(:location_name, :id)
@@ -14,6 +12,8 @@ class TempletesController < ApplicationController
 
   # select_fieldの選択に応じてstimulusでフォーム切替
   def form
+    @location_name = templete_params[:location_name]
+
     case @location_name
     when "【新規作成】"
       @forms = TempletesForm.new
@@ -75,10 +75,6 @@ class TempletesController < ApplicationController
     params.require(:templetes_form)
           .permit(:location_name,
                   stock_forms_attributes: [:name, :model, :exist_quantity, :num_quantity])
-  end
-
-  def set_location_name
-    @location_name = templete_params[:location_name]
   end
 
   def set_stocks_and_locations
