@@ -7,7 +7,7 @@ class History < ApplicationRecord
   before_validation :set_status_and_date
   before_validation :nillify_unused_quantity
 
-  enum :status, { purchase: 0, consumption: 1, maintenance: 2, templete: 3 }
+  enum :status, { purchase: 0, consumption: 1, maintenance: 2 }
 
   belongs_to :stock
 
@@ -23,13 +23,12 @@ class History < ApplicationRecord
   # フォームから受け取らないカラムを保存前に設定
   def set_status_and_date
     self.recording_date = Date.today
-    return if self.status == "templete"
 
     if stock.histories.size.in?([0, 1])
-      # create時のstatus設定
+      # stock/create時のstatus設定
       self.status = quantity == 0 ? :consumption : :purchase
     else
-      # update時のstatus設定
+      # stock/update時のstatus設定
       update_status_based_on_previous_history
     end
   end

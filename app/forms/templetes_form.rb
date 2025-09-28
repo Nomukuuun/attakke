@@ -46,7 +46,6 @@ class TempletesForm
         stock.histories.create!(
           exist_quantity: form.exist_quantity,
           num_quantity: form.num_quantity,
-          status: :templete
         )
       end
     end
