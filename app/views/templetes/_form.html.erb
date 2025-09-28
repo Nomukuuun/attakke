@@ -4,17 +4,8 @@
               data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
 
   <div class="flex flex-col mb-4">
-    <%# TODO:【まとめて追加が選ばれたときはselect_tagで既存保管場所を表示する <= stimulusで制御】 %>
     <label for="input_location_name" class="text-lg font-bold text-head">保管場所名</label>
-    <% unless forms.location_name == "【まとめて追加】" %>
-      <%= f.text_field :location_name, id: "input_location_name", class: "w-full border-box border-2 rounded mt-1 p-2" %>
-    <% else %>
-      <%= f.select :location_name,
-          options_for_select(locations),
-          {},
-          { id: "input_location_name", class: "w-full border-box border-2 rounded mt-1 p-2" }
-      %>
-    <% end %>
+    <%= render 'location_fields', f: f, forms: forms, locations: locations %>
     <span class="text-xs text-dull-red"><%= forms.errors[:location_name].first if forms.errors[:location_name].present? %></span>
   </div>
 
