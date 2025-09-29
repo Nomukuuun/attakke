@@ -3,9 +3,12 @@
               method: :post,
               data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
 
+  <%# NOTE: save失敗時にレンダリングを制御するためindexのselect_tagの値を受け取る %>
+  <%= f.hidden_field :select_tag_value %>
+
   <div class="flex flex-col mb-4">
     <label for="input_location_name" class="text-lg font-bold text-head">保管場所名</label>
-    <%= render 'location_fields', f: f, forms: forms, locations: locations %>
+    <%= render 'location_fields', f: f, forms: forms, locations_name: locations_name %>
     <span class="text-xs text-dull-red"><%= forms.errors[:location_name].first if forms.errors[:location_name].present? %></span>
   </div>
 
