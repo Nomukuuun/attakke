@@ -1,27 +1,27 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    omniauth_callbacks: 'users/omniauth_callbacks'
+    sessions: "users/sessions",
+    omniauth_callbacks: "users/omniauth_callbacks"
   }
   devise_scope :user do
     delete "logout", to: "users/sessions#destroy", as: :logout
   end
 
-  root 'top_pages#top'
+  root "top_pages#top"
   resources :stocks, except: %i[show] do
     collection do
       get :in_stocks
       get :out_of_stocks
     end
   end
-  resources :locations, except: %i[show]
+  resources :locations, only: %i[index edit update destroy]
   resources :histories, only: %i[create]
   resources :templetes, only: %i[index create] do
     collection do
       get :form
     end
   end
-  resource  :partnerships, only: %i[new create update destroy] do
+  resource :partnerships, only: %i[new create update destroy] do
     member do
       delete :reject
     end
@@ -36,11 +36,9 @@ Rails.application.routes.draw do
         get :rejected
       end
     end
-  end  
+  end
 
   if Rails.env.development?
-    # require 'sidekiq/web'
-    # mount Sidekiq::Web => '/sidekiq'
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 end

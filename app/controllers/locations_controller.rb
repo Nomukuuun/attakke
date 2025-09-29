@@ -1,31 +1,9 @@
 class LocationsController < ApplicationController
-  before_action :set_stocks_and_locations, only: %i[create update destroy]
+  before_action :set_stocks_and_locations, only: %i[update destroy]
   before_action :set_location, only: %i[edit update destroy]
 
   def index
     @locations = our_locations.order(:name)
-  end
-
-  def new
-    @location = Location.new
-  end
-
-  def create
-    @location = current_user.locations.build(location_params)
-
-    if @location.save
-      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.location"))
-      if our_locations.count == 1
-        render_main_frame
-      else
-        render turbo_stream: [
-          turbo_stream.prepend("locations", partial: "stocks/location", locals: { location: @location, stocks: nil }),
-          turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
-      end
-    else
-      render :new, status: :unprocessable_entity
-    end
   end
 
   def edit; end

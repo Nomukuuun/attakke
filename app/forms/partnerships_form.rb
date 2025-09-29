@@ -1,6 +1,6 @@
 # パートナー申請のメールアドレス入力フォーム用
 class PartnershipsForm
-  include ActiveModel::Model 
+  include ActiveModel::Model
   include ActiveModel::Attributes
 
   attribute :gmail, :string

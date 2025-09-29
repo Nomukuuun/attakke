@@ -78,7 +78,7 @@ Rails.application.configure do
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'attakke.onrender.com', protocol: 'https' }
+  config.action_mailer.default_url_options = { host: "attakke.onrender.com", protocol: "https" }
   config.action_mailer.raise_delivery_errors = true
   config.action_controller.asset_host = "attakke.onrender.com"
   config.action_mailer.asset_host = "https://attakke.onrender.com"
@@ -88,8 +88,8 @@ Rails.application.configure do
   address:         "smtp.gmail.com",
   port:            587,
   domain:          "attakke.onrender.com",
-  user_name:       ENV['GMAIL_USERNAME'],
-  password:        ENV['GMAIL_PASSWORD'],
+  user_name:       ENV["GMAIL_USERNAME"],
+  password:        ENV["GMAIL_PASSWORD"],
   authentication:  "plain",
   enable_starttls: true,
   open_timeout:    5,

@@ -5,17 +5,20 @@ class TempletesForm
   # Locationの属性
   attribute :location_name, :string
 
-  # 複数フォーム用の属性
+  # Stock及びHistoryをまとめて扱うフォーム
   attribute :stock_forms
 
-  # コントローラから受け取るモデルオブジェクト用
-  attribute :current_user
+  # createアクションでコントローラから受け取るモデルオブジェクト
   attribute :our_locations
+  attribute :current_user
 
-  # コントローラ側でlocationを読み取れるようにする
+  # save失敗時にレンダリングを制御するためのselect_tagコピー属性
+  attribute :select_tag_value
+
+  # saveメソッドで保存したlocationをコントローラで読み取れるようにする
   attr_reader :location
 
-  validates :location_name, presence: { message: "入力してください" }
+  validates :location_name, length: { maximum: 50, message: "%{count}字以内で入力してください" }, presence: { message: "入力してください" }
   validate :validate_stock_forms
 
   def initialize(attributes = {}, our_locations: nil, current_user: nil)
@@ -25,6 +28,8 @@ class TempletesForm
     self.stock_forms ||= []
   end
 
+  # fields_forはaccepts_nested_attributes_forで定義したモデルのattributesから値のみを自動で取り出してくれる
+  # FormObjectでは自動で取り出してくれないので、値のみ取り出す処理をオーバーライドして定義している
   def stock_forms_attributes=(attrs)
     self.stock_forms = attrs.values.map { |row| TempletesStockForm.new(row) }
   end
@@ -44,7 +49,6 @@ class TempletesForm
         stock.histories.create!(
           exist_quantity: form.exist_quantity,
           num_quantity: form.num_quantity,
-          status: :templete
         )
       end
     end

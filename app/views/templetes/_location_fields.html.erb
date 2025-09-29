@@ -1,0 +1,9 @@
+<% unless forms.location_name == "【既存保管場所にまとめて追加】" %>
+  <%= f.text_field :location_name, id: "input_location_name", class: "w-full border-box border-2 rounded mt-1 p-2" %>
+<% else %>
+  <%= f.select :location_name,
+    options_for_select(locations_name),
+    {},
+    { id: "input_location_name", class: "w-full border-box border-2 rounded mt-1 p-2" }
+  %>
+<% end %>

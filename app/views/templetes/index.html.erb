@@ -1,9 +1,9 @@
 <%= render 'shared/modal_wrapper' do %>
   <div data-controller="templete-select">
     <div class="flex flex-col mb-4">
-      <label for="location_name" class="text-xl font-bold text-f-head">テンプレート選択</label>
+      <label for="location_name" class="text-xl font-bold text-f-head">作成方法</label>
       <%= select_tag :location_name,
-          options_for_select(@locations),
+          options_for_select(@locations_name),
           prompt: "選択してください",
           data: { action: "change->templete-select#change" },
           class: "border-box border-2 rounded mt-2 p-2" %>

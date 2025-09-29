@@ -1,5 +1,5 @@
 class History < ApplicationRecord
-  validates :exist_quantity, inclusion: { in: [0, 1] }, if: -> { stock.existence? }
+  validates :exist_quantity, inclusion: { in: [ 0, 1 ] }, if: -> { stock.existence? }
   validates :num_quantity, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, message: "は必須入力です" }, if: -> { stock.number? }
   validates :status, presence: true
   validates :recording_date, presence: true
@@ -7,11 +7,11 @@ class History < ApplicationRecord
   before_validation :set_status_and_date
   before_validation :nillify_unused_quantity
 
-  enum :status, { purchase: 0, consumption: 1, maintenance: 2, templete: 3 }
+  enum :status, { purchase: 0, consumption: 1, maintenance: 2 }
 
   belongs_to :stock
 
-  #最新履歴を取得するためのサブクエリ用scope
+  # 最新履歴を取得するためのサブクエリ用scope
   scope :latest, -> { select("DISTINCT ON (stock_id) *").order(:stock_id, id: :desc, recording_date: :desc) }
 
   def quantity
@@ -23,13 +23,12 @@ class History < ApplicationRecord
   # フォームから受け取らないカラムを保存前に設定
   def set_status_and_date
     self.recording_date = Date.today
-    return if self.status == "templete"
 
-    if stock.histories.size.in?([0, 1])
-      # create時のstatus設定
+    if stock.histories.size.in?([ 0, 1 ])
+      # stock/create時のstatus設定
       self.status = quantity == 0 ? :consumption : :purchase
     else
-      # update時のstatus設定
+      # stock/update時のstatus設定
       update_status_based_on_previous_history
     end
   end

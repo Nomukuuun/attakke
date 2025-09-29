@@ -1,39 +1,56 @@
 class TempletesController < ApplicationController
   before_action :set_stocks_and_locations, only: %i[create]
-  before_action :set_location_name, only: %i[form]
 
   def index
-    @templetes = Templete.all.order(:id)
-    @locations = @templetes.pluck(:location_name).uniq
+    @locations_name = [ "【新規作成】" ]
+    @locations_name << "【既存保管場所にまとめて追加】" if our_locations.present?
+    @locations_name.concat(Templete.select(:location_name, :id)
+                              .group_by(&:location_name)
+                              .values
+                              .map { |records| "<テンプレ> " + records.min_by(&:id).location_name })
   end
 
-  # 選択された location_name のテンプレートからフォームを返す
+  # selectタグの選択に応じてstimulusでフォーム切替
   def form
-    @templetes = Templete.filter_location(@location_name)
-    @forms = TempletesForm.new({ location_name: @location_name })
+    @location_name = templete_params[:location_name]
 
-    @forms.stock_forms.concat(@templetes.map do |t|
-      TempletesStockForm.new(
-        name: t.stock_name,
-        model: t.stock_model,
-        exist_quantity: t.history_exist_quantity,
-        num_quantity: t.history_num_quantity,
+    case @location_name
+    when "【新規作成】"
+      @forms = TempletesForm.new({ location_name: nil, select_tag_value: @location_name })
+      set_new_stock_forms(@forms)
+    when "【既存保管場所にまとめて追加】"
+      set_locations_name
+      @forms = TempletesForm.new({ location_name: @location_name, select_tag_value: @location_name })
+      set_new_stock_forms(@forms)
+    else # テンプレートの呼び出し
+      @location_name = @location_name.delete_prefix("<テンプレ> ").strip
+      templetes = Templete.by_location_name(@location_name)
+      @forms = TempletesForm.new({ location_name: @location_name, select_tag_value: @location_name })
+
+      @forms.stock_forms.concat(
+        templetes.map do |t|
+          TempletesStockForm.new(
+            name: t.stock_name,
+            model: t.stock_model,
+            exist_quantity: t.history_exist_quantity,
+            num_quantity: t.history_num_quantity,
+          )
+        end
       )
     end
-    )
 
     render turbo_stream: turbo_stream.update(
       "templete_form_frame",
       partial: "templetes/form",
-      locals: { forms: @forms }
+      locals: { forms: @forms, locations_name: @locations_name }
     )
   end
 
   def create
-    @templetes = TempletesForm.new(templetes_form_params, our_locations: our_locations, current_user: current_user)
+    @forms = TempletesForm.new(templetes_form_params, our_locations: our_locations, current_user: current_user)
 
-    if @templetes.save
-      flash.now[:success] = t('defaults.flash_message.created', item: t('defaults.models.stock'))
+    if @forms.save
+      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
       if our_locations.count == 1
         render turbo_stream: [
           turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
@@ -41,27 +58,22 @@ class TempletesController < ApplicationController
         ]
       else
         render turbo_stream: [
-          turbo_stream.prepend("locations", partial: "stocks/location", locals: { location: @templetes.location, stocks: @stocks }),
+          turbo_stream.prepend("locations", partial: "stocks/location", locals: { location: @forms.location, stocks: @stocks }),
           turbo_stream.update("flash", partial: "shared/flash_message")
         ]
       end
     else
-      render turbo_stream: turbo_stream.update("templete_form_frame", partial: "templetes/form", locals: { forms: @templetes }), status: :unprocessable_entity
+      select_tag_value = templetes_form_params[:select_tag_value]
+      if select_tag_value == "【既存保管場所にまとめて追加】"
+        set_locations_name
+        prioritize_location_name(@forms, @locations_name)
+        @forms.location_name = select_tag_value
+      end
+      render turbo_stream: turbo_stream.update("templete_form_frame", partial: "templetes/form", locals: { forms: @forms, locations_name: @locations_name }), status: :unprocessable_entity
     end
   end
 
   private
-
-#   パラメータ例
-#   {"authenticity_token"=>"[FILTERED]",
-#  "templetes_form"=>
-#   {"location_name"=>"トイレ収納棚",
-#    "0"=>{"name"=>"トイレットペーパー", "exist_quantity"=>"", "num_quantity"=>"8", "model"=>"1"},
-#    "1"=>{"name"=>"トイレ用洗剤", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"},
-#    "2"=>{"name"=>"除菌スプレー", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"},
-#    "3"=>{"name"=>"便座除菌シート", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"},
-#    "4"=>{"name"=>"消臭剤", "exist_quantity"=>"1", "num_quantity"=>"", "model"=>"0"}},
-#  "commit"=>"保存"}
 
   def templete_params
     params.permit(:location_name)
@@ -69,12 +81,22 @@ class TempletesController < ApplicationController
 
   def templetes_form_params
     params.require(:templetes_form)
-          .permit(:location_name,
-                  stock_forms_attributes: [:name, :model, :exist_quantity, :num_quantity])
+          .permit(:select_tag_value, :location_name,
+                  stock_forms_attributes: [ :name, :model, :exist_quantity, :num_quantity ])
   end
 
-  def set_location_name
-    @location_name = templete_params[:location_name]
+  def set_locations_name
+    @locations_name = our_locations.pluck(:name)
+  end
+
+  def set_new_stock_forms(forms)
+    forms.stock_forms << TempletesStockForm.new(model: 0, exist_quantity: 1)
+  end
+
+  def prioritize_location_name(forms, locations_name)
+    selected_location = forms.location_name
+    locations_name.delete(selected_location)
+    locations_name.unshift(selected_location)
   end
 
   def set_stocks_and_locations

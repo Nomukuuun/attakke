@@ -92,7 +92,7 @@ class StocksController < ApplicationController
   private
 
   def stock_params
-    params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [:exist_quantity, :num_quantity])
+    params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [ :exist_quantity, :num_quantity ])
   end
 
   # new, edit以外でアクション実行前にセットするメソッド

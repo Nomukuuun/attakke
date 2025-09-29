@@ -17,7 +17,7 @@
 
 class User < ApplicationRecord
   devise :database_authenticatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+         :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: true
