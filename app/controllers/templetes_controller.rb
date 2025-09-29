@@ -3,11 +3,11 @@ class TempletesController < ApplicationController
 
   def index
     @locations_name = ["【新規作成】"]
-    @locations_name << "【既存保管場所に追加】" if our_locations.present?
+    @locations_name << "【既存保管場所にまとめて追加】" if our_locations.present?
     @locations_name.concat(Templete.select(:location_name, :id)
                               .group_by(&:location_name)
                               .values
-                              .map { |records| records.min_by(&:id).location_name })
+                              .map { |records| "<テンプレ> " + records.min_by(&:id).location_name })
   end
 
   # selectタグの選択に応じてstimulusでフォーム切替
@@ -18,11 +18,12 @@ class TempletesController < ApplicationController
     when "【新規作成】"
       @forms = TempletesForm.new({ location_name: nil, select_tag_value: @location_name })
       set_new_stock_forms(@forms)
-    when "【既存保管場所に追加】"
+    when "【既存保管場所にまとめて追加】"
       set_locations_name
       @forms = TempletesForm.new({ location_name: @location_name, select_tag_value: @location_name })
       set_new_stock_forms(@forms)
     else # テンプレートの呼び出し
+      @location_name = @location_name.delete_prefix("<テンプレ> ").strip
       templetes = Templete.by_location_name(@location_name)
       @forms = TempletesForm.new({ location_name: @location_name, select_tag_value: @location_name })
 
@@ -63,7 +64,7 @@ class TempletesController < ApplicationController
       end
     else
       select_tag_value = templetes_form_params[:select_tag_value]
-      if select_tag_value == "【既存保管場所に追加】"
+      if select_tag_value == "【既存保管場所にまとめて追加】"
         set_locations_name
         prioritize_location_name(@forms, @locations_name)
         @forms.location_name = select_tag_value
