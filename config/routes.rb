@@ -36,7 +36,7 @@ Rails.application.routes.draw do
         get :rejected
       end
     end
-  end  
+  end
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

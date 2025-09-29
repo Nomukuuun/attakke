@@ -44,7 +44,7 @@ presets = [
   { tag: 7, l_name: "リビング収納", s_name: "ウェットティッシュ", model: 0, exist_quantity: 1, num_quantity: nil },
   { tag: 7, l_name: "リビング収納", s_name: "電池", model: 1, exist_quantity: nil, num_quantity: 4 },
   { tag: 7, l_name: "リビング収納", s_name: "かぜ薬", model: 0, exist_quantity: 1, num_quantity: nil },
-  { tag: 7, l_name: "リビング収納", s_name: "綿棒", model: 0, exist_quantity: 1, num_quantity: nil },
+  { tag: 7, l_name: "リビング収納", s_name: "綿棒", model: 0, exist_quantity: 1, num_quantity: nil }
 ]
 
 # presetsをループして保存する

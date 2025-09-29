@@ -2,7 +2,7 @@ class TempletesController < ApplicationController
   before_action :set_stocks_and_locations, only: %i[create]
 
   def index
-    @locations_name = ["【新規作成】"]
+    @locations_name = [ "【新規作成】" ]
     @locations_name << "【既存保管場所にまとめて追加】" if our_locations.present?
     @locations_name.concat(Templete.select(:location_name, :id)
                               .group_by(&:location_name)
@@ -50,7 +50,7 @@ class TempletesController < ApplicationController
     @forms = TempletesForm.new(templetes_form_params, our_locations: our_locations, current_user: current_user)
 
     if @forms.save
-      flash.now[:success] = t('defaults.flash_message.created', item: t('defaults.models.stock'))
+      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
       if our_locations.count == 1
         render turbo_stream: [
           turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
@@ -82,7 +82,7 @@ class TempletesController < ApplicationController
   def templetes_form_params
     params.require(:templetes_form)
           .permit(:select_tag_value, :location_name,
-                  stock_forms_attributes: [:name, :model, :exist_quantity, :num_quantity])
+                  stock_forms_attributes: [ :name, :model, :exist_quantity, :num_quantity ])
   end
 
   def set_locations_name

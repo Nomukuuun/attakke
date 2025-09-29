@@ -55,7 +55,7 @@ class PartnershipsController < ApplicationController
     if @partnership&.sended?
       Partnership.transaction do
         @partnership.destroy!
-      # after_destroy コールバックで反対側も削除
+        # after_destroy コールバックで反対側も削除
       end
     end
     flash.now[:success] = t("defaults.flash_message.withdrawal")
@@ -67,13 +67,13 @@ class PartnershipsController < ApplicationController
     if @partnership&.pending?
       Partnership.transaction do
         @partnership.destroy!
-      # after_destroy コールバックで反対側も削除
+        # after_destroy コールバックで反対側も削除
       end
     end
     flash.now[:success] = t("defaults.flash_message.reject")
     render turbo_stream: [
       turbo_stream.update("bell_icon", partial: "shared/bell_icon"),
-      turbo_stream.update("flash", partial: "shared/flash_message")  
+      turbo_stream.update("flash", partial: "shared/flash_message")
     ]
   end
 

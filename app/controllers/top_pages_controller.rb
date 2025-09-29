@@ -42,7 +42,7 @@ class TopPagesController < ApplicationController
           ついつい記録を忘れてしまっても<br>
           出先で購入頻度を確認して<br>
           今買うべきか判断できます"
-      },
+      }
     ]
   end
 end
