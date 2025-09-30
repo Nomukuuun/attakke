@@ -1,4 +1,4 @@
-<%# 背景 %>
+<!-- 背景 -->
 <div
   data-controller="confirm"
   data-confirm-target="modal"
@@ -6,7 +6,7 @@
   class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50"
 >
 
-  <%# 確認メッセージ %>
+  <!-- 確認メッセージ -->
   <div data-confirm-target="dialog" class="w-sm bg-white p-4 rounded shadow">
     <div class="flex justify-end item-center mb-2" data-action="click->confirm#hideModal">
       <svg class="size-6 text-gray-700" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -16,7 +16,7 @@
     </div>
     <p data-confirm-target="message" class="mb-4 text-base md:text-lg"></p>
 
-    <%# ボタン系 <= confirmボタンはデフォルトでは「削除」表示 %>
+    <!-- ボタン -->
     <div class="flex item-center space-x-4">
       <button
         type="button"
@@ -24,6 +24,7 @@
         data-action="click->confirm#confirm"
         class="basis-1/2 text-lg p-2 bg-dull-red rounded hover:brightness-70"
       >
+      <%# ここに confirm_button_text で指定したテキストが入る。デフォルトは「削除」 %>
       </button>
       <button
         type="button"
