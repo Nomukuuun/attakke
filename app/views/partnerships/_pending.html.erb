@@ -17,14 +17,14 @@
   <div class="basis-1/2">
     <%= button_to "承諾する", partnerships_path,
       method: :put,
-      data: { turbo_method: :put, action: "click->modal_flame#hideModal", turbo_confirm: t('defaults.confirm.partnership.approve'), confirm_button_text: "ＯＫ" },
+      form: { data: { turbo_method: :put, action: "turbo:submit-end->modal-frame#close", turbo_confirm: t('defaults.confirm.partnership.approve'), confirm_button_text: "ＯＫ" } },
       class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70"
     %>
   </div>
   <div class="basis-1/2">
     <%= button_to "拒否する", reject_partnerships_path,
       method: :delete,
-      data: { turbo_method: :delete, action: "click->modal_flame#hideModal", turbo_confirm: t('defaults.confirm.partnership.reject'), confirm_button_text: "ＯＫ" },
+      form: { data: { turbo_method: :delete, action: "turbo:submit-end->modal-frame#close", turbo_confirm: t('defaults.confirm.partnership.reject'), confirm_button_text: "ＯＫ" } },
       class: "w-full text-lg text-f-body bg-gray-300 rounded p-2 hover:bg-gray-400"
     %>
   </div>

@@ -14,6 +14,6 @@
 
 <%= button_to "申請を取り下げる", partnerships_path,
   method: :delete,
-  data: { action: "click->modal_flame#hideModal", turbo_confirm: t('defaults.confirm.partnership.withdrawal'), confirm_button_text: "ＯＫ" },
+  form: { data: { action: "turbo:submit-end->modal-frame#close", turbo_confirm: t('defaults.confirm.partnership.withdrawal'), confirm_button_text: "ＯＫ" } },
   class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70"
 %>

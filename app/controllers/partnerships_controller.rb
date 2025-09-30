@@ -41,6 +41,7 @@ class PartnershipsController < ApplicationController
       end
       PartnershipMailer.send_gmail_to_applicant(current_user.partner).deliver_later
     end
+    current_user.reload
     set_stocks_and_locations
     flash.now[:success] = t("defaults.flash_message.approve")
     render turbo_stream: [
@@ -70,6 +71,7 @@ class PartnershipsController < ApplicationController
         # after_destroy コールバックで反対側も削除
       end
     end
+    current_user.reload
     flash.now[:success] = t("defaults.flash_message.reject")
     render turbo_stream: [
       turbo_stream.update("bell_icon", partial: "shared/bell_icon"),

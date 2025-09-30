@@ -12,9 +12,9 @@ export default class extends Controller {
   close(event) {
     // event.detail.successは、レスポンスが成功ならtrueを返す。
     // バリデーションエラー時は、falseを返す。
-    console.log("closeアクション");
     if (event.detail.success) {
-      this.modalTarget.classList.add("hidden");
+      console.log("modal close");
+      this.hideModal();
     }
   }
 
@@ -27,9 +27,14 @@ export default class extends Controller {
   // dialog外をクリックしたときにモーダルを閉じる
   clickOutside(event) {
     if (!this.dialogTarget.contains(event.target)) {
-      console.log("clickOutsideアクション");
+      console.log("modal click outside");
       this.hideModal();
     }
+  }
+
+  hideModal() {
+    console.log("modal hide");
+    this.modalTarget.classList.add("hidden");
   }
 
   // 特定の保管場所までスクロールする
@@ -40,7 +45,7 @@ export default class extends Controller {
     setTimeout(() => {
       const target = document.getElementById(id);
       if (target) {
-        const offset = 128; // top-32 分の高さ
+        const offset = 128; // ヘッダー:72 + フィルタリングボタン: 56
         const targetPosition =
           target.getBoundingClientRect().top + window.scrollY;
         const scrollTo = targetPosition - offset;
@@ -51,10 +56,5 @@ export default class extends Controller {
         });
       }
     }, 100);
-  }
-
-  hideModal() {
-    console.log("hideアクション");
-    this.modalTarget.classList.add("hidden");
   }
 }

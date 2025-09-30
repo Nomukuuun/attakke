@@ -22,6 +22,7 @@ export default class extends Controller {
 
   closeIfOutside(event) {
     if (this.element.contains(event.target)) return; // 自分の中のクリックは無視
+    console.log("mobile menu close");
     this.reset();
   }
 

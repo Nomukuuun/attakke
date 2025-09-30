@@ -12,27 +12,13 @@
       <% end %>
 
       <% if user_signed_in? %>
-        <!-- PC: フレックスでメニュー表示 -->
-        <div class="hidden md:flex items-center space-x-6">
-          <%= link_to "使い方(準備中)", '#', class: "text-xl text-f-head" %>
-          <%= link_to "パートナー設定", new_partnerships_path, data: { turbo_frame: 'modal_frame' }, class: "text-xl text-f-head" %>
-          <%= button_to logout_path, method: :delete, class: "flex item-center text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
-            <div class="flex items-center">
-              <svg class="size-6 text-white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M7 12h14l-3 -3m0 6l3 -3" />
-              </svg>
-            </div>
-            <span>ログアウト</span>
-          <% end %>
-        </div>
-
-        <!-- SP: ハンバーガーメニュー -->
-        <div data-controller="mobile-menus" class="block md:hidden">
+        <!-- ハンバーガーメニュー -->
+        <div data-controller="mobile-menus" class="block">
           <div class="flex space-x-4">
             <%= turbo_frame_tag 'bell_icon' do %>
               <%= render 'shared/bell_icon' %>
             <% end %>
-            <button class="block md:hidden" data-action="click->mobile-menus#toggle"> 
+            <button class="block" data-action="click->mobile-menus#toggle"> 
               <svg data-mobile-menus-target="open" class="size-8 text-f-head"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
               </svg>
@@ -43,9 +29,9 @@
           </div>
 
           <!-- ドロワーメニュー -->
-          <div data-mobile-menus-target="mobileMenus" class="hidden md:hidden absolute top-18 right-0 w-1/2 bg-white shadow-md border border-gray-700 rounded flex flex-col items-center justify-items-end divide-y-2 divide-gray-700 py-2 px-4">
+          <div data-mobile-menus-target="mobileMenus" class="hidden absolute top-18 right-0 w-1/2 bg-white shadow-md border border-gray-700 rounded flex flex-col items-center justify-items-end divide-y-2 divide-gray-700 py-2 px-4">
             <%= link_to "使い方(準備中)", '#', class: "text-base text-f-head p-3" %>
-            <%= link_to "パートナー設定", new_partnerships_path, data: { turbo_frame: 'modal_frame' }, class: "text-base text-f-head p-3" %>
+            <%= link_to "パートナー設定", new_partnerships_path, data: { turbo_frame: 'modal_frame', action: "click->mobile-menus#reset" }, class: "text-base text-f-head p-3" %>
             <%= button_to logout_path, method: :delete, class: "flex item-center text-base text-dull-green p-3 cursor-pointer hover:brightness-70" do %>
               <div class="flex items-center">
                 <svg class="size-6 text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
