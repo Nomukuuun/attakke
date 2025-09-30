@@ -13,15 +13,12 @@
   </div>
 
   <div class="my-6">
-    <%= f.label :gmail, class: "text-xl font-bold text-dull-green mb-2" %>
+    <%= f.label :email, class: "text-xl font-bold text-dull-green mb-2" %>
     <p>
       パートナー申請を送るユーザーの<strong>本アプリに登録済のアドレス</strong>を入力してください。
     </p>
-    <div class="flex items-center space-x-1">
-      <div class="w-7/10">
-        <%= f.text_field :gmail, placeholder: "入力してください", class: "bg-white border-gray-600 border-2 rounded p-2 w-full" %>
-      </div>
-      <p class="text-lg text-gray-600">@gmail.com</p>
+    <div class="w-full">
+      <%= f.email_field :email, placeholder: "入力してください", class: "bg-white border-gray-600 border-2 rounded p-2 w-full" %>
     </div>
     <p class="text-dull-red text-sm">
       <%= partnership.errors.full_messages.first if partnership.errors.any? %>

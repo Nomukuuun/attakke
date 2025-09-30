@@ -29,7 +29,7 @@ ja:
   activemodel:
     attributes:
       partnerships_form:
-        gmail: Gmail
+        email: Email
       templetes_form:
         location_name: 保管場所名
       templetes_stock_form:

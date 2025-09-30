@@ -18,7 +18,7 @@ class Public::PartnershipsController < ApplicationController
         @partnership.update!(status: :approved, token: nil)
         # after_update コールバックで反対側も更新
       end
-      PartnershipMailer.send_gmail_to_applicant(set_partner(@partnership)).deliver_later
+      PartnershipMailer.send_email_to_applicant(set_partner(@partnership)).deliver_later
       redirect_to approved_public_partnerships_path, status: :see_other
     else
       render partial: "expired", status: :unauthorized

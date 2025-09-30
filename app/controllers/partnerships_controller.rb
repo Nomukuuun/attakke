@@ -10,7 +10,7 @@ class PartnershipsController < ApplicationController
 
   # 申請メールを送信、レコード作成
   def create
-    partnership = PartnershipsForm.new(gmail: partnerships_form_params[:gmail], current_user_email: current_user.email)
+    partnership = PartnershipsForm.new(email: partnerships_form_params[:email], current_user_email: current_user.email)
 
     # 自身のアドレスを入力又は空欄の場合
     if partnership.invalid?
@@ -19,13 +19,13 @@ class PartnershipsController < ApplicationController
       return
     end
 
-    if User.exists?(email: partner_gmail)
-      partner = User.find_by(email: partner_gmail)
+    if User.exists?(email: partnership.email)
+      partner = User.find_by(email: partnership.email)
       Partnership.transaction do
         @partnership = current_user.create_partnership!(partner_id: partner.id, status: :sended)
         # after_create コールバックで反対側も作成
       end
-      PartnershipMailer.send_gmail_to_recipient(@partnership, partner).deliver_later
+      PartnershipMailer.send_email_to_recipient(@partnership, partner).deliver_later
       DestroyExpiredPartnershipJob.set(wait_until: @partnership.expires_at).perform_later(@partnership.id)
     end
     flash.now[:success] = t("defaults.flash_message.mail_sended")
@@ -39,7 +39,7 @@ class PartnershipsController < ApplicationController
         @partnership.update!(status: :approved, token: nil)
         # after_update コールバックで反対側も更新
       end
-      PartnershipMailer.send_gmail_to_applicant(current_user.partner).deliver_later
+      PartnershipMailer.send_email_to_applicant(current_user.partner).deliver_later
     end
     current_user.reload
     set_stocks_and_locations
@@ -82,15 +82,11 @@ class PartnershipsController < ApplicationController
   private
 
   def partnerships_form_params
-    params.require(:partnerships_form).permit(:gmail)
+    params.require(:partnerships_form).permit(:email)
   end
 
   def set_currentuser_partnership
     @partnership = current_user.partnership
-  end
-
-  def partner_gmail
-    "#{partnerships_form_params[:gmail]}@gmail.com"
   end
 
   def set_stocks_and_locations
