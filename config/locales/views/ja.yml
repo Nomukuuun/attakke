@@ -19,6 +19,7 @@ ja:
       approve: 申請を承諾しました
       withdrawal: 申請を取り下げました
       reject: 申請を拒否しました
+      logout_not_completed: ログアウトしてください
     models:
       user: ユーザー
       stock: ストック

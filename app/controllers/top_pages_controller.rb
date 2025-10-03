@@ -1,5 +1,6 @@
 class TopPagesController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :after_sign_in_path_for, if: :user_signed_in?
 
   def top
     @description = [
@@ -44,5 +45,12 @@ class TopPagesController < ApplicationController
           今買うべきか判断できます"
       }
     ]
+  end
+
+  private
+
+  def after_sign_in_path_for
+    flash[:error] = t("defaults.flash_message.logout_not_completed")
+    redirect_back fallback_location: stocks_path
   end
 end
