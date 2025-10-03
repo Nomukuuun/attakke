@@ -1,5 +1,7 @@
+# 一覧画面上でチェックボックス型の履歴を更新できるようにするためのコントローラ
+# 履歴は新規作成のみでストックと同時に削除される
+
 class HistoriesController < ApplicationController
-  # existence型のストックがindex画面で使用するメソッド
   def create
     latest_history = History.latest
     set_latest_history_stock(latest_history)

@@ -1,4 +1,6 @@
 class StocksController < ApplicationController
+  include SetStocksAndLocations
+
   before_action :set_stocks_and_locations, only: %i[index in_stocks out_of_stocks create update destroy]
   before_action :set_stock_locations_histories, only: %i[edit update]
 
@@ -93,16 +95,6 @@ class StocksController < ApplicationController
 
   def stock_params
     params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [ :exist_quantity, :num_quantity ])
-  end
-
-  # new, edit以外でアクション実行前にセットするメソッド
-  # NOTE: location, templetes, partnerships_controllerと重複記述
-  def set_stocks_and_locations
-    latest_history = History.latest
-    @locations = our_locations.order(:name)
-    @stocks = Stock.joins_latest_history(latest_history)
-              .merge(our_stocks)
-              .order_asc_model_and_name
   end
 
   # edit, updateアクションで使用する共通メソッド

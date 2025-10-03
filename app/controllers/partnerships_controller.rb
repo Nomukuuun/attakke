@@ -1,7 +1,7 @@
 class PartnershipsController < ApplicationController
-  before_action :set_currentuser_partnership, only: %i[update destroy reject]
+  include SetStocksAndLocations
 
-  # ログイン済みのユーザー用コントローラ
+  before_action :set_currentuser_partnership, only: %i[update destroy reject]
 
   # メールアドレスを入力して申請メールを送る
   def new
@@ -89,11 +89,4 @@ class PartnershipsController < ApplicationController
     @partnership = current_user.partnership
   end
 
-  def set_stocks_and_locations
-    latest_history = History.latest
-    @locations = our_locations.order(:name)
-    @stocks = Stock.joins_latest_history(latest_history)
-              .merge(our_stocks)
-              .order_asc_model_and_name
-  end
 end

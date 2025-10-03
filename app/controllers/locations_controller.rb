@@ -1,4 +1,6 @@
 class LocationsController < ApplicationController
+  include SetStocksAndLocations
+
   before_action :set_stocks_and_locations, only: %i[update destroy]
   before_action :set_location, only: %i[edit update destroy]
 
@@ -39,14 +41,6 @@ class LocationsController < ApplicationController
 
   def location_params
     params.require(:location).permit(:name)
-  end
-
-  def set_stocks_and_locations
-    latest_history = History.latest
-    @locations = our_locations.order(:name)
-    @stocks = Stock.joins_latest_history(latest_history)
-              .merge(our_stocks)
-              .order_asc_model_and_name
   end
 
   def set_location

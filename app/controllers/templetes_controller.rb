@@ -1,4 +1,6 @@
 class TempletesController < ApplicationController
+  include SetStocksAndLocations
+
   before_action :set_stocks_and_locations, only: %i[create]
 
   def index
@@ -75,10 +77,12 @@ class TempletesController < ApplicationController
 
   private
 
+  # 初期画面で選択した作成方法を受け取る
   def templete_params
     params.permit(:location_name)
   end
 
+  # フォームからの入力値を受け取る
   def templetes_form_params
     params.require(:templetes_form)
           .permit(:select_tag_value, :location_name,
@@ -99,11 +103,4 @@ class TempletesController < ApplicationController
     locations_name.unshift(selected_location)
   end
 
-  def set_stocks_and_locations
-    latest_history = History.latest
-    @locations = our_locations.order(:name)
-    @stocks = Stock.joins_latest_history(latest_history)
-              .merge(our_stocks)
-              .order_asc_model_and_name
-  end
 end
