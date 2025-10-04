@@ -1,7 +1,10 @@
 class LocationsController < ApplicationController
+  include SetStocksAndLocations
+
   before_action :set_stocks_and_locations, only: %i[update destroy]
   before_action :set_location, only: %i[edit update destroy]
 
+  # 「保管場所一覧」用のアクション
   def index
     @locations = our_locations.order(:name)
   end
@@ -24,8 +27,14 @@ class LocationsController < ApplicationController
     @location.destroy!
     @locations.reload
     flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.location"))
+
+    # 保管場所が1つも存在しなくなった場合、ベース画面に新規作成を促すメッセージを表示する
     if our_locations.count == 0
-      render_main_frame
+      render turbo_stream: [
+        turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
+        turbo_stream.update("flash", partial: "shared/flash_message"),
+        turbo_stream.update("modal_frame")
+      ]
     else
       render turbo_stream: [
         turbo_stream.remove("location_#{@location.id}"),
@@ -35,29 +44,14 @@ class LocationsController < ApplicationController
     end
   end
 
+  # NOTE: 以下privateメソッド
   private
 
   def location_params
     params.require(:location).permit(:name)
   end
 
-  def set_stocks_and_locations
-    latest_history = History.latest
-    @locations = our_locations.order(:name)
-    @stocks = Stock.joins_latest_history(latest_history)
-              .merge(our_stocks)
-              .order_asc_model_and_name
-  end
-
   def set_location
     @location = our_locations.find(params[:id])
-  end
-
-  def render_main_frame
-    render turbo_stream: [
-      turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
-      turbo_stream.update("flash", partial: "shared/flash_message"),
-      turbo_stream.update("modal_frame")
-    ]
   end
 end
