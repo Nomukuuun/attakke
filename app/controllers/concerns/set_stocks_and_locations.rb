@@ -12,5 +12,4 @@ module SetStocksAndLocations
               .merge(our_stocks)
               .order_asc_model_and_name
   end
-
 end
