@@ -3,7 +3,7 @@ class PartnershipsController < ApplicationController
 
   before_action :set_currentuser_partnership, only: %i[update destroy reject]
 
-  # メールアドレスを入力して申請メールを送る
+  # パートナー設定画面の表示を分岐するため、partnershipを持っているかで変数に格納する値を設定
   def new
     @partnership = current_user.partnership || PartnershipsForm.new
   end
@@ -12,13 +12,14 @@ class PartnershipsController < ApplicationController
   def create
     partnership = PartnershipsForm.new(email: partnerships_form_params[:email], current_user_email: current_user.email)
 
-    # 自身のアドレスを入力又は空欄の場合
+    # 自身のアドレスを入力又は空欄の場合はエラーを表示して返す
     if partnership.invalid?
       @partnership = partnership
       render :new, status: :unprocessable_entity
       return
     end
 
+    # 入力されたemailが登録されていれば、メール送信＆レコード作成
     if User.exists?(email: partnership.email)
       partner = User.find_by(email: partnership.email)
       Partnership.transaction do
@@ -28,6 +29,8 @@ class PartnershipsController < ApplicationController
       PartnershipMailer.send_email_to_recipient(@partnership, partner).deliver_later
       DestroyExpiredPartnershipJob.set(wait_until: @partnership.expires_at).perform_later(@partnership.id)
     end
+
+    # メールアドレス特定防止のため、メール送信できていなくても送信成功メッセージを表示する
     flash.now[:success] = t("defaults.flash_message.mail_sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
@@ -41,6 +44,8 @@ class PartnershipsController < ApplicationController
       end
       PartnershipMailer.send_email_to_applicant(current_user.partner).deliver_later
     end
+
+    # current_userを更新することで紐づく情報を更新する
     current_user.reload
     set_stocks_and_locations
     flash.now[:success] = t("defaults.flash_message.approve")
@@ -79,6 +84,7 @@ class PartnershipsController < ApplicationController
     ]
   end
 
+  # NOTE: 以下privateメソッド
   private
 
   def partnerships_form_params
@@ -88,5 +94,4 @@ class PartnershipsController < ApplicationController
   def set_currentuser_partnership
     @partnership = current_user.partnership
   end
-
 end

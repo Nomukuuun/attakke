@@ -3,6 +3,7 @@ class TempletesController < ApplicationController
 
   before_action :set_stocks_and_locations, only: %i[create]
 
+  # 「新規作成・まとめて追加」で初期表示するセレクトボックスをセット
   def index
     @locations_name = [ "【新規作成】" ]
     @locations_name << "【既存保管場所にまとめて追加】" if our_locations.present?
@@ -12,7 +13,7 @@ class TempletesController < ApplicationController
                               .map { |records| "<テンプレ> " + records.min_by(&:id).location_name })
   end
 
-  # selectタグの選択に応じてstimulusでフォーム切替
+  # セレクトボックスの選択に応じてstimulusでフォーム切替
   def form
     @location_name = templete_params[:location_name]
 
@@ -53,6 +54,9 @@ class TempletesController < ApplicationController
 
     if @forms.save
       flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
+
+      # 保管場所が1つも存在しない場合、ベース画面に新規作成を促すメッセージが表示されている
+      # 当該メッセージを非表示にするために更新範囲を変更する
       if our_locations.count == 1
         render turbo_stream: [
           turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
@@ -64,7 +68,9 @@ class TempletesController < ApplicationController
           turbo_stream.update("flash", partial: "shared/flash_message")
         ]
       end
+
     else
+      # まとめて追加を選択している場合、保管場所名のセレクトボックスを保存失敗状態で再表示できるように配列をセット
       select_tag_value = templetes_form_params[:select_tag_value]
       if select_tag_value == "【既存保管場所にまとめて追加】"
         set_locations_name
@@ -75,9 +81,10 @@ class TempletesController < ApplicationController
     end
   end
 
+  # NOTE: 以下privateメソッド
   private
 
-  # 初期画面で選択した作成方法を受け取る
+  # 初期画面のセレクトボックスで選択した作成方法を受け取る
   def templete_params
     params.permit(:location_name)
   end
@@ -97,10 +104,10 @@ class TempletesController < ApplicationController
     forms.stock_forms << TempletesStockForm.new(model: 0, exist_quantity: 1)
   end
 
+  # まとめて追加で保存に失敗したときに、選択値を先頭に持ってきて再表示するためのメソッド
   def prioritize_location_name(forms, locations_name)
     selected_location = forms.location_name
     locations_name.delete(selected_location)
     locations_name.unshift(selected_location)
   end
-
 end

@@ -1,4 +1,4 @@
-# 一覧画面上でチェックボックス型の履歴を更新できるようにするためのコントローラ
+# ベース画面上でチェックボックス型の履歴を更新できるようにするためのコントローラ
 # 履歴は新規作成のみでストックと同時に削除される
 
 class HistoriesController < ApplicationController
@@ -22,6 +22,7 @@ class HistoriesController < ApplicationController
     end
   end
 
+  # NOTE: 以下privateメソッド
   private
 
   def history_params

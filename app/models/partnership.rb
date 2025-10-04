@@ -8,6 +8,7 @@ class Partnership < ApplicationRecord
 
   before_create :set_token_and_expires_at
 
+  # 一方向のレコードを作成、更新、削除したことをトリガーに反対方向のレコードを操作する
   after_create :create_inverse, unless: :has_inverse?
   after_update :update_inverse, if: :has_inverse?
   after_destroy :destroy_inverse, if: :has_inverse?
