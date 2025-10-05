@@ -1,6 +1,6 @@
 class TopPagesController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :after_sign_in_path_for, if: :user_signed_in?
+  before_action :redirect_back_to_stocks_path, if: :user_signed_in?
 
   def top
     @description = [
@@ -30,9 +30,9 @@ class TopPagesController < ApplicationController
         img_url: "top_3.svg",
         sentence:
           "面倒な入力作業を楽にするための<br>
-          テンプレート機能が使えます<br>
-          保管場所名やストック名は<br>
-          後から変更することも可能です"
+          テンプレート作成機能が使えます<br>
+          保管場所名の変更や<br>
+          ストックの変更・追加・削除も可能です"
       },
 
       { number: "４",
@@ -49,7 +49,8 @@ class TopPagesController < ApplicationController
 
   private
 
-  def after_sign_in_path_for
+  # TODO: ログインセッションが残っている状態でアプリ再起動時にフラッシュメッセージが表示ないように制御したい
+  def redirect_back_to_stocks_path
     flash[:error] = t("defaults.flash_message.logout_not_completed")
     redirect_back fallback_location: stocks_path
   end
