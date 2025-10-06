@@ -1,7 +1,9 @@
 class PartnershipsController < ApplicationController
   include SetStocksAndLocations
+  include Broadcast
 
   before_action :set_currentuser_partnership, only: %i[update destroy reject]
+
 
   # パートナー設定画面の表示を分岐するため、partnershipを持っているかで変数に格納する値を設定
   def new
@@ -35,6 +37,7 @@ class PartnershipsController < ApplicationController
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
 
+
   # 申請承認、レコード更新
   def update
     if @partnership&.pending?
@@ -48,13 +51,14 @@ class PartnershipsController < ApplicationController
     # current_userを更新することで紐づく情報を更新する
     current_user.reload
     set_stocks_and_locations
+    broadcast.replace_main_frame(@locations, @stocks)
     flash.now[:success] = t("defaults.flash_message.approve")
     render turbo_stream: [
-      turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
       turbo_stream.update("bell_icon", partial: "shared/bell_icon"),
       turbo_stream.update("flash", partial: "shared/flash_message")
     ]
   end
+
 
   # 申請を取り下げ、レコードを削除
   def destroy
@@ -67,6 +71,7 @@ class PartnershipsController < ApplicationController
     flash.now[:success] = t("defaults.flash_message.withdrawal")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
+
 
   # 申請を拒否、レコード削除
   def reject

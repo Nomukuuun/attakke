@@ -2,6 +2,8 @@
 # 履歴は新規作成のみでストックと同時に削除される
 
 class HistoriesController < ApplicationController
+  include Broadcast
+
   def create
     latest_history = History.latest
     set_latest_history_stock(latest_history)
@@ -11,11 +13,10 @@ class HistoriesController < ApplicationController
     if history.save
       latest_history.reload
       set_latest_history_stock(latest_history) # 更新後のlatest_historyを基に再セット
+
+      broadcast.replace_stock(@stock)
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.history"))
-      render turbo_stream: [
-        turbo_stream.update(@stock, partial: "stocks/stock", locals: { stock: @stock }),
-        turbo_stream.update("flash", partial: "shared/flash_message")
-      ]
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
       flash[:error] = t("defaults.flash_message.not_created", item: t("defaults.models.history"))
       redirect_to stocks_path
