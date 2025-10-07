@@ -73,7 +73,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
-          # REDIS_URL: redis://localhost:6379/0
+          REDIS_URL: redis://localhost:6379/0 # 開発環境でredisは使っていないが、cable.ymlを読み込むときにエラーにならないように設定
         run: bin/rails db:test:prepare test test:system
 
       - name: Keep screenshots from failed system tests
