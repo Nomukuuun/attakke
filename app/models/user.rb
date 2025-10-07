@@ -29,6 +29,12 @@ class User < ApplicationRecord
   has_many :locations, dependent: :destroy
   has_many :histories, through: :stocks, dependent: :destroy
 
+  # ActionCable用のストリームキー
+  # nilを排除してからソートすることでパートナーシップにより紐づいている２人を表現できる
+  def partnership_stream_key
+    [ id, partner&.id ].compact.sort.join("_")
+  end
+
   def self.from_omniauth(auth)
     find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
       user.email = auth.info.email

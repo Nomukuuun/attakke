@@ -1,8 +1,10 @@
 class StocksController < ApplicationController
   include SetStocksAndLocations
+  include Broadcast
 
   before_action :set_stocks_and_locations, only: %i[index in_stocks out_of_stocks create update destroy]
   before_action :set_stock_locations_and_last_10_histories, only: %i[edit update]
+
 
   # ログイン後のベース画面
   def index
@@ -20,6 +22,7 @@ class StocksController < ApplicationController
     render_stocks_and_locations
   end
 
+
   # ストック型のデフォルト表示がチェックボックスのため、exist_quantityに初期値を設定
   def new
     @stock = Stock.new
@@ -32,26 +35,20 @@ class StocksController < ApplicationController
     @location = @stock.location
 
     if @stock.save
-      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
-
       # 保管場所にストックが存在しない場合、ストック追加を促すメッセージが表示されている
       # 当該メッセージを非表示にするために更新範囲を変更する
       if @location.stocks.count == 1
-        render turbo_stream: [
-          turbo_stream.replace(@location, partial: "location", locals: { location: @location, stocks: @stocks }),
-          turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
+        broadcast.replace_location(@location, @stocks)
       else
-        render turbo_stream: [
-          turbo_stream.prepend("#{@location.name}_stock_list", partial: "stock", locals: { stock: @stocks.find(@stock.id) }),
-          turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
+        broadcast.prepend_stock(@location, @stocks.find(@stock.id))
       end
-
+      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
       render :new, status: :unprocessable_entity
     end
   end
+
 
   def edit
     build_latest_history(@stock) if @stock.histories.none?(&:new_record?)
@@ -59,48 +56,39 @@ class StocksController < ApplicationController
 
   def update
     if @stock.update(stock_params)
-      flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))
-
       # 保管場所が変更されているかどうかで更新範囲を変更する
       if @stock.previous_changes.has_key?(:location_id)
-        render turbo_stream: [
-          turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations }),
-          turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
+        before_id, after_id = @stock.previous_changes[:location_id]
+        broadcast.replace_location(Location.find(before_id), @stocks)
+        broadcast.replace_location(Location.find(after_id), @stocks)
       else
-        render turbo_stream: [
-          turbo_stream.replace(@stock, partial: "stock", locals: { stock: @stocks.find(@stock.id) }),
-          turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
+        broadcast.replace_stock(@stocks.find(@stock.id))
       end
-
+      flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
+
   def destroy
     stock = our_stocks.find(params[:id])
     location = stock.location
-
     stock.destroy!
-    flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.stock"))
 
     # 保管場所にストックが存在しなくなった場合、ストック追加を促すメッセージを表示する
     # 当該メッセージを表示するために更新範囲を変更する
     if location.stocks.count == 0
-      render turbo_stream: [
-        turbo_stream.replace(location, partial: "location", locals: { location: location, stocks: @stocks }),
-        turbo_stream.update("flash", partial: "shared/flash_message"),
-        turbo_stream.update("modal_frame")
-      ]
+      broadcast.replace_location(location, @stocks)
     else
-      render turbo_stream: [
-        turbo_stream.remove("stock_#{stock.id}"),
-        turbo_stream.update("flash", partial: "shared/flash_message"),
-        turbo_stream.update("modal_frame")
-      ]
+      broadcast.remove_stock(stock)
     end
+    flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.stock"))
+    render turbo_stream: [
+      turbo_stream.update("flash", partial: "shared/flash_message"),
+      turbo_stream.update("modal_frame")
+    ]
   end
 
   # NOTE: 以下privateメソッド
@@ -110,14 +98,14 @@ class StocksController < ApplicationController
     params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [ :exist_quantity, :num_quantity ])
   end
 
-  # edit, updateアクションで使用するデータセット
+  # edit, updateで使用するデータセット
   def set_stock_locations_and_last_10_histories
     @stock = our_stocks.find(params[:id])
     @locations = our_locations.order(:name)
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
   end
 
-  # editで直近の履歴を反映したhistoryインスタンスを作成するメソッド
+  # editで最新履歴の数量を反映したhistoryインスタンスを作成するメソッド
   def build_latest_history(stock)
     latest_history = stock.histories.order(id: :desc).first
     quantity_type = stock.existence? ? :exist_quantity : :num_quantity

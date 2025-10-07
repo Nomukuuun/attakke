@@ -1,7 +1,9 @@
 class TempletesController < ApplicationController
   include SetStocksAndLocations
+  include Broadcast
 
   before_action :set_stocks_and_locations, only: %i[create]
+
 
   # 「新規作成・まとめて追加」で初期表示するセレクトボックスをセット
   def index
@@ -12,6 +14,7 @@ class TempletesController < ApplicationController
                               .values
                               .map { |records| "<テンプレ> " + records.min_by(&:id).location_name })
   end
+
 
   # セレクトボックスの選択に応じてstimulusでフォーム切替
   def form
@@ -49,32 +52,26 @@ class TempletesController < ApplicationController
     )
   end
 
+
   def create
     @forms = TempletesForm.new(templetes_form_params, our_locations: our_locations, current_user: current_user)
 
     if @forms.save
-      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
-
       # 保管場所が1つも存在しない場合、ベース画面に新規作成を促すメッセージが表示されている
       # 当該メッセージを非表示にするために更新範囲を変更する
       if our_locations.count == 1
-        render turbo_stream: [
-          turbo_stream.replace("main_frame", partial: "stocks/main_frame", locals: { stocks: @stocks, locations: @locations }),
-          turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
+        broadcast.replace_main_frame(@locations, @stocks)
       else
-        render turbo_stream: [
-          turbo_stream.prepend("locations", partial: "stocks/location", locals: { location: @forms.location, stocks: @stocks }),
-          turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
+        broadcast.prepend_location(@forms.location, @stocks)
       end
-
+      flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
       # まとめて追加を選択している場合、保管場所名のセレクトボックスを保存失敗状態で再表示できるように配列をセット
       select_tag_value = templetes_form_params[:select_tag_value]
       if select_tag_value == "【既存保管場所にまとめて追加】"
         set_locations_name
-        prioritize_location_name(@forms, @locations_name)
+        prioritize_selected_location(@forms, @locations_name)
         @forms.location_name = select_tag_value
       end
       render turbo_stream: turbo_stream.update("templete_form_frame", partial: "templetes/form", locals: { forms: @forms, locations_name: @locations_name }), status: :unprocessable_entity
@@ -105,9 +102,9 @@ class TempletesController < ApplicationController
   end
 
   # まとめて追加で保存に失敗したときに、選択値を先頭に持ってきて再表示するためのメソッド
-  def prioritize_location_name(forms, locations_name)
+  def prioritize_selected_location(forms, array)
     selected_location = forms.location_name
-    locations_name.delete(selected_location)
-    locations_name.unshift(selected_location)
+    array.delete(selected_location)
+    array.unshift(selected_location)
   end
 end

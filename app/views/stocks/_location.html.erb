@@ -21,7 +21,7 @@
     <!-- ストックリスト -->
     <div class="px-4">
       <% if stocks&.find_by(location_id: location.id).present? %>
-        <div id="<%= location.name %>_stock_list" class="lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
+        <div id="location_<%= location.id %>_stocks_list" class="lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
           <% stocks.where(location_id: location.id).each do |stock| %>
             <%= render 'stocks/stock', stock: stock %>
           <% end %>
