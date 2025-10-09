@@ -2,7 +2,8 @@ class StocksController < ApplicationController
   include SetStocksAndLocations
   include Broadcast
 
-  before_action :set_stocks_and_locations, only: %i[index in_stocks out_of_stocks create update destroy]
+  before_action :set_locations_and_searchable_stocks, only: %i[index in_stocks out_of_stocks]
+  before_action :set_locations_and_stocks, only: %i[create update destroy]
   before_action :set_stock_locations_and_last_10_histories, only: %i[edit update]
 
 

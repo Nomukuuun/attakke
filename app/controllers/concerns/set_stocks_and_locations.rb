@@ -5,10 +5,15 @@ module SetStocksAndLocations
 
   private
 
-  def set_stocks_and_locations
-    latest_history = History.latest
+  def set_locations_and_searchable_stocks
     @locations = our_locations.order(:name)
-    @stocks = Stock.joins_latest_history(latest_history)
+    @q = Stock.joins_latest_history(History.latest).ransack(params[:q])
+    @stocks = @q.result(distinct: true).merge(our_stocks).order_asc_model_and_name
+  end
+
+  def set_locations_and_stocks
+    @locations = our_locations.order(:name)
+    @stocks = Stock.joins_latest_history(History.latest)
               .merge(our_stocks)
               .order_asc_model_and_name
   end

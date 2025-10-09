@@ -30,7 +30,7 @@
         <div class="text-lg md:text-xl text-f-body pl-6">表示するストックがありません</div>
       <% else %>
         <%= link_to new_stock_path(location_id: location.id), data: { turbo_frame: 'modal_frame' }, class: "pl-6" do %>
-          <span class="text-lg md:text-xl text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">ストックが登録されていません</span>
+          <span class="text-lg md:text-xl text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">表示するストックがありません</span>
         <% end %>
       <% end %>
     </div>
