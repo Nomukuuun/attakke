@@ -1,6 +1,6 @@
 # 一覧画面で表示する保管場所とストック情報の一覧をセットするモジュール
 
-module SetStocksAndLocations
+module SetLocationsAndStocks
   extend ActiveSupport::Concern
 
   private

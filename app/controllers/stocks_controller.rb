@@ -1,5 +1,5 @@
 class StocksController < ApplicationController
-  include SetStocksAndLocations
+  include SetLocationsAndStocks
   include Broadcast
 
   before_action :set_locations_and_searchable_stocks, only: %i[index in_stocks out_of_stocks]
