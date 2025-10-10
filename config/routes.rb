@@ -10,8 +10,7 @@ Rails.application.routes.draw do
   root "top_pages#top"
   resources :stocks, except: %i[show] do
     collection do
-      get :in_stocks
-      get :out_of_stocks
+      get :search
     end
   end
   resources :locations, only: %i[index edit update destroy]

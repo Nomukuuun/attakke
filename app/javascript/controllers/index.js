@@ -7,9 +7,6 @@ import { application } from "./application"
 import ConfirmController from "./confirm_controller"
 application.register("confirm", ConfirmController)
 
-import FilterButtonsController from "./filter_buttons_controller"
-application.register("filter-buttons", FilterButtonsController)
-
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
