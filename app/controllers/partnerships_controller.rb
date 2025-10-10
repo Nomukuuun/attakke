@@ -1,5 +1,5 @@
 class PartnershipsController < ApplicationController
-  include SetStocksAndLocations
+  include SetLocationsAndStocks
   include Broadcast
 
   before_action :set_currentuser_partnership, only: %i[update destroy reject]
@@ -50,7 +50,7 @@ class PartnershipsController < ApplicationController
 
     # current_userを更新することで紐づく情報を更新する
     current_user.reload
-    set_stocks_and_locations
+    set_locations_and_stocks
     broadcast.replace_main_frame(@locations, @stocks)
     flash.now[:success] = t("defaults.flash_message.approve")
     render turbo_stream: [

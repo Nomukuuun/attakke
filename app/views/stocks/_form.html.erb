@@ -13,6 +13,7 @@
     <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
+  <%# TODO: ボタンだけでなく、文字を押してもボタンが反応するように改善 %>
   <!-- ストック型を選択するラジオボタン -->
   <div data-controller="quantity-visibility">
     <div class="text-xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>

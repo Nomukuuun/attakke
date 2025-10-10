@@ -1,25 +1,37 @@
 class StocksController < ApplicationController
-  include SetStocksAndLocations
+  include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_stocks_and_locations, only: %i[index in_stocks out_of_stocks create update destroy]
+  before_action :set_locations_and_searchable_stocks, only: %i[index]
+  before_action :set_locations_and_stocks, only: %i[create update destroy]
   before_action :set_stock_locations_and_last_10_histories, only: %i[edit update]
 
 
   # ログイン後のベース画面
   def index
-    render_stocks_and_locations
+    # フィルタリングプルダウンを制御するための
+    case params[:filter]
+    when "all" || nil
+      @stocks
+    when "in"
+      @stocks = @stocks.in_stocks
+    when "out"
+      @stocks = @stocks.out_of_stocks
+    end
+
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations })
+      }
+      format.html
+    end
   end
 
-  # inとout_ofはフィルタリングアクション
-  def in_stocks
-    @stocks = @stocks.in_stocks
-    render_stocks_and_locations
-  end
-
-  def out_of_stocks
-    @stocks = @stocks.out_of_stocks
-    render_stocks_and_locations
+  def search
+    @stocks = our_stocks.where("name like ?", "%#{params[:q]}%")
+    respond_to do |format|
+      format.js
+    end
   end
 
 
@@ -115,18 +127,6 @@ class StocksController < ApplicationController
       history = stock.histories.build(quantity_type => old_quantity)
     elsif quantity_type == :num_quantity
       history = stock.histories.build(exist_quantity: 1, quantity_type => old_quantity)
-    end
-  end
-
-  # フィルタリングアクションのレンダリングメソッド
-  def render_stocks_and_locations
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations })
-      }
-      format.html {
-        render :index
-      }
     end
   end
 end

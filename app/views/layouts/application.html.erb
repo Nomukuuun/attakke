@@ -40,12 +40,12 @@
   <body class="flex flex-col pt-18 md:pt-24 min-h-screen bg-dull-beige text-base text-f-body font-yusei">
     <%= render 'shared/confirm' %>
     <%= render 'shared/flash_message' %>
-    <%= render 'shared/header' %>
+    <%= render 'shared/header', cached: true %>
     <main class="container mx-auto grow">
       <%= yield %>
     </main>
     <%= render 'shared/footer_menu' %>
-    <%= render 'shared/footer' %>
+    <%= render 'shared/footer', cached: true %>
     <%= turbo_frame_tag 'modal_frame' %>
   </body>
 </html>

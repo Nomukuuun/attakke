@@ -1,8 +1,8 @@
 class LocationsController < ApplicationController
-  include SetStocksAndLocations
+  include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_stocks_and_locations, only: %i[update destroy]
+  before_action :set_locations_and_stocks, only: %i[update destroy]
   before_action :set_location, only: %i[edit update destroy]
 
 

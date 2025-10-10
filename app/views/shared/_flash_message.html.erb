@@ -10,12 +10,12 @@
         color = "bg-gray-100 text-gray-800 border-gray-700"
       end
     %>
-    <div data-controller="flash" class="fixed items-center animate-fadeinout px-4 top-4 md:top-9 z-5 w-full">
+    <div data-controller="flash" class="fixed items-center animate-fadeinout px-4 top-4 md:top-9 z-40 w-full">
       <div class="container mx-auto">
-          <div class="flex box-border w-full md:w-1/2 mx-0 md:mx-auto h-10 text-center mt-2 p-1 rounded border-2 <%= color %>">
+          <div data-flash-target="close" data-action="click->flash#close" class="flex box-border w-full md:w-1/2 mx-0 md:mx-auto h-10 text-center mt-2 p-1 rounded border-2 <%= color %>">
             <span class="w-full mx-auto"><%= message %></span>
             <div class="flex items-center">
-              <svg data-flash-target="close" data-action="click->flash#close" class="size-5 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="size-5 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>

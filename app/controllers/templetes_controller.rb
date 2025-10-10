@@ -1,8 +1,8 @@
 class TempletesController < ApplicationController
-  include SetStocksAndLocations
+  include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_stocks_and_locations, only: %i[create]
+  before_action :set_locations_and_stocks, only: %i[create]
 
 
   # 「新規作成・まとめて追加」で初期表示するセレクトボックスをセット
