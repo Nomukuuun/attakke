@@ -18,7 +18,7 @@ class Stock < ApplicationRecord
 
   # ransackのv4系から必要になった検索を許可するカラムの指定
   def self.ransackable_attributes(auth_object = nil)
-    %w(name)
+    [ "name" ]
   end
 
   # 各ストックに最新履歴を連結する
