@@ -8,8 +8,8 @@
         <span>2025 Attakke?</span>
       </div>
       <div class="flex space-x-6 md:space-x-4">
-        <%= link_to "プライバシーポリシー(準備中)", '#', class: "text-f-head" %>
-        <%= link_to "利用規約(準備中)", '#', class: "text-f-head" %>
+        <%= link_to "プライバシーポリシー", privacy_path,  data: { turbo_frame: "modal_frame" }, class: "text-f-head" %>
+        <%= link_to "利用規約", terms_path, data: { turbo_frame: "modal_frame" }, class: "text-f-head" %>
       </div>
     </div>
   </div>
