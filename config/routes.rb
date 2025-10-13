@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   end
 
   root "top_pages#top"
+  get "privacy", to: "static_pages#privacy", as: :privacy
+  get "terms", to: "static_pages#terms", as: :terms
+
   resources :stocks, except: %i[show] do
     collection do
       get :search
