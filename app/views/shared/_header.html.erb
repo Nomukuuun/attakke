@@ -29,7 +29,7 @@
           </div>
 
           <!-- ドロワーメニュー -->
-          <div data-mobile-menus-target="mobileMenus" class="hidden absolute top-18 right-0 w-1/2 bg-white shadow-md border border-gray-700 rounded flex flex-col items-center justify-items-end divide-y-2 divide-gray-700 py-2 px-4">
+          <div data-mobile-menus-target="mobileMenus" class="hidden absolute top-18 right-0 w-1/2 md:w-1/4 bg-white shadow-md border border-gray-700 rounded flex flex-col items-center justify-items-end divide-y-2 divide-gray-700 py-2 px-4">
             <%= link_to "使い方(準備中)", '#', class: "text-base text-f-head p-3" %>
             <%= link_to "パートナー設定", new_partnerships_path, data: { turbo_frame: 'modal_frame', action: "turbo:click->mobile-menus#reset" }, class: "text-base text-f-head p-3" %>
             <%= button_to logout_path, method: :delete, class: "flex item-center text-base text-dull-green p-3 cursor-pointer hover:brightness-70" do %>
