@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   root "top_pages#top"
   get "privacy", to: "static_pages#privacy", as: :privacy
   get "terms", to: "static_pages#terms", as: :terms
+  get "tutorial", to: "static_pages#tutorial", as: :tutorial
 
   resources :stocks, except: %i[show] do
     collection do

@@ -8,8 +8,6 @@
         <span class="text-sm md:text-base">新規作成・まとめて追加</span>
       <% end %>
 
-      <%# NOTE: ストックのオートコンプリート検索を導入するときに、入力フィールドに飛べるボタンを用意するか検討 %>
-
       <%= link_to locations_path, data: { turbo_frame: 'modal_frame' }, class: "basis-1/2 h-full flex flex-col text-center justify-between text-dull-green hover:text-white bg-white hover:bg-dull-green box-border border-dull-green border-l-1 py-1" do %>
         <svg class="size-6 w-full mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
