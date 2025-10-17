@@ -61,6 +61,15 @@ jobs:
       #     - 6379:6379
       #   options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
 
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/myapp_test
+      # OmniAuthのダミーキー
+      GOOGLE_CLIENT_ID: "dummy"
+      GOOGLE_CLIENT_SECRET: "dummy"
+      # test環境でredisは使っていないが、cable.ymlを読み込むときにエラーにならないように設定
+      REDIS_URL: redis://localhost:6379/0
+
     steps:
       # - name: Install packages
       #   run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips postgresql-client
@@ -82,17 +91,9 @@ jobs:
           chrome-version: stable
 
       - name: Prepare DB
-        run: bin/rails db:prepare
+        run: bundle exec rails db:prepare
 
       - name: Run RSpec
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/myapp_test
-          # OmniAuthのダミーキー
-          GOOGLE_CLIENT_ID: "dummy"
-          GOOGLE_CLIENT_SECRET: "dummy"
-          # test環境でredisは使っていないが、cable.ymlを読み込むときにエラーにならないように設定
-          REDIS_URL: redis://localhost:6379/0
         run: bundle exec rspec
 
       # - name: Keep screenshots from failed system tests
