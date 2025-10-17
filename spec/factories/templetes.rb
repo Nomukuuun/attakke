@@ -6,4 +6,3 @@ FactoryBot.define do
     stock_model { 'existence' }
   end
 end
-

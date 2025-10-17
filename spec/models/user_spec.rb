@@ -52,7 +52,7 @@ RSpec.describe User, type: :model do
       # 双方向パートナーを作る（approvedにして明示的にパートナーを紐付け）
       p = create(:partnership, user: user, partner: partner, status: :approved)
       # 逆側もapprovedになる
-      expect(user.reload.partnership_stream_key).to eq([user.id, partner.id].compact.sort.join("_"))
+      expect(user.reload.partnership_stream_key).to eq([ user.id, partner.id ].compact.sort.join("_"))
     end
   end
 

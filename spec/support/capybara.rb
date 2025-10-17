@@ -27,7 +27,7 @@ RSpec.configure do |config|
       if ENV['SELENIUM_REMOTE_URL']
         driven_by(:selenium_remote_chrome)
       else
-        driven_by(:selenium, using: :headless_chrome, screen_size: [1400, 900])
+        driven_by(:selenium, using: :headless_chrome, screen_size: [ 1400, 900 ])
       end
     else
       driven_by(:rack_test)

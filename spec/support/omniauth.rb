@@ -24,4 +24,3 @@ RSpec.configure do |config|
     OmniAuth.config.mock_auth[:google_oauth2] = nil
   end
 end
-
