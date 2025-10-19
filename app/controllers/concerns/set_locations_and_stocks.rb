@@ -5,6 +5,7 @@ module SetLocationsAndStocks
 
   private
 
+  # index画面では検索可能なストック一覧をセットする
   def set_locations_and_searchable_stocks
     @locations = our_locations.order(:name)
     @q = Stock.joins_latest_history(History.latest).ransack(params[:q])

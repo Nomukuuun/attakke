@@ -1,5 +1,6 @@
 <%= turbo_frame_tag stock do %>
-  <div class="bg-dull-beige px-4 py-2 rounded border border-box border-gray-600 mb-2 lg:mb-0">
+  <%# NOTE: ヘルパーにカラーと最終更新日の表示ロジックを記述 %>
+  <div class="px-4 py-2 rounded border border-box mb-2 lg:mb-0 <%= set_bg_and_border_color(stock) %>">
 
     <div class="flex justify-between items-center mb-2">
       <%= link_to edit_stock_path(stock), data: { turbo_frame: 'modal_frame' } do %>
@@ -9,7 +10,7 @@
     </div>
 
     <div class="flex justify-between items-center">
-      <div class="text-sm text-gray-600">最終更新日：<%= stock.number_of_days_elapsed %></div>
+      <div class="text-sm text-gray-600">最終更新日：<%= number_of_days_elapsed(stock) %></div>
       <div class="flex justify-end items-center w-8 px-[6px]">
         <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock'), turbo_frame: "stock_#{stock.id}" } do %>
           <svg class="size-5 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

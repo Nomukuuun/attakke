@@ -13,77 +13,81 @@
     <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
-  <%# TODO: ボタンだけでなく、文字を押してもボタンが反応するように改善 %>
   <!-- ストック型を選択するラジオボタン -->
   <div data-controller="quantity-visibility">
     <div class="text-xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
-    <table class="table-fixed mb-6">
-      <tbody>
-        <tr>
-          <td class="pl-2 py-2">
-            <%= f.radio_button :model, :existence, checked: true,
-              data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
-              class: "accent-dull-green scale-150" %>
-          </td>
-          <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.existence') %></td>
-        </tr>
-        <tr>
-          <td class="pl-2 py-2">
-            <%= f.radio_button :model, :number,
-              data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
-              class: "accent-dull-green scale-150" %>
-          </td>
-          <td class="pl-4 py-2 text-gray-700"><%= t('enums.stock.model.number') %></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="p-2 flex space-x-4 items-center">
+      <%= f.radio_button :model, :existence, checked: true,
+        data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
+        class: "size-5 accent-dull-green" %>
+      <label for="stock_model_existence" class="text-gray-700" %><%= t('enums.stock.model.existence') %></label>
+    </div>
+    <div class="mb-6 p-2 flex space-x-4 items-center">
+      <%= f.radio_button :model, :number,
+        data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
+        class: "size-5 accent-dull-green" %>
+      <label for="stock_model_number" class="text-gray-700" %><%= t('enums.stock.model.number') %></label>
+    </div>
 
-    <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
-      <!-- チェックボックス型 -->
-      <div class="mb-10" data-quantity-visibility-target="existenceField">
-        <%= h.label :exist_quantity, class: "text-xl font-bold text-f-head" %>
-        <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
-        <div class="flex items-center space-x-6">
+    <div class="flex mb-10">
+      <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
+        <!-- チェックボックス型 -->
+        <div class="basis-2/3" data-quantity-visibility-target="existenceField">
+          <%= h.label :exist_quantity, class: "text-xl font-bold text-f-head" %>
+          <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
+          <div class="flex items-center space-x-4">
 
-          <!-- チェックありアイコン -->
-          <div class="" data-quantity-visibility-target="checkedIcon">
-            <svg data-action='click->quantity-visibility#toggleIcon' class="size-12 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z"/>
-              <polyline points="9 11 12 14 20 6" />
-              <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
-            </svg>
-          </div>
-          <!-- チェックなしアイコン -->
-          <div class="hidden" data-quantity-visibility-target="notCheckedIcon">
-            <svg data-action='click->quantity-visibility#toggleIcon' class="size-12 text-f-body cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z"/>
-              <rect x="4" y="4" width="16" height="16" rx="2" />
-            </svg>
-          </div>
+            <!-- チェックありアイコン -->
+            <div class="" data-quantity-visibility-target="checkedIcon">
+              <svg data-action='click->quantity-visibility#toggleIcon' class="size-12 text-dull-green cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z"/>
+                <polyline points="9 11 12 14 20 6" />
+                <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+              </svg>
+            </div>
+            <!-- チェックなしアイコン -->
+            <div class="hidden" data-quantity-visibility-target="notCheckedIcon">
+              <svg data-action='click->quantity-visibility#toggleIcon' class="size-12 text-f-body cursor-pointer" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z"/>
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+              </svg>
+            </div>
 
-          <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
-        </div>
-      </div>
-
-      <!-- 残数表示型 -->
-      <div class="hidden flex flex-col mb-10" data-quantity-visibility-target="numberField">
-        <%= h.label :num_quantity, class: "text-xl font-bold text-f-head" %>
-        <div class="flex items-center space-x-6">
-          <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 mr-6 h-12 w-16" %>
-          <div id="plus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#incrementNumber">
-            <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-          </div>
-          <div id="minus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#decrementNumber">
-            <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
+            <p data-quantity-visibility-target="iconExplanation", class="text-xl">ストックあり</p>
           </div>
         </div>
-        <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
+
+        <!-- 残数表示型 -->
+        <div class="hidden basis-2/3 flex flex-col" data-quantity-visibility-target="numberField">
+          <%= h.label :num_quantity, class: "text-xl font-bold text-f-head" %>
+          <div class="flex items-center space-x-6">
+            <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 mr-6 h-12 w-16" %>
+            <div id="plus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#incrementNumber">
+              <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </div>
+            <div id="minus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#decrementNumber">
+              <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </div>
+          </div>
+          <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
+        </div>
+      <% end %>
+
+      <!-- 購入対象チェックボックス -->
+      <div class="basis-1/3 flex flex-col">
+        <%= f.label :purchase_target, class: "text-xl font-bold text-f-head" %>
+        <div class="h-12 pl-2 flex items-center space-x-4">
+          <%= f.check_box :purchase_target, class: "size-6 accent-dull-green" %>
+          <svg class="size-8 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="9" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><path d="M3 3h2l2 12a3 3 0 0 0 3 2h7a3 3 0 0 0 3 -2l1 -7h-15.2" />
+          </svg>
+        </div>
       </div>
-    <% end %>
+    </div>
   </div>
 
   <div class="mb-10">

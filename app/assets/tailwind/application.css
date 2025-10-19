@@ -12,6 +12,10 @@
   /* dull-red ボタン等の指し色 */
   --color-dull-red: #f45d48;
 
+  /* dull-pink なしにフィルタリングされるストックの背景色 */
+  /* dull-redを500としたときの200相当色 */
+  --color-dull-pink: #FFBEB6;
+
   /* dull-beige メイン背景色 */
   --color-dull-beige: #f8f5f2;
 

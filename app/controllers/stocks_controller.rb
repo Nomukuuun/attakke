@@ -9,7 +9,7 @@ class StocksController < ApplicationController
 
   # ログイン後のベース画面
   def index
-    # フィルタリングプルダウンを制御するための
+    # フィルタリングプルダウンの選択によって返す@stocksを変更
     case params[:filter]
     when "all" || nil
       @stocks
@@ -107,7 +107,7 @@ class StocksController < ApplicationController
   private
 
   def stock_params
-    params.require(:stock).permit(:location_id, :name, :model, histories_attributes: [ :exist_quantity, :num_quantity ])
+    params.require(:stock).permit(:location_id, :name, :model, :purchase_target, histories_attributes: [ :exist_quantity, :num_quantity ])
   end
 
   # edit, updateで使用するデータセット
