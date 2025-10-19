@@ -9,7 +9,7 @@ class StocksController < ApplicationController
 
   # ログイン後のベース画面
   def index
-    # フィルタリングプルダウンを制御するための
+    # フィルタリングプルダウンの選択によって返す@stocksを変更
     case params[:filter]
     when "all" || nil
       @stocks
