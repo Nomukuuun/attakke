@@ -30,7 +30,9 @@ Rails.application.configure do
   config.assets.compile = false
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.asset_host = "http://assets.example.com"
+  config.action_controller.asset_host = "https://mada-attakke.com"
+  Rails.application.routes.default_url_options[:host] = "mada-attakke.com"
+  Rails.application.routes.default_url_options[:protocol] = "https"
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
@@ -41,8 +43,8 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  config.action_cable.url = "https://attakke.onrender.com/cable"
-  config.action_cable.allowed_request_origins = [ "https://attakke.onrender.com", /https:\/\/attakke.onrender.*/ ]
+  config.action_cable.url = "https://mada-attakke.com/cable"
+  config.action_cable.allowed_request_origins = [ "https://mada-attakke.com", /https:\/\/mada-attakke.*/ ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
@@ -78,16 +80,16 @@ Rails.application.configure do
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: "attakke.onrender.com", protocol: "https" }
+  config.action_mailer.default_url_options = { host: "mada-attakke.com", protocol: "https" }
   config.action_mailer.raise_delivery_errors = true
-  config.action_controller.asset_host = "attakke.onrender.com"
-  config.action_mailer.asset_host = "https://attakke.onrender.com"
+  config.action_controller.asset_host = "mada-attakke.com"
+  config.action_mailer.asset_host = "https://mada-attakke.com"
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   address:         "smtp.gmail.com",
   port:            587,
-  domain:          "attakke.onrender.com",
+  domain:          "mada-attakke.com",
   user_name:       ENV["GMAIL_USERNAME"],
   password:        ENV["GMAIL_PASSWORD"],
   authentication:  "plain",

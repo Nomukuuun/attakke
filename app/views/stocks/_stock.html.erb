@@ -3,8 +3,13 @@
   <div class="px-4 py-2 rounded border border-box mb-2 lg:mb-0 <%= set_bg_and_border_color(stock) %>">
 
     <div class="flex justify-between items-center mb-2">
-      <%= link_to edit_stock_path(stock), data: { turbo_frame: 'modal_frame' } do %>
+      <%= link_to edit_stock_path(stock), data: { turbo_frame: 'modal_frame' }, class: "flex items-center space-x-4" do %>
         <h3 class="text-f-head text-xl font-bold"><%= stock.name %></h3>
+        <% if stock.purchase_target %>
+          <svg class="size-6 text-f-head" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="9" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><path d="M3 3h2l2 12a3 3 0 0 0 3 2h7a3 3 0 0 0 3 -2l1 -7h-15.2" />
+          </svg>
+        <% end %>
       <% end %>
       <%= render 'stocks/quantity_icon', stock: stock %>
     </div>
