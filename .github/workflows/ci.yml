@@ -84,7 +84,7 @@ jobs:
       # Chrome導入（Selenium+ヘッドレスで利用）
       # support/capybara.rbで環境変数SELENIUM_REMOTE_URLがない場合はdriven_by(:selenium, using: :headless_chrome, screen_size: [1400, 900])で接続される
       - name: Set up Chrome
-        uses: browser-actions/setup-chrome@v1
+        uses: browser-actions/setup-chrome@v2
         with:
           chrome-version: stable
 
