@@ -41,11 +41,14 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/manifest.json", to: "pwa#manifest", defaults: { format: :json }
+  get "/service-worker.js", to: "pwa#service_worker", defaults: { format: :js }
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
   if Rails.env.production?
-    mount ActionCable.server => "/cable"
+    mount ActionCable.server, at: "/cable"
   end
 end

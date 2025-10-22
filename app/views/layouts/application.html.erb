@@ -33,6 +33,19 @@
       gtag('config', 'G-9YPTYCXHQF');
     </script>
 
+    <!-- WebPush -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#078080">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+            .then(reg => console.log('ServiceWorker registered: ', reg))
+            .catch(err => console.error('ServiceWorker registration failed: ', err));
+        });
+      }
+    </script>
+
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
