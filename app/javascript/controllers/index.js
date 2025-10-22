@@ -16,6 +16,9 @@ application.register("mobile-menus", MobileMenusController)
 import ModalFrameController from "./modal_frame_controller"
 application.register("modal-frame", ModalFrameController)
 
+import PushController from "./push_controller"
+application.register("push", PushController)
+
 import QuantityVisibilityController from "./quantity_visibility_controller"
 application.register("quantity-visibility", QuantityVisibilityController)
 

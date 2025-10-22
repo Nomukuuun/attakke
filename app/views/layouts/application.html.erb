@@ -50,15 +50,21 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="flex flex-col pt-18 md:pt-24 min-h-screen bg-dull-beige text-base text-f-body font-yusei">
+  <body data-controller="push"
+        data-push-public-key-value="<%= ENV['VAPID_PUBLIC_KEY'] %>"
+        class="flex flex-col pt-18 md:pt-24 min-h-screen bg-dull-beige text-base text-f-body font-yusei">
+
     <%= render 'shared/confirm' %>
     <%= render 'shared/flash_message' %>
     <%= render 'shared/header', cached: true %>
+
     <main class="container mx-auto grow">
       <%= yield %>
     </main>
+
     <%= render 'shared/footer_menu' %>
     <%= render 'shared/footer', cached: true %>
     <%= turbo_frame_tag 'modal_frame' %>
+
   </body>
 </html>
