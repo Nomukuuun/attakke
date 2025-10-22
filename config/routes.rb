@@ -7,11 +7,13 @@ Rails.application.routes.draw do
     delete "logout", to: "users/sessions#destroy", as: :logout
   end
 
+  # static_page関係
   root "top_pages#top"
   get "privacy", to: "static_pages#privacy", as: :privacy
   get "terms", to: "static_pages#terms", as: :terms
   get "tutorial", to: "static_pages#tutorial", as: :tutorial
 
+  # その他モデル
   resources :stocks, except: %i[show] do
     collection do
       get :search
@@ -41,8 +43,10 @@ Rails.application.routes.draw do
     end
   end
 
+  # PWA関係
   get "/manifest.json", to: "pwa#manifest", defaults: { format: :json }
   get "/service-worker.js", to: "pwa#service_worker", defaults: { format: :js }
+  resources :subscriptions, only: [:create, :destroy]
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

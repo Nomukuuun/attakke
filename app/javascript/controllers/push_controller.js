@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="push"
 export default class extends Controller {
-  static values = { publicKey: String }
+  static values = { pushPublicKey: String }
 
   connect() {
     if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
@@ -26,7 +26,7 @@ export default class extends Controller {
     if (!subscription) {
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: this.urlBase64ToUint8Array(this.publicKeyValue)
+        applicationServerKey: this.urlBase64ToUint8Array(this.pushPublicKeyValue)
       })
     }
 
