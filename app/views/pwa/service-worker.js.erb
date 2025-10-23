@@ -93,7 +93,14 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener("push", event => {
   if (!event.data) return;
 
-  const data = event.data.json();
+  // dataにjson形式以外が送られたときはプレーンテキストとして扱う
+  let data;
+  try {
+    data = event.data.json();
+  } catch (e) {
+    data = { title: event.data.text(), body: "" };
+  }
+
   const title = data.title || "【Attakke?】";
   const options = {
     body: data.body || "お知らせが届いています。こちらからアプリを開いて確認してください。",

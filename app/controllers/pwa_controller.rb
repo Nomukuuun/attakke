@@ -1,3 +1,5 @@
+# gem 'serviceworker-rails'を使用しないため、views/pwa配下のファイルを読み込むためのコントローラ
+
 class PwaController < ApplicationController
   # CSRFトークンを無効化（Service Worker / manifestはJSやブラウザが直接GETするため）
   protect_from_forgery except: [ :manifest, :service_worker ]

@@ -28,7 +28,7 @@ class User < ApplicationRecord
   has_many :stocks, dependent: :destroy
   has_many :locations, dependent: :destroy
   has_many :histories, through: :stocks, dependent: :destroy
-  has_many :Subscriptions, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   # ActionCable用のストリームキー
   # nilを排除してからソートすることでパートナーシップにより紐づいている２人を表現できる
