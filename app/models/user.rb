@@ -36,6 +36,13 @@ class User < ApplicationRecord
     [ id, partner&.id ].compact.sort.join("_")
   end
 
+  # ユーザーに登録されている端末情報の数だけプッシュ通知を送る
+  def send_push_notification(message:, url: "/")
+    subscriptions.find_each do |subscription|
+      PushNotificationJob.perform_later(subscription_id: subscription.id, message: message, url: url)
+    end
+  end
+
   def self.from_omniauth(auth)
     find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
       user.email = auth.info.email

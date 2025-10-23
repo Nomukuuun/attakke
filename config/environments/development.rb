@@ -38,14 +38,15 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # ローカル環境でngrok経由のhttps通信を可能にするためにhosts追加
+  # NOTE: rgrokでhttps環境下でテストするにはngrok http 3000で表示されるURLにasset_hostを変更する
   config.hosts << /[a-z0-9-]+\.ngrok-free\.dev/
+  config.action_controller.asset_host = "localhost:3000"
 
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-  config.action_controller.asset_host = "localhost:3000"
   config.action_mailer.asset_host = "http://localhost:3000"
 
   config.action_mailer.delivery_method = :letter_opener_web
