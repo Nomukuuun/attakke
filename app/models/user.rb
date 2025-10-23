@@ -39,7 +39,7 @@ class User < ApplicationRecord
   # ユーザーに登録されている端末情報の数だけプッシュ通知を送る
   def send_push_notification(message:, url: "/")
     subscriptions.find_each do |subscription|
-      PushNotificationJob.perform_later(subscription_id: subscription.id, message: message, url: url)
+      PushNotificationJob.perform_later(subscription.id, message: message, url: url)
     end
   end
 
