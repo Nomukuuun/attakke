@@ -1,0 +1,135 @@
+// キャッシュ名（更新時はバージョン番号を上げる）
+const CACHE_NAME = "attakke-cache-v1";
+const FONT_CACHE = "attakke-font-cache-v1";
+
+// 初期キャッシュに入れるファイル
+const urlsToCache = [
+  "/",
+  "/offline.html",
+  "<%= asset_path('application.js') %>",
+  "<%= asset_path('tailwind.css') %>",
+  "<%= image_path('icons/icon-192x192.png') %>",
+  "<%= image_path('icons/icon-512x512.png') %>"
+];
+
+// オフラインキャッシュの初期化
+// キャッシュストレージにCACHE_NAMEがなければ、静的リソースをキャッシュする
+self.addEventListener("install", (event) => {
+  console.log("[ServiceWorker] Install");
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log("[ServiceWorker] Caching initial resources");
+      return cache.addAll(urlsToCache);
+    })
+  );
+  // 新しいSWがすぐに有効化されるように
+  self.skipWaiting();
+});
+
+// 古いキャッシュを削除する
+self.addEventListener("activate", (event) => {
+  console.log("[ServiceWorker] Activate");
+  const allowlist = [CACHE_NAME, FONT_CACHE];
+  event.waitUntil(
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((cache) => {
+          if (!allowlist.includes(cache)) {
+            console.log("[ServiceWorker] Deleting old cache:", cache);
+            return caches.delete(cache);
+          }
+        })
+      )
+    )
+  );
+  // ページを即制御
+  self.clients.claim();
+});
+
+// GETリクエストに対してキャッシュを優先的に返す（オフライン対応）
+// キャッシュにない場合はネットワークから取得し、失敗した場合は/offline.htmlを返す
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
+
+  const request = event.request;
+  const url = new URL(request.url);
+
+  // Google Fonts (CSS + フォントファイル) のキャッシュ処理
+  if (url.origin === "https://fonts.googleapis.com" || url.origin === "https://fonts.gstatic.com") {
+    event.respondWith(
+      caches.open(FONT_CACHE).then(async (cache) => {
+        try {
+          const response = await fetch(request);
+          // 成功時にキャッシュへ保存
+          cache.put(request, response.clone());
+          return response;
+        } catch (error) {
+          // オフライン時などはキャッシュを返す
+          return cache.match(request);
+        }
+      })
+    );
+    return;
+  }
+
+  // 通常のリソースキャッシュ処理
+  event.respondWith(
+    caches.match(request).then((response) => {
+      // キャッシュがあれば返し、なければネットワークから取得
+      return (
+        response ||
+        fetch(request).catch(() => {
+          // オフライン時は offline.html にフォールバック（HTMLのみ対象）
+          if (request.headers.get("accept").includes("text/html")) {
+            return caches.match("/offline.html");
+          }
+        })
+      );
+    })
+  );
+});
+
+// 受信したプッシュ通知を表示する処理
+self.addEventListener("push", event => {
+  if (!event.data) return;
+
+  // dataにjson形式以外が送られたときはプレーンテキストとして扱う
+  let data;
+  try {
+    data = event.data.json();
+  } catch (e) {
+    data = { title: event.data.text(), body: "" };
+  }
+
+  const title = data.title || "【Attakke?】";
+  const options = {
+    body: data.body || "お知らせが届いています。こちらからアプリを開いて確認してください。",
+    icon: "/icons/icon-192x192.png",
+    badge: "/icons/icon-192x192.png", // 通知欄の小アイコン
+    data: { url: data.url || "/" } // 通知クリック時に開くURL
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
+});
+
+// プッシュ通知をタップしたときの処理
+// 既存タブがあればフォーカスし、なければURLを開く
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = event.notification.data.url;
+
+  event.waitUntil(
+    clients.matchAll({ type: "window" }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url === url && "focus" in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(url);
+      }
+    })
+  );
+});

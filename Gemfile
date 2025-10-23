@@ -36,21 +36,29 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# CSSフレームワーク
 gem "tailwindcss-rails", "~> 4.3"
 
+# 認証関係
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
+# i18n対応
 gem "rails-i18n", "~> 7.0.0"
 gem "enum_help", "~> 0.0.19"
 
+# 検索機能
 gem "ransack"
+
+# プッシュ通知
+gem "web-push"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
+  # デバック系
   gem "pry-byebug"
   gem "pry-rails"
   gem "pry-remote"
@@ -61,10 +69,14 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
+  # テストフレームワーク
   gem "rspec-rails"
   gem "factory_bot_rails"
 
+  # ローカルメーラー検証
   gem "letter_opener_web"
+
+  # 環境変数管理
   gem "dotenv-rails"
 end
 

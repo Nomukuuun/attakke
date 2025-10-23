@@ -28,11 +28,19 @@ class User < ApplicationRecord
   has_many :stocks, dependent: :destroy
   has_many :locations, dependent: :destroy
   has_many :histories, through: :stocks, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   # ActionCable用のストリームキー
   # nilを排除してからソートすることでパートナーシップにより紐づいている２人を表現できる
   def partnership_stream_key
     [ id, partner&.id ].compact.sort.join("_")
+  end
+
+  # ユーザーに登録されている端末情報の数だけプッシュ通知を送る
+  def send_push_notification(message:, url: "/")
+    subscriptions.find_each do |subscription|
+      PushNotificationJob.perform_later(subscription.id, message: message, url: url)
+    end
   end
 
   def self.from_omniauth(auth)
