@@ -37,6 +37,9 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
 
+  # ローカル環境でngrok経由のhttps通信を可能にするためにhosts追加
+  config.hosts << /[a-z0-9-]+\.ngrok-free\.dev/
+
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
