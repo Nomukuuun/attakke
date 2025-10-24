@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Partnership, type: :model do
   describe 'パートナーシップバリデーションチェック' do
-    it '同一ペアは一意' do
+    it '同一ペアかつ有効期限も等しいレコードは作成できない' do
       user = create(:user)
       partner = create(:user)
-      create(:partnership, user: user, partner: partner)
-      dup = build(:partnership, user: user, partner: partner)
+      original = create(:partnership, user: user, partner: partner)
+      dup = build(:partnership, user: user, partner: partner, expires_at: original.expires_at)
       expect(dup).to be_invalid
       expect(dup.errors[:user_id]).to be_present
     end
@@ -17,9 +17,8 @@ RSpec.describe Partnership, type: :model do
     let(:user) { create(:user) }
     let(:partner) { create(:user) }
 
-    it '作成時にtokenとexpires_atが設定されているか' do
+    it '作成時にexpires_atが設定されているか' do
       p = create(:partnership, user: user, partner: partner)
-      expect(p.token).to be_present
       expect(p.expires_at).to be > Time.current
     end
 
@@ -30,12 +29,11 @@ RSpec.describe Partnership, type: :model do
       expect(inverse.status).to eq('pending')
     end
 
-    it '更新時、反対向きもapprovedになりtokenがクリアされているか' do
+    it '更新時、反対向きもapprovedになっているか' do
       p = create(:partnership, user: user, partner: partner)
       p.update!(status: :approved)
       inverse = described_class.find_by(user: partner, partner: user)
       expect(inverse.status).to eq('approved')
-      expect(inverse.token).to be_nil
     end
 
     it '削除時、反対向きも削除されているか' do
