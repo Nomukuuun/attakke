@@ -35,17 +35,6 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :public do
-    resource :partnerships, only: %i[show] do
-      member do
-        put :approve
-        get :approved
-        delete :reject
-        get :rejected
-      end
-    end
-  end
-
   # PWA関係
   get "/manifest.json", to: "pwa#manifest", defaults: { format: :json }
   get "/service-worker.js", to: "pwa#service_worker", defaults: { format: :js }
