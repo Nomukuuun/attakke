@@ -38,7 +38,7 @@ RSpec.configure do |config|
         Capybara.server_host = nil
         Capybara.server_port = nil
         Capybara.app_host = nil
-        driven_by(:selenium, using: :headless_chrome, screen_size: [1400, 900])
+        driven_by(:selenium, using: :headless_chrome, screen_size: [ 1400, 900 ])
       end
     else
       driven_by(:rack_test)
