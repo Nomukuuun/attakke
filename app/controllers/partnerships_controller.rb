@@ -2,40 +2,39 @@ class PartnershipsController < ApplicationController
   include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_currentuser_partnership, only: %i[update destroy reject]
+  before_action :set_currentuser_active_partnership, only: %i[update destroy reject]
 
   # NOTE: パートナー申請送信者側の操作
   # パートナー設定画面の表示を分岐するため、partnershipを持っているかで変数に格納する値を設定
   def new
-    @partnership = current_user.partnership || PartnershipsForm.new
+    @partnership = current_user.active_partnership || PartnershipsForm.new
   end
 
   # 申請メールを送信、レコード作成
   def create
-    partnership = PartnershipsForm.new(email: partnerships_form_params[:email], current_user_email: current_user.email)
+    new_partnership = PartnershipsForm.new(email: partnerships_form_params[:email], current_user_email: current_user.email)
 
     # 自身のアドレスを入力又は空欄の場合はエラーを表示して返す
-    if partnership.invalid?
-      @partnership = partnership
+    if new_partnership.invalid?
+      @partnership = new_partnership
       render :new, status: :unprocessable_entity
       return
     end
 
     # 入力されたemailが登録されていれば、メール送信＆レコード作成
-    if User.exists?(email: partnership.email)
-      partner = User.find_by(email: partnership.email)
+    if User.exists?(email: new_partnership.email)
+      partner = User.find_by(email: new_partnership.email)
       Partnership.transaction do
-        @partnership = current_user.create_partnership!(partner_id: partner.id, status: :sended)
+        @partnership = current_user.partnerships.create!(partner_id: partner.id, status: :sended)
         # after_create コールバックで反対側も作成
       end
-      # TODO: レコード削除ジョブの廃止　DestroyExpiredPartnershipJob.set(wait_until: @partnership.expires_at).perform_later(@partnership.id)
       # パートナー申請受信者に向けてプッシュ通知を送信
       message = { title: "【Attakke?】より", body: "パートナー申請が届いています！アプリを開いて確認してください！" }
-      current_user.partner.send_push_notification(message: message)
+      partner.send_push_notification(message: message)
     end
 
     # メールアドレス特定防止のため、メール送信できていなくても送信成功メッセージを表示する
-    flash.now[:success] = t("defaults.flash_message.mail_sended")
+    flash.now[:success] = t("defaults.flash_message.sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
 
@@ -58,12 +57,12 @@ class PartnershipsController < ApplicationController
   def update
     if @partnership&.pending?
       Partnership.transaction do
-        @partnership.update!(status: :approved, token: nil)
+        @partnership.update!(status: :approved)
         # after_update コールバックで反対側も更新
       end
       # パートナー申請送信者に向けてプッシュ通知を送信
       message = { title: "【Attakke?】より", body: "パートナー申請が承認されました！アプリを開いて確認してください！" }
-      current_user.partner.send_push_notification(message: message)
+      current_user.active_partner&.send_push_notification(message: message)
     end
 
     # current_userを更新することで紐づく情報を更新する
@@ -101,7 +100,7 @@ class PartnershipsController < ApplicationController
     params.require(:partnerships_form).permit(:email)
   end
 
-  def set_currentuser_partnership
-    @partnership = current_user.partnership
+  def set_currentuser_active_partnership
+    @partnership = current_user.active_partnership
   end
 end

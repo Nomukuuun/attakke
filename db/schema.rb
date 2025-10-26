@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_061159) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_24_020833) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,12 +39,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_061159) do
     t.bigint "partner_id", null: false
     t.integer "status", default: 0, null: false
     t.datetime "expires_at", null: false
-    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["partner_id"], name: "index_partnerships_on_partner_id"
-    t.index ["token"], name: "index_partnerships_on_token", unique: true
-    t.index ["user_id", "partner_id"], name: "index_partnerships_on_user_id_and_partner_id", unique: true
+    t.index ["user_id", "partner_id", "expires_at"], name: "index_partnerships_on_user_id_and_partner_id_and_expires_at"
     t.index ["user_id"], name: "index_partnerships_on_user_id"
   end
 

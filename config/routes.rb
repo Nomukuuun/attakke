@@ -7,9 +7,6 @@ Rails.application.routes.draw do
     delete "logout", to: "users/sessions#destroy", as: :logout
   end
 
-  # TODO: テストが済んだら削除
-  post "push_test", to: "push_test#test", as: :push_test
-
   # static_page関係
   root "top_pages#top"
   get "privacy", to: "static_pages#privacy", as: :privacy
@@ -32,17 +29,6 @@ Rails.application.routes.draw do
   resource :partnerships, only: %i[new create update destroy] do
     member do
       delete :reject
-    end
-  end
-
-  namespace :public do
-    resource :partnerships, only: %i[show] do
-      member do
-        put :approve
-        get :approved
-        delete :reject
-        get :rejected
-      end
     end
   end
 

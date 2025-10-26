@@ -23,8 +23,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
-  has_one :partnership
-  has_one :partner, through: :partnership
+  has_many :partnerships, dependent: :destroy
+  has_many :partners, through: :partnerships, source: :partner
   has_many :stocks, dependent: :destroy
   has_many :locations, dependent: :destroy
   has_many :histories, through: :stocks, dependent: :destroy
@@ -33,7 +33,8 @@ class User < ApplicationRecord
   # ActionCable用のストリームキー
   # nilを排除してからソートすることでパートナーシップにより紐づいている２人を表現できる
   def partnership_stream_key
-    [ id, partner&.id ].compact.sort.join("_")
+    approved_partner = active_partner if active_partnership&.approved?
+    [ id, approved_partner&.id ].compact.sort.join("_")
   end
 
   # ユーザーに登録されている端末情報の数だけプッシュ通知を送る
@@ -41,6 +42,17 @@ class User < ApplicationRecord
     subscriptions.find_each do |subscription|
       PushNotificationJob.perform_later(subscription.id, message: message, url: url)
     end
+  end
+
+  # 承認済みまたは保留中の状態のレコード１件を取得
+  def active_partnership
+    partnerships.approved_only.order(expires_at: :desc).first ||
+    partnerships.waiting.active.order(expires_at: :asc).first
+  end
+
+  # 有効なパートナーシップレコードがあるならパートナーを返す
+  def active_partner
+    active_partnership&.partner
   end
 
   def self.from_omniauth(auth)
