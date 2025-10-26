@@ -34,7 +34,7 @@ class PartnershipsController < ApplicationController
     end
 
     # メールアドレス特定防止のため、メール送信できていなくても送信成功メッセージを表示する
-    flash.now[:success] = t("defaults.flash_message.mail_sended")
+    flash.now[:success] = t("defaults.flash_message.sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
 
