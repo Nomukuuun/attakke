@@ -29,11 +29,4 @@
   </div>
 
   <%= render "main_frame", { stocks: @stocks, locations: @locations } %>
-
-  <%# TODO: テストが済んだら削除 %>
-  <%= button_to "プッシュ通知テスト",
-              push_test_path,
-              method: :post,
-              data: { turbo_confirm: "通知を送信しますか？" },
-              class: "px-4 py-2 bg-dull-green text-white rounded hover:brightness-90" %>
 </div>

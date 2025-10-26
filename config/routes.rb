@@ -7,9 +7,6 @@ Rails.application.routes.draw do
     delete "logout", to: "users/sessions#destroy", as: :logout
   end
 
-  # TODO: テストが済んだら削除
-  post "push_test", to: "push_test#test", as: :push_test
-
   # static_page関係
   root "top_pages#top"
   get "privacy", to: "static_pages#privacy", as: :privacy
