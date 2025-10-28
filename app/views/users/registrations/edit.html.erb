@@ -1,0 +1,27 @@
+<%= render 'shared/modal_wrapper' do %>
+
+  <h2 class="text-xl font-bold mb-4">ユーザー情報の編集</h2>
+
+  <%= form_with model: resource,
+                url: user_registration_path(resource_name),
+                method: :put,
+                data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
+
+    <div class="mb-4">
+      <%= f.label :name, "ユーザー名" %>
+      <%= f.text_field :name, autofocus: true, class: "border rounded px-2 py-1 w-full" %>
+      <%= render 'shared/error_messages', object: resource, attribute: :name %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :email, "メールアドレス" %>
+      <%= f.email_field :email, class: "border rounded px-2 py-1 w-full" %>
+      <%= render 'shared/error_messages', object: resource, attribute: :email %>
+    </div>
+
+    <div>
+      <%= f.submit "更新する", class: "bg-dull-green text-white rounded px-4 py-2" %>
+    </div>
+  <% end %>
+
+<% end %>
