@@ -49,9 +49,18 @@ class TopPagesController < ApplicationController
 
   private
 
-  # TODO: ログインセッションが残っている状態でアプリ再起動時にフラッシュメッセージが表示ないように制御したい
   def redirect_back_to_stocks_path
-    flash[:error] = t("defaults.flash_message.logout_not_completed")
-    redirect_back fallback_location: stocks_path
+    # 直前のURLを参照
+    ref = request.referer
+
+    # 直前のURLがない、かつ、stocks_pathから来ている ＝ ブラウザバック（ログアウトを促す）
+    # アプリ再起動の場合はウェルカムバック
+    if ref.present? && URI(ref).path == stocks_path
+      flash[:error] = t("defaults.flash_message.logout_not_completed")
+      redirect_back fallback_location: stocks_path
+    else
+      flash[:success] = t("defaults.flash_message.welcome_back", user: current_user.name)
+      redirect_to stocks_path
+    end
   end
 end
