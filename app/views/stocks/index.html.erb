@@ -2,7 +2,7 @@
   <!-- ActionCableの購買キーをセット -->
   <%= turbo_stream_from current_user.partnership_stream_key %>
 
-  <div class="w-full sticky top-18 md:top-24 bg-dull-beige z-30">
+  <div class="w-full sticky top-16 md:top-20 bg-dull-beige z-30">
     <!-- ストック検索フォーム -->
     <div class="w-full px-4 py-2">
       <%= render "search_form", { q: @q } %>

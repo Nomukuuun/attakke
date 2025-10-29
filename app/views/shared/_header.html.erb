@@ -1,82 +1,95 @@
-<header class="fixed top-0 left-0 z-50 w-full h-18 md:h-24 shadow-sm bg-white">
-  <div class="container mx-auto px-4 md:px-6 size-full">
-    <div class="flex items-center justify-between h-full">
-      <% if user_signed_in? %>
-        <%= link_to stocks_path, class: "shadow-sm rounded" do %>
-          <%= image_tag 'logo.svg', class: "h-10 md:h-15" %>
-        <% end %>
-      <% else %>
-        <%= link_to root_path, class: "shadow-sm rounded" do %>
-          <%= image_tag 'logo.svg', class: "h-10 md:h-15" %>
-        <% end %>
+<header class="fixed top-0 left-0 z-50 w-full h-16 md:h-20 shadow-sm bg-white">
+  <div class="container mx-auto flex h-full w-full items-center justify-between px-4 md:px-6">
+    <% if user_signed_in? %>
+      <%= link_to stocks_path, class: "shadow-sm rounded" do %>
+        <%= image_tag "logo.svg", class: "h-10 md:h-14" %>
       <% end %>
+    <% else %>
+      <%= link_to root_path, class: "shadow-sm rounded" do %>
+        <%= image_tag "logo.svg", class: "h-10 md:h-14" %>
+      <% end %>
+    <% end %>
 
-      <% if user_signed_in? %>
-        <!-- ハンバーガーメニュー -->
-        <div data-controller="mobile-menus" class="block">
-          <div class="flex space-x-4">
-            <%= turbo_frame_tag 'bell_icon' do %>
-              <%= render 'shared/bell_icon' %>
-            <% end %>
-            <button class="block" data-action="click->mobile-menus#toggle"> 
-              <svg data-mobile-menus-target="open" class="size-8 text-f-head"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-              </svg>
-              <svg data-mobile-menus-target="close" class="hidden size-8 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- ドロワーメニュー -->
-          <div data-mobile-menus-target="mobileMenus" class="hidden absolute top-18 right-0 w-1/2 md:w-1/4 bg-white shadow-md border border-gray-700 rounded flex flex-col items-center justify-items-end divide-y-2 divide-gray-700 py-2 px-8">
-            <%= link_to tutorial_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "w-full flex item-center justify-center space-x-2 text-f-head p-3" do %>
-              <svg class="size-6 text-f-head"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              <span class="text-f-head">チュートリアル</span>
-            <% end %>
-
-            <%= link_to users_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "w-full flex item-center justify-center space-x-2 text-f-head p-3" do %>
-              <svg class="size-6 text-f-head" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-              </svg>
-              <span class="text-f-head">ユーザー情報</span>
-            <% end %>
-
-            <%= link_to new_partnerships_path, data: { turbo_frame: 'modal_frame', action: "turbo:click->mobile-menus#reset" }, class: "w-full flex item-center justify-center space-x-2 text-f-head p-3" do %>
-              <svg class="size-6 text-f-head"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/><circle cx="9" cy="7" r="4" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-              </svg>
-              <span class="text-f-head">パートナー設定</span>
-            <% end %>
-
-            <%= button_to logout_path, method: :delete, class: "w-full flex item-center space-x-2 text-dull-green p-3 cursor-pointer hover:brightness-70" do %>
-              <div class="flex items-center">
-                <svg class="size-6 text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M7 12h14l-3 -3m0 6l3 -3" />
-                </svg>
-              </div>
-              <span class="text-dull-green">ログアウト</span>
-            <% end %>
-          </div>
+    <% if user_signed_in? %>
+      <!-- ハンバーガーメニュー -->
+      <div data-controller="mobile-menus" class="relative flex items-center">
+        <div class="flex items-center gap-3">
+          <%= turbo_frame_tag "bell_icon" do %>
+            <%= render "shared/bell_icon" %>
+          <% end %>
+          <button type="button" class="z-50 flex h-10 w-10 items-center justify-center rounded-full border border-f-head bg-white shadow-sm transition duration-200 ease-out hover:bg-dull-beige hover:shadow-md" data-action="click->mobile-menus#toggle">
+            <svg data-mobile-menus-target="open" class="size-6 text-f-head" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg data-mobile-menus-target="close" class="hidden size-6 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
-      <% else %>
-        <!-- 非ログイン時 -->
-        <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center text-base md:text-xl text-white bg-dull-green rounded p-3 cursor-pointer hover:brightness-70" do %>
-          <div class="flex items-center size-6 bg-white rounded-full p-[6px] mr-2 text-center">
-            <svg class="size-3" version="1.1" viewBox="0 0 48 48">
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-              <path fill="none" d="M0 0h48v48H0z"></path>
-            </svg>
-          </div>
-          <span>ログイン</span>
-        <% end %>
+        <!-- スライドメニュー -->
+        <div data-mobile-menus-target="mobileMenus" class="drawer-container" aria-hidden="true">
+          <button type="button" class="drawer-overlay" data-action="click->mobile-menus#close"></button>
+          <nav class="drawer-panel" data-mobile-menus-target="panel">
+            <p class="drawer-title">メニュー</p>
+
+            <%= link_to tutorial_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
+              <svg class="text-f-head" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>チュートリアル</span>
+            <% end %>
+
+            <%= link_to users_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
+              <svg class="text-f-head" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+              </svg>
+              <span>ユーザー一覧</span>
+            <% end %>
+
+            <%= link_to new_partnerships_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
+              <svg class="text-f-head" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+              </svg>
+              <span>パートナー設定</span>
+            <% end %>
+
+            <%= button_to logout_path, method: :delete, data: { action: "click->mobile-menus#reset" }, class: "drawer-link drawer-link--logout" do %>
+              <div class="flex items-center">
+                <svg class="text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                  <path d="M7 12h14l-3 -3m0 6l3 -3" />
+                </svg>
+              </div>
+              <span>ログアウト</span>
+            <% end %>
+          </nav>
+        </div>
+      </div>
+
+    <% else %>
+
+      <!-- 非ログイン時 -->
+      <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center rounded bg-dull-green p-3 text-base text-white transition hover:brightness-105 md:text-xl" do %>
+        <div class="mr-2 flex size-6 items-center justify-center rounded-full bg-white p-[6px] text-center">
+          <svg class="size-3" version="1.1" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+            <path fill="none" d="M0 0h48v48H0z"></path>
+          </svg>
+        </div>
+        <span>ログイン</span>
       <% end %>
-    </div>
+    <% end %>
   </div>
 </header>
+

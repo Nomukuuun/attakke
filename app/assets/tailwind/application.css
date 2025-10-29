@@ -33,10 +33,10 @@
       transform: translateY(0);
     }
     15% {
-      transform: translateY(56px);
+      transform: translateY(48px);
     }
     85% {
-      transform: translateY(56px);
+      transform: translateY(48px);
     }
     100% {
       transform: translateY(0);
@@ -47,4 +47,56 @@
 /* 「field_with_errors」にCSSをあてる */
 .field_with_errors {
   display: contents;
+}
+
+/* ログイン後のスライドメニュー用コンポーネント */
+@layer components {
+  .drawer-container {
+    @apply fixed inset-0 z-40 flex justify-end opacity-0 pointer-events-none transition-opacity duration-300 ease-out;
+  }
+
+  .drawer-container--open {
+    @apply pointer-events-auto;
+  }
+
+  .drawer-container--visible {
+    @apply opacity-100;
+  }
+
+  .drawer-overlay {
+    @apply h-full w-full flex-1 border-0 cursor-pointer;
+    background-color: color-mix(in srgb, var(--color-f-head) 30%, transparent);
+  }
+
+  .drawer-panel {
+    @apply relative z-10 flex h-full w-full max-w-3xs md:max-w-xs flex-col gap-4 overflow-y-auto border-l border-f-head bg-white px-6 py-8 shadow-xl transition-transform duration-300 ease-out translate-x-full;
+  }
+
+  .drawer-container--visible .drawer-panel {
+    @apply translate-x-0;
+  }
+
+  .drawer-title {
+    @apply font-semibold tracking-wide text-f-head;
+  }
+
+  .drawer-link {
+    @apply w-full flex items-center gap-3 rounded-lg py-3 font-medium text-f-head transition-colors duration-200 ease-out hover:bg-dull-beige;
+  }
+
+  .drawer-link svg {
+    @apply size-6 text-f-head;
+  }
+
+  .drawer-link--logout {
+    @apply text-dull-green hover:text-dull-red;
+  }
+
+  .drawer-link--logout svg {
+    @apply text-dull-green transition-colors duration-200 ease-out;
+  }
+
+  .drawer-link--logout:hover svg {
+    @apply text-dull-red;
+  }
 }
