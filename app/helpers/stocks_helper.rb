@@ -12,6 +12,23 @@ module StocksHelper
     stock.latest_exist_quantity == nil ? stock.latest_num_quantity.to_i : stock.latest_exist_quantity.to_i
   end
 
+  # フィルタリングボタンのデザインを決定するメソッド
+  def set_button_design(filtering)
+    defaults = "bg-white hover:bg-dull-green/70 hover:text-f-head/70"
+    active = "bg-dull-green text-white"
+    button_design = { all: defaults, out: defaults, in: defaults }
+
+    case filtering
+    when "all"
+      button_design[:all] = active
+    when "out"
+      button_design[:out] = active
+    when "in"
+      button_design[:in] = active
+    end
+
+    button_design
+  end
 
   # index画面で〇日前と表示するためのメソッド
   def number_of_days_elapsed(stock)

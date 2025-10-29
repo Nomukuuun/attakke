@@ -1,32 +1,19 @@
-<div id="index" class="w-full">
+<%= turbo_frame_tag "index", class: "w-full" do %>
   <!-- ActionCableの購買キーをセット -->
   <%= turbo_stream_from current_user.partnership_stream_key %>
 
-  <div class="w-full sticky top-18 md:top-24 flex items-center space-x-4 px-4 py-2 bg-dull-beige z-30">
-    <!-- フィルタリングボタン -->
-    <%= form_with url: stocks_path,
-                method: :get,
-                data: { turbo_frame: "main_frame" },
-                html: { class: "relative basis-1/3" } do %>
-      <%= select_tag :filter,
-        options_for_select(
-          [
-            ["一覧", "all"],
-            ["買わない", "in"],
-            ["買う", "out"]
-          ],
-          selected: params[:filter].presence || "all"
-        ),
-        include_blank: false,
-        class: "flex items-center text-center w-full h-10 rounded bg-dull-green text-white text-base md:text-xl hover:brightness-70",
-        onchange: "this.form.requestSubmit()" %>
-    <% end %>
-
+  <div class="w-full sticky top-18 md:top-24 bg-dull-beige z-30">
     <!-- ストック検索フォーム -->
-    <div class="basis-2/3">
+    <div class="w-full px-4 py-2">
       <%= render "search_form", { q: @q } %>
+    </div>
+
+    <!-- フィルタリングボタン -->
+    <div class="w-full bg-dull-beige text-f-head/50"> 
+      <%= render "filter_bar", { filtering: @filtering_value } %>
     </div>
   </div>
 
   <%= render "main_frame", { stocks: @stocks, locations: @locations } %>
-</div>
+<% end %>
+

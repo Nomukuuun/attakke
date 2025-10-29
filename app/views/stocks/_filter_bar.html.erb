@@ -1,0 +1,22 @@
+<div id="filter_bar">
+  <%# NOTE: フィルターボタンのデザインをヘルパー決めて返す %>
+  <% button_design = set_button_design(filtering) %>
+
+  <div class="flex items-center justify-center divide-x-1">
+    <%= link_to stocks_path(filter: "all"),
+      data: { turbo_frame: "index" },
+      class: "basis-1/3 flex items-center justify-center p-1 rounded-t-lg #{button_design[:all]}" do %>
+      <p>一覧</p>
+    <% end %>
+    <%= link_to stocks_path(filter: "out"),
+      data: { turbo_frame: "index" },
+      class: "basis-1/3 flex items-center justify-center p-1 rounded-t-lg #{button_design[:out]}" do %>
+      <p>買うもの</p>
+    <% end %>
+    <%= link_to stocks_path(filter: "in"),
+      data: { turbo_frame: "index" },
+      class: "basis-1/3 flex items-center justify-center p-1 rounded-t-lg #{button_design[:in]}" do %>
+      <p>買わないもの</p>
+    <% end %>
+  </div>
+</div>

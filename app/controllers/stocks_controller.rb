@@ -9,21 +9,27 @@ class StocksController < ApplicationController
 
   # ログイン後のベース画面
   def index
-    # フィルタリングプルダウンの選択によって返す@stocksを変更
-    case params[:filter]
-    when "all" || nil
+    # フィルタリングの選択によって返す@stocksを変更
+    @filtering_value = filter_params[:filter] || "all"
+    case @filtering_value
+    when "all"
       @stocks
-    when "in"
-      @stocks = @stocks.in_stocks
     when "out"
       @stocks = @stocks.out_of_stocks
+    when "in"
+      @stocks = @stocks.in_stocks
     end
 
     respond_to do |format|
       format.turbo_stream {
-        render turbo_stream: turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations })
+        render turbo_stream: [
+          turbo_stream.replace("filter_bar", partial: "filter_bar", locals: { filtering: @filtering_value }),
+          turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations })
+        ]
       }
-      format.html
+      format.html {
+        render :index, locals: { stocks: @stocks, locations: @locations }
+      }
     end
   end
 
@@ -108,6 +114,10 @@ class StocksController < ApplicationController
 
   def stock_params
     params.require(:stock).permit(:location_id, :name, :model, :purchase_target, histories_attributes: [ :exist_quantity, :num_quantity ])
+  end
+
+  def filter_params
+    params.permit(:filter)
   end
 
   # edit, updateで使用するデータセット
