@@ -3,21 +3,24 @@
 
 @theme {
   /* ボディに使う文字色 */
-  --color-f-head: #232323; /* 見出しなどで上書き */
-  --color-f-body: #222525; /* ボディ全体に適用 */
+  --color-f-head: #2f2a1f; /* 見出しなどで上書き */
+  --color-f-body: #4f4737; /* ボディ全体に適用 */
 
-  /* dull-green ボタン等の指し色 */
-  --color-dull-green: #078080;
+  /* ボタン等の指し色 */
+  --color-dull-green: #6b8f71;
 
-  /* dull-red ボタン等の指し色 */
-  --color-dull-red: #f45d48;
+  /* ボタン等の指し色 */
+  --color-dull-red: #c8553d;
 
-  /* dull-pink なしにフィルタリングされるストックの背景色 */
+  /* 「買う」にフィルタリングされるストックの背景色 */
   /* dull-redを500としたときの200相当色 */
-  --color-dull-pink: #FFBEB6;
+  --color-dull-pink: #f5bdb3;
 
-  /* dull-beige メイン背景色 */
-  --color-dull-beige: #f8f5f2;
+  /* メイン背景色 */
+  --color-dull-beige: #d7c9aa;
+
+  /* 「買わない」にフィルタリングされるストックの背景色 */
+  --color-dull-sand: #f8f5f2;
 
   /* GoogleFontsの導入 */
   --font-yusei: "Yusei Magic", sans-serif;

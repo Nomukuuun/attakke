@@ -4,7 +4,7 @@ module StocksHelper
     if quantity(stock) == 0 || stock.purchase_target
       "bg-dull-pink border-red-100"
     else
-      "bg-dull-beige border-yellow-50"
+      "bg-dull-sand border-yellow-50"
     end
   end
 

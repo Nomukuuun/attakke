@@ -24,3 +24,6 @@ application.register("quantity-visibility", QuantityVisibilityController)
 
 import TempleteSelectController from "./templete_select_controller"
 application.register("templete-select", TempleteSelectController)
+
+import RevealController from "./reveal_controller"
+application.register("reveal", RevealController)
