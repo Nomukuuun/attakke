@@ -1,35 +1,97 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Connects to data-controller="mobile-menus"
 export default class extends Controller {
-  static targets = ["open", "close", "mobileMenus"];
+  static targets = ["open", "close", "mobileMenus", "panel"];
 
   connect() {
-    this.outsideClickHandler = this.closeIfOutside.bind(this);
+    this.finishClosing = this.finishClosing.bind(this);
+    this.handleEscape = this.handleEscape.bind(this);
   }
 
-  toggle() {
-    this.openTarget.classList.toggle("hidden");
-    this.closeTarget.classList.toggle("hidden");
-    this.mobileMenusTarget.classList.toggle("hidden");
+  disconnect() {
+    document.removeEventListener("keydown", this.handleEscape);
+  }
 
-    if (!this.mobileMenusTarget.classList.contains("hidden")) {
-      document.addEventListener("click", this.outsideClickHandler);
+  toggle(event) {
+    event.preventDefault();
+
+    if (this.isOpen) {
+      this.closeMenu();
     } else {
-      document.removeEventListener("click", this.outsideClickHandler);
+      this.openMenu();
     }
   }
 
-  closeIfOutside(event) {
-    if (this.element.contains(event.target)) return; // 自分の中のクリックは無視
-    console.log("mobile menu close");
-    this.reset();
+  close(event) {
+    event?.preventDefault();
+    this.closeMenu();
   }
 
   reset() {
+    this.closeMenu({ instant: true });
+  }
+
+  openMenu() {
+    this.panelTarget.removeEventListener("transitionend", this.finishClosing);
+
+    this.openTarget.classList.add("hidden");
+    this.closeTarget.classList.remove("hidden");
+
+    this.mobileMenusTarget.classList.add("drawer-container--open");
+    this.mobileMenusTarget.setAttribute("aria-hidden", "false");
+
+    requestAnimationFrame(() => {
+      this.mobileMenusTarget.classList.add("drawer-container--visible");
+    });
+
+    document.addEventListener("keydown", this.handleEscape);
+  }
+
+  closeMenu({ instant = false } = {}) {
     this.openTarget.classList.remove("hidden");
     this.closeTarget.classList.add("hidden");
-    this.mobileMenusTarget.classList.add("hidden");
-    document.removeEventListener("click", this.outsideClickHandler);
+
+    if (instant) {
+      this.mobileMenusTarget.classList.remove(
+        "drawer-container--visible",
+        "drawer-container--open"
+      );
+      this.mobileMenusTarget.setAttribute("aria-hidden", "true");
+      document.removeEventListener("keydown", this.handleEscape);
+      return;
+    }
+
+    if (
+      !this.isOpen &&
+      !this.mobileMenusTarget.classList.contains("drawer-container--visible")
+    ) {
+      return;
+    }
+
+    this.mobileMenusTarget.classList.remove("drawer-container--visible");
+    this.mobileMenusTarget.setAttribute("aria-hidden", "true");
+
+    this.panelTarget.removeEventListener("transitionend", this.finishClosing);
+    this.panelTarget.addEventListener("transitionend", this.finishClosing, {
+      once: true,
+    });
+
+    document.removeEventListener("keydown", this.handleEscape);
+  }
+
+  finishClosing() {
+    if (this.mobileMenusTarget.classList.contains("drawer-container--visible"))
+      return;
+    this.mobileMenusTarget.classList.remove("drawer-container--open");
+  }
+
+  handleEscape(event) {
+    if (event.key === "Escape") {
+      this.closeMenu();
+    }
+  }
+
+  get isOpen() {
+    return this.mobileMenusTarget.classList.contains("drawer-container--open");
   }
 }

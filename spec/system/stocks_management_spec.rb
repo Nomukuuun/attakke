@@ -116,19 +116,19 @@ RSpec.describe 'ログイン後のストック操作', type: :system, js: true d
         expect(page).to have_content('タオル')
       end
 
-      select '買わない', from: 'filter'
+      click_on '買わないもの'
       within('turbo-frame#main_frame') do
         expect(page).to have_content('スポンジ')
         expect(page).to have_no_content('タオル')
       end
 
-      select '買う', from: 'filter'
+      click_on '買うもの'
       within('turbo-frame#main_frame') do
         expect(page).to have_content('タオル')
         expect(page).to have_no_content('スポンジ')
       end
 
-      select '一覧', from: 'filter'
+      click_on '一覧'
       within('turbo-frame#main_frame') do
         expect(page).to have_content('スポンジ')
         expect(page).to have_content('タオル')

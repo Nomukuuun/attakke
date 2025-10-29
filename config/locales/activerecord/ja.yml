@@ -8,7 +8,7 @@ ja:
       partnership: パートナー設定
     attributes:
       user:
-        name: 名前
+        name: ユーザー名
         email: メールアドレス
         partner_id: パートナーID
         encrypted_password: パスワード
