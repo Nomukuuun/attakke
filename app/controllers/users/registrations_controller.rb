@@ -18,6 +18,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # 編集時に許可する項目
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :email ])
   end
 end
