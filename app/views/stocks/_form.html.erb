@@ -39,18 +39,15 @@
 
             <!-- チェックありアイコン -->
             <div class="flex items-center space-x-4 cursor-pointer" data-action='click->quantity-visibility#toggleIcon' data-quantity-visibility-target="checkedIcon">
-              <svg class="size-12 text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/>
-                <polyline points="9 11 12 14 20 6" />
-                <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+              <svg class="size-12 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
               </svg>
               <p class="text-lg">ストックあり</p>
             </div>
             <!-- チェックなしアイコン -->
             <div class="hidden flex items-center space-x-4 cursor-pointer" data-action='click->quantity-visibility#toggleIcon' data-quantity-visibility-target="notCheckedIcon">
-              <svg class="size-12 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/>
-                <rect x="4" y="4" width="16" height="16" rx="2" />
+              <svg class="size-12 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
               </svg>
               <p class="text-lg">ストックなし</p>
             </div>
