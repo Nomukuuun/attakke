@@ -108,7 +108,7 @@ RSpec.describe 'ログイン後のストック操作', type: :system, js: true d
     let!(:stock_out) { create(:stock, user: user, location: location, name: 'タオル', model: :existence) }
     let!(:history_out) { create(:history, stock: stock_out, exist_quantity: 0, status: :consumption) }
 
-    it '在庫あり/なし/すべてを切り替えられる' do
+    it '一覧/買わない/買うを切り替えられる' do
       login_via_google
 
       within('turbo-frame#main_frame') do
@@ -116,19 +116,19 @@ RSpec.describe 'ログイン後のストック操作', type: :system, js: true d
         expect(page).to have_content('タオル')
       end
 
-      select 'あり', from: 'filter'
+      select '買わない', from: 'filter'
       within('turbo-frame#main_frame') do
         expect(page).to have_content('スポンジ')
         expect(page).to have_no_content('タオル')
       end
 
-      select 'なし', from: 'filter'
+      select '買う', from: 'filter'
       within('turbo-frame#main_frame') do
         expect(page).to have_content('タオル')
         expect(page).to have_no_content('スポンジ')
       end
 
-      select 'すべて', from: 'filter'
+      select '一覧', from: 'filter'
       within('turbo-frame#main_frame') do
         expect(page).to have_content('スポンジ')
         expect(page).to have_content('タオル')

@@ -9,7 +9,6 @@ export default class extends Controller {
     "existenceQuantity",
     "checkedIcon",
     "notCheckedIcon",
-    "iconExplanation",
     "numberField",
     "numberQuantity",
   ];
@@ -31,35 +30,30 @@ export default class extends Controller {
     }
   }
 
+  // チェックボックス型のチェックあり/なしを切り替える
   toggleIcon() {
     const quantity = this.existenceQuantityTarget;
-    const explanation = this.iconExplanationTarget;
 
     if (quantity.value === "1") {
       this.checkedIconTarget.classList.add("hidden");
       this.notCheckedIconTarget.classList.remove("hidden");
-      explanation.textContent = "ストックなし";
       quantity.value = 0;
     } else {
       this.notCheckedIconTarget.classList.add("hidden");
       this.checkedIconTarget.classList.remove("hidden");
-      explanation.textContent = "ストックあり";
       quantity.value = 1;
     }
   }
 
   setInitialIconState() {
     const quantity = this.existenceQuantityTarget;
-    const explanation = this.iconExplanationTarget;
 
     if (quantity.value === "1") {
       this.checkedIconTarget.classList.remove("hidden");
       this.notCheckedIconTarget.classList.add("hidden");
-      explanation.textContent = "ストックあり";
     } else {
       this.checkedIconTarget.classList.add("hidden");
       this.notCheckedIconTarget.classList.remove("hidden");
-      explanation.textContent = "ストックなし";
     }
   }
 

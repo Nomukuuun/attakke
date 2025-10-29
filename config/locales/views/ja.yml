@@ -20,6 +20,7 @@ ja:
       withdrawal: 申請を取り下げました
       reject: 申請を拒否しました
       logout_not_completed: ログアウトしてください
+      welcome_back: "おかえりなさい、%{user}さん"
     models:
       user: ユーザー
       stock: ストック

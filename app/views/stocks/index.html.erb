@@ -11,9 +11,9 @@
       <%= select_tag :filter,
         options_for_select(
           [
-            ["すべて", "all"],
-            ["あり",   "in"],
-            ["なし",   "out"]
+            ["一覧", "all"],
+            ["買わない", "in"],
+            ["買う", "out"]
           ],
           selected: params[:filter].presence || "all"
         ),

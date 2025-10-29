@@ -1,0 +1,37 @@
+<%= render 'shared/modal_wrapper' do %>
+  
+  <%= form_with model: resource,
+                url: user_registration_path(resource_name),
+                method: :put,
+                data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
+
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">ユーザー情報の編集</h2>
+      <%= f.submit "更新する", class: "bg-dull-red text-f-body rounded px-4 py-2" %>
+    </div>
+
+    <div class="mb-4">
+      <div class="flex items-center space-x-1 mb-1">
+        <svg class="size-6 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+        </svg>
+        <%= f.label :name, "ユーザー名", class: "font-bold" %>
+      </div>
+      <%= f.text_field :name, autofocus: true, class: "border rounded px-2 py-1 w-full" %>
+      <%= render 'shared/error_messages', object: resource, attribute: :name %>
+    </div>
+
+    <div class="mb-4">
+      <div class="flex items-center space-x-1 mb-1">
+        <svg class="size-6 text-f-body" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        <%= f.label :email, "メールアドレス", class: "font-bold" %>
+      </div>
+      <%= f.email_field :email, class: "border rounded px-2 py-1 w-full" %>
+      <%= render 'shared/error_messages', object: resource, attribute: :email %>
+    </div>
+
+  <% end %>
+
+<% end %>

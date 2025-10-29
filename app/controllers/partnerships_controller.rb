@@ -21,9 +21,10 @@ class PartnershipsController < ApplicationController
       return
     end
 
-    # 入力されたemailが登録されていれば、メール送信＆レコード作成
-    if User.exists?(email: new_partnership.email)
-      partner = User.find_by(email: new_partnership.email)
+    partner = User.find_by(email: new_partnership.email)
+
+    # 入力されたemailを持つユーザーがactiveなpartnershipを持っていないならレコード作成＆プッシュ通知送信
+    if partner.present? && partner.active_partnership.blank?
       Partnership.transaction do
         @partnership = current_user.partnerships.create!(partner_id: partner.id, status: :sended)
         # after_create コールバックで反対側も作成
@@ -33,7 +34,7 @@ class PartnershipsController < ApplicationController
       partner.send_push_notification(message: message)
     end
 
-    # メールアドレス特定防止のため、メール送信できていなくても送信成功メッセージを表示する
+    # メールアドレス特定防止のため、申請を送信できていなくても送信成功メッセージを表示する
     flash.now[:success] = t("defaults.flash_message.sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
