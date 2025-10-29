@@ -15,18 +15,20 @@
     <div data-controller="flash" class="fixed items-center animate-fadeinout px-4 top-4 md:top-9 z-40 w-full">
       <div class="container mx-auto">
         <div data-flash-target="close" data-action="click->flash#close" class="flex items-center w-full md:w-1/2 mx-0 md:mx-auto h-10 text-center mt-2 p-1 rounded shadow-md <%= base_color %>">
-          <span class="flex items-center space-x-2 w-full mx-auto">
-            <% if type.to_s == "success" %>
-              <svg class="size-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" />
-              </svg>
-            <% else %>
-              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
-              </svg>
-            <% end %>
-            <p><%= message %></p>
-          </span>
+          <div class="w-full mx-auto flex justify-center">
+            <div class="flex items-center text-center space-x-2">
+              <% if type.to_s == "success" %>
+                <svg class="size-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" />
+                </svg>
+              <% else %>
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
+                </svg>
+              <% end %>
+              <p><%= message %></p>
+            </div>
+          </div>
           <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
