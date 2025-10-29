@@ -24,7 +24,7 @@ class PartnershipsController < ApplicationController
     partner = User.find_by(email: new_partnership.email)
 
     # 入力されたemailを持つユーザーがactiveなpartnershipを持っていないならレコード作成＆プッシュ通知送信
-    if partner.present? && partner&.active_partnership.blank?
+    if partner.present? && partner.active_partnership.blank?
       Partnership.transaction do
         @partnership = current_user.partnerships.create!(partner_id: partner.id, status: :sended)
         # after_create コールバックで反対側も作成

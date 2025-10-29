@@ -1,4 +1,6 @@
-# 毎回db:seedが実行されるため、既存のテンプレートを削除する
+# NOTE: presetを追加したらrender-build.shの「bundle exec rails db:seed」のコメントアウトを解除する
+
+# presetが重複して登録されてしまうため既存テンプレートを削除
 Templete.delete_all
 
 # プリセットひな形　{ tag: , l_name: , s_name: , model: , exist_quantity: , num_quantity: },
