@@ -8,7 +8,7 @@
       </svg>
       <h2 class="modal-label">ユーザー名</h2>
     </div>
-    <p class="px-2 py-1"><%= @user.name %></p>
+    <p class="px-2 py-[5px]"><%= @user.name %></p>
   </div>
 
   <div class="mb-4">
@@ -18,11 +18,11 @@
       </svg>
       <h2 class="modal-label">メールアドレス</h2>
     </div>
-    <p class="px-2 py-1"><%= @user.email %></p>
+    <p class="px-2 py-[5px]"><%= @user.email %></p>
   </div>
 
   <div class="mb-6">
-    <%= link_to "編集", edit_user_registration_path, class: "bg-dull-green text-white rounded px-4 py-2 hover:brightness-70" %>
+    <%= link_to "編集", edit_user_registration_path, class: "bg-dull-green text-white rounded px-4 py-2 hover:brightness-70 shadow-lg" %>
   </div>
 
 <% end %>
