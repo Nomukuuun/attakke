@@ -130,14 +130,23 @@
           リアルタイムで同期されますので、出先で同じ画面を確認しながら、買い物をすることができます。<br>
           例えば、ストックの状態をチェックなしからチェックありへ更新した場合、パートナーの画面にもチェックが即座に反映されます。
         </p>
-        <p class="mb-2">
-        ※ 現在、パートナー設定の解除機能は用意しておりません。ご了承ください。
-        </p>
+        <div class="mb-2 text-dull-red">
+          <div class="flex items-center space-x-2 mb-1">
+            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p>注意事項</p>
+          </div>
+          <p>
+            現在、パートナー設定を解除する機能はありません。
+            ご了承ください。
+          </p>
+        </div>
       </section>
 
     <!-- 閉じる -->
     <div class="w-full mt-8 mx-auto text-center cursor-pointer">
-      <span class="px-4 py-2 bg-dull-green text-white rounded" data-action="click->modal-frame#hideModal">
+      <span class="px-4 py-2 bg-dull-green text-white rounded shadow-lg" data-action="click->modal-frame#hideModal">
         閉じる
       </span>
     </div>

@@ -7,8 +7,8 @@
 >
 
   <!-- 確認メッセージ -->
-  <div data-confirm-target="dialog" class="w-sm bg-white pt-8 mx-4 pb-4 rounded shadow">
-    <p data-confirm-target="message" class="mb-4 text-base md:text-lg"></p>
+  <div data-confirm-target="dialog" class="w-sm bg-white pt-8 px-4 pb-4 rounded shadow">
+    <p data-confirm-target="message" class="mb-4"></p>
 
     <!-- ボタン -->
     <div class="flex item-center space-x-4">
@@ -16,7 +16,7 @@
         type="button"
         data-confirm-target="confirmButton"
         data-action="click->confirm#confirm"
-        class="basis-1/2 text-lg p-2 bg-dull-red rounded hover:brightness-70"
+        class="basis-1/2 p-2 bg-dull-red rounded hover:brightness-70"
       >
       <%# NOTE: ここに confirm_button_text で指定したテキストが入る。デフォルトは「削除」 %>
       </button>
@@ -24,7 +24,7 @@
         type="button"
         data-confirm-target="cancelButton"
         data-action="click->confirm#cancel"
-        class="basis-1/2 text-lg p-2 bg-gray-300 rounded hover:bg-gray-400"
+        class="basis-1/2 p-2 bg-gray-300 rounded hover:bg-gray-400"
       >
         キャンセル
       </button>
