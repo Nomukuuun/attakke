@@ -17,7 +17,7 @@ ja:
       stock:
         name: ストック名
         model: ストック型の選択
-        purchase_target: 購入対象
+        purchase_target: 買うものリストに追加
       location:
         name: 保管場所名
       history:

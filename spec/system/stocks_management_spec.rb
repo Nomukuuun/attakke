@@ -23,8 +23,8 @@ RSpec.describe 'ログイン後のストック操作', type: :system, js: true d
       user
       login_via_google
 
-      # 初期画面には「新規作成・まとめて追加」ボタンが２つあるが、リンク先は同じ
-      click_on '新規作成・まとめて追加', match: :first
+      # 初期画面には「作成・追加」ボタンが２つあるが、リンク先は同じ
+      click_on '作成・追加', match: :first
 
       # turbo-frameタグのidにmodal_frameを持つ要素のみをテスト
       within('turbo-frame#modal_frame') do

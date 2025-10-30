@@ -45,7 +45,7 @@ export default class extends Controller {
     setTimeout(() => {
       const target = document.getElementById(id);
       if (target) {
-        const offset = 128; // ヘッダー:72 + フィルタリングボタン: 56
+        const offset = 152; // ヘッダー:64 + 検索窓とフィルタリングボタン: 88
         const targetPosition =
           target.getBoundingClientRect().top + window.scrollY;
         const scrollTo = targetPosition - offset;

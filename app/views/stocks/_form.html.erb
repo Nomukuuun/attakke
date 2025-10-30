@@ -1,103 +1,110 @@
 <%= form_with model: stock, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
-  <div class="text-xl font-bold text-f-head">ストックの保管場所</div>
-  <% if action_name.in?(["new", "create"]) %>
-    <div class="text-xl mb-6"><%= location.name %></div>
-    <%= f.hidden_field :location_id, value: location.id %>
-  <% elsif action_name.in?(["edit", "update"]) %>
-    <%= f.collection_select :location_id, locations, :id, :name, { selected: stock.location_id }, { class: "bg-white border-black border rounded p-2 w-full mb-6" } %>
-  <% end %>
+  <!-- ヘッダーと保管場所 -->
+  <%# NOTE: 保管場所名の出し分けと削除アイコンの表示分けをしている %>
+    <% if action_name.in?(["new", "create"]) %>
+      <h2 class="modal-header">ストックの新規作成</h2>
+      <div class="modal-label">ストックの保管場所</div>
+      <div class="mb-4"><%= location.name %></div>
+      <%= f.hidden_field :location_id, value: location.id %>
+    <% elsif action_name.in?(["edit", "update"]) %>
+      <h2 class="modal-header">ストックの編集</h2>
+      <div class="flex items-center justify-between pr-2">
+        <div class="modal-label">ストックの保管場所</div>
+        <%= link_to stock_path(stock), method: :delete, data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock'), turbo_frame: "stock_#{stock.id}" } do %>
+          <svg class="modal-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
+            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+          </svg>
+        <% end %>
+      </div>
+      <%= f.collection_select :location_id, locations, :id, :name, { selected: stock.location_id }, { class: "modal-input mb-4" } %>
+    <% end %>
 
-  <div class="flex flex-col mb-6">
-    <%= f.label :name, class: "text-xl font-bold text-f-head" %>
-    <%= f.text_field :name, placeholder: "入力してください", class: "bg-white border-black border rounded p-2 w-full" %>
+  <!-- ストック名 -->
+  <div class="mb-4">
+    <%= f.label :name, class: "modal-label" %>
+    <%= f.text_field :name, placeholder: "入力してください", class: "modal-input" %>
     <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
 
   <!-- ストック型を選択するラジオボタン -->
   <div data-controller="quantity-visibility">
-    <div class="text-xl font-bold text-f-head"><%= t('activerecord.attributes.stock.model') %></div>
-    <div class="p-2 flex space-x-4 items-center">
+    <div class="modal-label"><%= t('activerecord.attributes.stock.model') %></div>
+    <div class="p-1 flex space-x-4 items-center">
       <%= f.radio_button :model, :existence, checked: true,
         data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "existenceRadio" },
         class: "size-5 accent-dull-green cursor-pointer" %>
-      <label for="stock_model_existence" class="text-gray-700 cursor-pointer"><%= t('enums.stock.model.existence') %></label>
+      <label for="stock_model_existence" class="text-f-body/80 cursor-pointer"><%= t('enums.stock.model.existence') %></label>
     </div>
-    <div class="mb-6 p-2 flex space-x-4 items-center">
+    <div class="mb-4 p-1 flex space-x-4 items-center">
       <%= f.radio_button :model, :number,
         data: { action: "quantity-visibility#changeModel", quantity_visibility_target: "numberRadio" },
         class: "size-5 accent-dull-green cursor-pointer" %>
-      <label for="stock_model_number" class="text-gray-700 cursor-pointer"><%= t('enums.stock.model.number') %></label>
+      <label for="stock_model_number" class="text-f-body/80 cursor-pointer"><%= t('enums.stock.model.number') %></label>
     </div>
 
-    <div class="flex mb-10">
-      <%= f.fields_for :histories, stock.histories.select(&:new_record?).first do |h| %>
-        <!-- チェックボックス型 -->
-        <div class="basis-2/3" data-quantity-visibility-target="existenceField">
-          <%= h.label :exist_quantity, class: "text-xl font-bold text-f-head" %>
-          <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
-          <div class="flex items-center space-x-4">
+    <%= f.fields_for :histories, stock.histories.select(&:new_record?).first, class: "mb-4" do |h| %>
+      <!-- チェックボックス型 -->
+      <div class="mb-4" data-quantity-visibility-target="existenceField">
+        <%= h.label :exist_quantity, class: "modal-label" %>
+        <%= h.hidden_field :exist_quantity, data: { quantity_visibility_target: "existenceQuantity" } %>
+        <div class="flex items-center space-x-4 mt-1">
 
-            <!-- チェックありアイコン -->
-            <div class="flex items-center space-x-4 cursor-pointer" data-action='click->quantity-visibility#toggleIcon' data-quantity-visibility-target="checkedIcon">
-              <svg class="size-12 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              <p class="text-lg">ストックあり</p>
-            </div>
-            <!-- チェックなしアイコン -->
-            <div class="hidden flex items-center space-x-4 cursor-pointer" data-action='click->quantity-visibility#toggleIcon' data-quantity-visibility-target="notCheckedIcon">
-              <svg class="size-12 text-f-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10" />
-              </svg>
-              <p class="text-lg">ストックなし</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 残数表示型 -->
-        <div class="hidden basis-2/3 flex flex-col" data-quantity-visibility-target="numberField">
-          <%= h.label :num_quantity, class: "text-xl font-bold text-f-head" %>
-          <div class="flex items-center space-x-6">
-            <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-black border rounded p-2 mr-6 h-12 w-16" %>
-            <div id="plus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#incrementNumber">
-              <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-            </div>
-            <div id="minus" class="size-10 border-3 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#decrementNumber">
-              <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-            </div>
-          </div>
-          <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
-        </div>
-      <% end %>
-
-      <!-- 購入対象チェックボックス -->
-      <div class="basis-1/3 flex flex-col">
-        <div class="text-xl font-bold text-f-head"><%= t('activerecord.attributes.stock.purchase_target') %></div>
-        <div class="h-12 pl-2 flex items-center space-x-4">
-          <%= f.check_box :purchase_target, class: "size-6 accent-dull-green cursor-pointer" %>
-          <%= f.label :purchase_target, class: "cursor-pointer" do %>
-            <svg class="size-8 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="9" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><path d="M3 3h2l2 12a3 3 0 0 0 3 2h7a3 3 0 0 0 3 -2l1 -7h-15.2" />
+          <!-- チェックありアイコン -->
+          <div class="flex items-center space-x-4 cursor-pointer" data-action='click->quantity-visibility#toggleIcon' data-quantity-visibility-target="checkedIcon">
+            <svg class="size-8 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
             </svg>
-          <% end %>
+            <p class="text-f-body/80">ストックあり</p>
+          </div>
+          <!-- チェックなしアイコン -->
+          <div class="hidden flex items-center space-x-4 cursor-pointer" data-action='click->quantity-visibility#toggleIcon' data-quantity-visibility-target="notCheckedIcon">
+            <svg class="size-8 text-f-body/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+            </svg>
+            <p class="text-f-body/80">ストックなし</p>
+          </div>
         </div>
+      </div>
+
+      <!-- 残数表示型 -->
+      <div class="hidden mb-4" data-quantity-visibility-target="numberField">
+        <%= h.label :num_quantity, class: "modal-label" %>
+        <div class="flex items-center space-x-4 mt-1">
+          <%= h.number_field :num_quantity, in: 0..100, data: { quantity_visibility_target: "numberQuantity" }, class: "bg-white border-f-body/80 border rounded p-2 mr-6 h-8 w-12" %>
+          <div id="plus" class="size-8 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#incrementNumber">
+            <svg class="size-6 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </div>
+          <div id="minus" class="size-8 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->quantity-visibility#decrementNumber">
+            <svg class="size-6 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </div>
+        </div>
+        <%= render 'shared/error_messages', object: stock, attribute: :"histories.num_quantity" %>
+      </div>
+    <% end %>
+
+    <!-- 購入対象チェックボックス -->
+    <div class="mb-4">
+      <div class="flex items-center space-x-1 mb-1">
+        <div class="modal-label"><%= t('activerecord.attributes.stock.purchase_target') %></div>
+        <svg class="modal-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="9" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><path d="M3 3h2l2 12a3 3 0 0 0 3 2h7a3 3 0 0 0 3 -2l1 -7h-15.2" />
+        </svg>
+      </div>
+      <div class="h-12 pl-2 flex items-center space-x-4">
+        <%= f.check_box :purchase_target, class: "size-8 accent-dull-green cursor-pointer" %>
+        <p class="text-f-body/70 text-sm">※ チェックや残数に関係なく買うものリストに入ります。</p>
       </div>
     </div>
   </div>
 
-  <div class="mb-10">
-    <% if action_name.in?(["new", "create"]) %>
-      <%= f.submit "保存", class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
-    <% elsif action_name.in?(["edit", "update"]) %>
-      <div class="flex items-center text-center space-x-2">
-        <%= f.submit "保存", class: "basis-1/2 text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
-        <%= link_to "削除", stock_path(stock), method: :delete, data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock'), turbo_frame: "stock_#{stock.id}" }, class: "basis-1/2 text-lg text-f-body bg-gray-300 rounded p-2 hover:bg-gray-400" %>
-      </div>
-    <% end %>
+  <div class="mb-4">
+    <%= f.submit "保存", class: "modal-submit w-full" %>
   </div>
 <% end %>
 

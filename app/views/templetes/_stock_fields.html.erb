@@ -12,7 +12,7 @@
       <% end %>
 
       <div class="basis-1/2">
-        <%= stock_fields.text_field :name, class: "w-full border rounded p-1 mr-2" %>
+        <%= stock_fields.text_field :name, class: "w-full border-b-1 px-2 py-1 mr-2" %>
       </div>
       <%= stock_fields.hidden_field :model, data: { templete_select_target: "model" } %>
 
@@ -37,7 +37,7 @@
 
           <!-- 残数表示型:非表示 -->
           <div data-templete-select-target="numField" class="hidden w-full mx-auto flex items-center space-x-2">
-            <%= stock_fields.number_field :num_quantity, in: 0..100, data: { templete_select_target: "numQuantity" }, class: "w-12 border rounded p-1 mr-2" %>
+            <%= stock_fields.number_field :num_quantity, in: 0..100, data: { templete_select_target: "numQuantity" }, class: "w-12 border-b-1 p-1 mr-2" %>
             <div id="plus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-select#incrementNumber">
               <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />

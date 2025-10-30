@@ -2,7 +2,7 @@ class PartnershipsController < ApplicationController
   include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_currentuser_active_partnership, only: %i[update destroy reject]
+  before_action :set_currentuser_active_partnership, only: %i[update destroy reject send_favor_notification]
 
   # NOTE: パートナー申請送信者側の操作
   # パートナー設定画面の表示を分岐するため、partnershipを持っているかで変数に格納する値を設定
@@ -30,7 +30,7 @@ class PartnershipsController < ApplicationController
         # after_create コールバックで反対側も作成
       end
       # パートナー申請受信者に向けてプッシュ通知を送信
-      message = { title: "【Attakke?】より", body: "パートナー申請が届いています！アプリを開いて確認してください！" }
+      message = { title: "【Attakke?】より", body: "パートナー申請が届いています！\nアプリを開いて確認してください！" }
       partner.send_push_notification(message: message)
     end
 
@@ -62,7 +62,7 @@ class PartnershipsController < ApplicationController
         # after_update コールバックで反対側も更新
       end
       # パートナー申請送信者に向けてプッシュ通知を送信
-      message = { title: "【Attakke?】より", body: "パートナー申請が承認されました！アプリを開いて確認してください！" }
+      message = { title: "【Attakke?】より", body: "パートナー申請が承認されました！\nアプリを開いて確認してください！" }
       current_user.active_partner&.send_push_notification(message: message)
     end
 
@@ -92,6 +92,17 @@ class PartnershipsController < ApplicationController
       turbo_stream.update("bell_icon", partial: "shared/bell_icon"),
       turbo_stream.update("flash", partial: "shared/flash_message")
     ]
+  end
+
+  # NOTE: お互いに使える機能
+  # おねがい通知送信
+  def send_favor_notification
+    if @partnership&.present?
+      message = { title: "【Attakke?】より", body: "パートナーから買い物お願いされています！\nこちらをタップして「買うもの」リストを確認しましょう！" }
+      current_user.active_partner&.send_push_notification(message: message)
+    end
+    flash.now[:success] = t("defaults.flash_message.send_favor_notification")
+    render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
 
   # NOTE: 以下privateメソッド

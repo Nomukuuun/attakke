@@ -1,15 +1,23 @@
 <%= render 'shared/modal_wrapper' do %>
+  <h2 class="modal-header">保管場所一覧</h2>
+
   <% if @locations.present? %>
     <!-- 保管場所があるとき -->
-    <div class="text-xl font-bold text-f-head">保管場所一覧</div>
-    <% @locations.each do |location| %>
-      <button
-        data-action="click->modal-frame#selectLocation"
-        data-location-id-value="<%= dom_id(location) %>"
-        class="w-full text-lg hover:text-white hover:bg-dull-green border-box border-2 border-f-body hover:border-dull-green rounded shadow-sm py-4 mb-2">
-        <%= location.name %>
-      </button> 
-    <% end %>
+    <p class="mb-4">
+      保管場所のボタンを押すと、その保管場所がページトップに来るようにオートスクロールします。<br>
+      保管場所が増えてきたときに便利です。
+    </p>
+
+    <div class="grid grid-cols-2 gap-4">
+      <% @locations.each do |location| %>
+        <button
+          data-action="click->modal-frame#selectLocation"
+          data-location-id-value="<%= dom_id(location) %>"
+          class="bg-dull-sand text-lg text-f-head hover:bg-dull-green hover:text-white rounded shadow-lg p-4">
+          <%= location.name %>
+        </button> 
+      <% end %>
+    </div>
 
   <% else %>
 
@@ -19,11 +27,13 @@
       以下のボタンから【新規作成】またはテンプレートを選択して作成してください。
     </div>
     <div class="flex items-center space-x-4 w-full">
-      <%= link_to templetes_path, data: { turbo_frame: 'modal_frame' }, class: "size-full flex flex-col text-center justify-between text-dull-green hover:text-white bg-white hover:bg-dull-green box-border border-dull-green border-2 rounded py-1" do %>
-        <svg class="size-6 w-full mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
-        </svg>
-        <span class="text-sm md:text-base">新規作成・まとめて追加</span>
+      <%= link_to templetes_path, data: { turbo_frame: 'modal_frame' }, class: "group flex-1 h-11 md:h-12 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>
+        <span class="flex size-10 items-center justify-center rounded-full bg-dull-beige/30 text-white transition duration-200 ease-out group-hover:bg-dull-beige/40">
+          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+          </svg>
+        </span>
+        <span class="text-xs md:text-base tracking-wide">作成・追加</span>
       <% end %>
     </div>
 
