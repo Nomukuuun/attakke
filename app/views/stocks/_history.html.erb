@@ -1,14 +1,16 @@
-<div class="text-xl font-bold text-f-head">ストック履歴（直近１０件）</div>
-<div class="bg-white rounded mb-6">
-  <table class="table-fixed">
-    <tbody>
-    <% histories.each do |history| %>
-      <tr>
-        <td class="pl-4 py-2"><%= history.recording_date.strftime("%Y/%m/%d") %></td>
-        <td class="pl-4 py-2"><%= history.status_i18n %></td>
-        <td class="pl-4 py-2"><%= "残#{history.num_quantity}" if history.num_quantity.present? %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
-</div>
+<details class="p-2 border border-f-body rounded mb-4">
+  <summary class="modal-label cursor-pointer">ストック履歴（直近１０件）</summary>
+  <div class="p-2 mt-2 border-t-1 border-f-body">
+    <table class="table-fixed">
+      <tbody>
+      <% histories.each do |history| %>
+        <tr>
+          <td class="pl-4 py-2"><%= history.recording_date.strftime("%Y/%m/%d") %></td>
+          <td class="pl-4 py-2"><%= history.status_i18n %></td>
+          <td class="pl-4 py-2"><%= "残#{history.num_quantity}" if history.num_quantity.present? %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</details>

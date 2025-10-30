@@ -1,28 +1,28 @@
 <%= render 'shared/modal_wrapper' do %>
-
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-f-head text-xl font-bold">ユーザー情報詳細</h2>
-    <%= link_to "編集", edit_user_registration_path, class: "bg-dull-green text-white rounded px-4 py-2" %>
-  </div>
+  <h2 class="modal-header">ユーザー情報の詳細</h2>
 
   <div class="mb-4">
     <div class="flex items-center space-x-1 mb-1">
-      <svg class="size-6 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="modal-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
       </svg>
-      <h2 class="font-bold">ユーザー名</h2>
+      <h2 class="modal-label">ユーザー名</h2>
     </div>
     <p class="px-2 py-1"><%= @user.name %></p>
   </div>
 
   <div class="mb-4">
     <div class="flex items-center space-x-1 mb-1">
-      <svg class="size-6 text-f-body" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg class="modal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
       </svg>
-      <h2 class="font-bold">メールアドレス</h2>
+      <h2 class="modal-label">メールアドレス</h2>
     </div>
     <p class="px-2 py-1"><%= @user.email %></p>
+  </div>
+
+  <div class="mb-6">
+    <%= link_to "編集", edit_user_registration_path, class: "bg-dull-green text-white rounded px-4 py-2 hover:brightness-70" %>
   </div>
 
 <% end %>

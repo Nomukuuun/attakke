@@ -24,8 +24,7 @@ export default class extends Controller {
       this.messageTarget.innerHTML = message;
       this.modalTarget.classList.remove("hidden");
 
-      const button = element.querySelector("button");
-      const confirmText = button?.dataset.confirmButtonText || "削除";
+      const confirmText = element.dataset.confirmButtonText || "削除";
       this.confirmButtonTarget.textContent = confirmText;
     });
   }

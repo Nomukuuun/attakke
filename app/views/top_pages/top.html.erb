@@ -43,33 +43,36 @@
     </div>
   </section>
 
-  <section class="mx-auto mt-12 max-w-6xl px-6 pb-20 md:px-10">
-    <div class="mx-auto max-w-3xl text-center">
-      <h2 class="text-2xl font-semibold text-f-head md:text-3xl">Attakke? でできること</h2>
-      <p class="mt-4 text-base leading-relaxed md:text-lg">
-        日々の暮らしの中で感じる「買い忘れた」「また買いすぎた」をやさしく解決します。
-      </p>
-    </div>
-    <div class="mt-14 space-y-10">
-      <% @description.each do |d| %>
-        <div data-controller="reveal" class="group translate-y-10 rounded-3xl bg-white/80 p-6 opacity-0 shadow-[0_24px_45px_rgba(47,42,31,0.12)] transition-all duration-700 ease-out backdrop-blur-sm hover:-translate-y-2 hover:shadow-[0_30px_55px_rgba(47,42,31,0.18)] md:p-10">
-          <div class="grid gap-8 md:grid-cols-[minmax(220px,280px)_1fr] md:items-center">
-            <div class="relative">
-              <div class="absolute -top-6 -left-4 h-14 w-14 rounded-full border-4 border-dull-red/30"></div>
-              <%= image_tag d[:img_url], class: "relative mx-auto h-auto w-full max-w-[260px] rounded-2xl bg-dull-beige/40 p-4 drop-shadow-[0_16px_30px_rgba(47,42,31,0.12)]" %>
-            </div>
-            <div>
-              <div class="flex flex-wrap items-center gap-4">
-                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-dull-green text-lg font-semibold text-white shadow-inner shadow-[rgba(0,0,0,0.12)]"><%= d[:number] %></span>
-                <span class="text-xl font-semibold text-f-head md:text-2xl"><%= d[:caption] %></span>
+  <section class="backdrop-brightness-110 pt-12 px-6 pb-20 md:px-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="text-2xl font-semibold text-f-head md:text-3xl">Attakke? でできること</h2>
+        <p class="mt-4 text-base leading-relaxed md:text-lg">
+          日々の暮らしの中で感じる「買い忘れた」「また買いすぎた」をやさしく解決します。
+        </p>
+      </div>
+      <div class="mt-14 space-y-10">
+        <% @description.each do |d| %>
+          <div data-controller="reveal" class="group translate-y-10 rounded-3xl bg-white/80 p-6 opacity-0 shadow-[0_24px_45px_rgba(47,42,31,0.12)] transition-all duration-700 ease-out backdrop-blur-sm hover:-translate-y-2 hover:shadow-[0_30px_55px_rgba(47,42,31,0.18)] md:p-10">
+            <div class="grid gap-8 md:grid-cols-[minmax(220px,280px)_1fr] md:items-center">
+              <div class="relative">
+                <div class="absolute -top-6 -left-4 h-14 w-14 rounded-full border-4 border-dull-red/30"></div>
+                <div class="absolute -bottom-4 -right-2 h-10 w-10 rounded-full border-4 border-dull-green/30"></div>
+                <%= image_tag d[:img_url], class: "relative mx-auto h-auto w-full max-w-[260px] rounded-2xl bg-dull-beige/40 p-4 drop-shadow-[0_16px_30px_rgba(47,42,31,0.12)]" %>
               </div>
-              <div class="mt-6 rounded-2xl border border-dull-beige/60 bg-white/80 p-5 text-base leading-relaxed md:text-lg">
-                <%= d[:sentence].html_safe %>
+              <div>
+                <div class="flex flex-wrap items-center gap-4">
+                  <span class="flex h-12 w-12 items-center justify-center rounded-full bg-dull-green text-lg font-semibold text-white shadow-inner shadow-[rgba(0,0,0,0.12)]"><%= d[:number] %></span>
+                  <span class="text-xl font-semibold text-f-head md:text-2xl"><%= d[:caption] %></span>
+                </div>
+                <div class="mt-6 rounded-2xl border border-dull-beige/60 bg-white/80 p-5 text-base leading-relaxed md:text-lg">
+                  <%= d[:sentence].html_safe %>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </section>
 </div>

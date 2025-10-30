@@ -1,12 +1,12 @@
-<h2 class="text-xl font-bold text-f-head mb-3">パートナー申請中</h2>
+<h2 class="modal-header">パートナー申請中</h2>
 
 <p>パートナー申請を送信しました！</p>
 <p>相手の返答を待っています。</p>
 
 <div class="my-6">
   <p>以下のいずれかを満たすまで再申請はできません。</p>
-  <ul class="bg-dull-beige border-gray-600 border-2 rounded p-2">
-    <li>受信者が申請に返答した場合</li>
+  <ul class="bg-dull-beige rounded p-2">
+    <li>申請の受信者が返答した場合</li>
     <li>あなたが申請を取り下げた場合</li>
     <li><%= l partnership.expires_at %>を経過した場合</li>
   </ul>
@@ -15,5 +15,5 @@
 <%= button_to "申請を取り下げる", partnerships_path,
   method: :delete,
   form: { data: { action: "turbo:submit-end->modal-frame#close", turbo_confirm: t('defaults.confirm.partnership.withdrawal'), confirm_button_text: "ＯＫ" } },
-  class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70"
+  class: "modal-submit w-full"
 %>

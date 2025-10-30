@@ -1,16 +1,41 @@
-<h2 class="text-xl font-bold text-dull-green mb-3">パートナー申請が来ています！</h2>
+<h2 class="modal-header">パートナー申請保留中</h2>
 
-<p><strong><%= current_user.active_partner.name %></strong> さんから</p>
-<p>パートナー申請が届いています！</p>
+<p class="mb-2">
+  <strong><%= current_user.active_partner.name %></strong> さんから<br>
+  パートナー申請が届いています！
+</p>
 
-<div class="mt-3 mb-6">
-  <p class="mb-3">パートナーに設定すると以下の操作が可能になります。</p>
-  <p>パートナーの登録した</p>
-  <ul class="bg-dull-beige border-gray-600 border-2 rounded p-2">
-    <li>保管場所・ストックの確認</li>
-    <li>保管場所の編集・削除</li>
-    <li>ストックの編集・削除</li>
-  </ul>
+<details class="p-2 border border-f-body rounded">
+  <summary class="cursor-pointer">パートナー申請とは？</summary>
+  <div class="p-2 mt-2 border-t-1 border-f-body">
+    <p>
+      パートナーに設定したいユーザーへ申請を送ります。<br>
+      申請を受け取ったユーザー（あなた）が承諾すると以下の操作が可能になります。
+    </p>
+
+    <div class="my-3">
+      <p><%= current_user.active_partner.name %> さんの登録した</p>
+      <ul class="bg-dull-beige rounded p-2">
+        <li>保管場所・ストックの確認</li>
+        <li>保管場所の編集・削除</li>
+        <li>ストックの編集・削除</li>
+      </ul>
+    </div>
+    <p>保管場所やストックの状況はリアルタイムで同期されます。</p>
+  </div>
+</details>
+
+<div class="my-6 text-dull-red">
+  <div class="flex items-center space-x-2 mb-1">
+    <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    <p>注意事項</p>
+  </div>
+  <p>
+    現在、パートナー設定を解除する機能はありません。
+    ご了承ください。
+  </p>
 </div>
 
 <div class="flex items-center text-center space-x-2 mb-3">

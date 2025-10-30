@@ -1,16 +1,19 @@
-<h2 class="text-xl font-bold text-f-head mb-3">パートナー情報</h2>
+<h2 class="modal-header">パートナー情報</h2>
 
-<div class="text-center bg-dull-beige border-2 border-gray-600 rounded w-full p-4">
-  <p><%= current_user.active_partner.name %> さん</p>
-</div>
+  <div class="flex items-center space-x-1 mb-1">
+    <svg class="modal-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+    </svg>
+    <p class="modal-label">パートナーユーザー</p>
+  </div>
+  <p class="pl-2"><%= current_user.active_partner.name %> さん</p>
 
 <div class="my-6">
   <p>
     保管場所やストック情報が共有されています。
   </p>
 </div>
-
-<%#= button_to "ペアを解除する", partnerships_path,
-  data: { turbo_method: :delete, action: "turbo:submit-end->modal-frame#hideModal" },
-  class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70"
-%>

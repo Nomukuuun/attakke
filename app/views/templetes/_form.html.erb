@@ -6,13 +6,13 @@
   <%# NOTE: save失敗時にレンダリングを制御するためindexのselect_tagの値を受け取る %>
   <%= f.hidden_field :select_tag_value %>
 
-  <div class="flex flex-col mb-4">
-    <label for="input_location_name" class="text-lg font-bold text-head">保管場所名</label>
+  <div class="mb-4">
+    <label for="input_location_name" class="modal-label">保管場所名</label>
     <%= render 'location_fields', f: f, forms: forms, locations_name: locations_name %>
     <span class="text-xs text-dull-red"><%= forms.errors[:location_name].first if forms.errors[:location_name].present? %></span>
   </div>
 
-  <div class="w-full font-bold text-sm flex items-center gap-2 mb-1">
+  <div class="w-full bg-dull-beige rounded font-bold text-sm flex items-center gap-2 mb-1 -mx-7">
     <div class="ml-7 basis-1/2">ストック名</div>
     <div class="basis-1/3 text-center">状態・個数</div>
   </div>
@@ -41,5 +41,5 @@
     </div>
   </div>
 
-  <%= f.submit "保存", class: "w-full text-lg text-f-body bg-dull-red rounded p-2 hover:brightness-70" %>
+  <%= f.submit "保存", class: "modal-submit w-full" %>
 <% end %>

@@ -1,15 +1,23 @@
 <%= render 'shared/modal_wrapper' do %>
+  <h2 class="modal-header">保管場所一覧</h2>
+
   <% if @locations.present? %>
     <!-- 保管場所があるとき -->
-    <div class="text-xl font-bold text-f-head">保管場所一覧</div>
-    <% @locations.each do |location| %>
-      <button
-        data-action="click->modal-frame#selectLocation"
-        data-location-id-value="<%= dom_id(location) %>"
-        class="w-full text-lg hover:text-white hover:bg-dull-green border-box border-2 border-f-body hover:border-dull-green rounded shadow-sm py-4 mb-2">
-        <%= location.name %>
-      </button> 
-    <% end %>
+    <p class="mb-2">
+      保管場所のボタンを押すと、その保管場所がページトップに来るようにオートスクロールします。<br>
+      保管場所が増えてきたときに便利です。
+    </p>
+
+    <div class="grid grid-cols-2 gap-4">
+      <% @locations.each do |location| %>
+        <button
+          data-action="click->modal-frame#selectLocation"
+          data-location-id-value="<%= dom_id(location) %>"
+          class="bg-dull-sand text-lg text-f-head hover:bg-dull-green hover:text-white rounded shadow-sm p-4">
+          <%= location.name %>
+        </button> 
+      <% end %>
+    </div>
 
   <% else %>
 

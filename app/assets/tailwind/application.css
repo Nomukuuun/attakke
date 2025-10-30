@@ -44,11 +44,6 @@
   }
 }
 
-/* 「field_with_errors」にCSSをあてる */
-.field_with_errors {
-  display: contents;
-}
-
 /* ログイン後のスライドメニュー用コンポーネント */
 @layer components {
   .drawer-container {
@@ -69,7 +64,7 @@
   }
 
   .drawer-panel {
-    @apply relative z-10 flex h-full w-full max-w-3xs md:max-w-xs flex-col gap-4 overflow-y-auto border-l border-f-head bg-white px-6 py-8 shadow-xl transition-transform duration-300 ease-out translate-x-full;
+    @apply relative z-10 flex h-full w-full max-w-3xs md:max-w-xs flex-col gap-4 overflow-y-auto bg-white px-6 py-8 shadow-xl transition-transform duration-300 ease-out translate-x-full;
   }
 
   .drawer-container--visible .drawer-panel {
@@ -99,4 +94,32 @@
   .drawer-link--logout:hover svg {
     @apply text-dull-red;
   }
+}
+
+/* モーダル用のコンポーネント */
+@layer compornents {
+  .modal-header {
+    @apply bg-dull-green text-white text-xl font-bold px-4 pb-4 mb-4 -mx-4;
+  }
+
+  .modal-label {
+    @apply text-f-head font-bold;
+  }
+
+  .modal-input {
+    @apply border rounded px-2 py-1 w-full;
+  }
+
+  .modal-icon {
+    @apply size-6 text-f-head;
+  }
+
+  .modal-submit {
+    @apply bg-dull-red text-f-head rounded px-4 py-2 mb-4 hover:brightness-70;
+  }
+}
+
+/* 「field_with_errors」にCSSをあてる */
+.field_with_errors {
+  display: contents;
 }

@@ -1,12 +1,14 @@
 <%= render 'shared/modal_wrapper' do %>
+  <h2 class="modal-header">新規作成・まとめて追加</h2>
+
   <div data-controller="templete-select">
-    <div class="flex flex-col mb-4">
-      <label for="location_name" class="text-xl font-bold text-f-head">作成方法</label>
+    <div class="mb-4">
+      <label for="location_name" class="modal-label">作成方法</label>
       <%= select_tag :location_name,
           options_for_select(@locations_name),
           prompt: "選択してください",
           data: { action: "change->templete-select#change" },
-          class: "border-box border-2 rounded mt-2 p-2" %>
+          class: "modal-input" %>
     </div>
   
     <!-- フォームを差し込む枠 -->
