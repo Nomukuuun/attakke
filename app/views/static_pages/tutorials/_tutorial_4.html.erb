@@ -1,0 +1,17 @@
+<p class="mb-2">
+  ヘッダー下にあるフィルタリングボタンからストックの絞り込みができます。
+  フィルタリングで絞り込まれるストックは以下のとおりです。
+</p>
+<div class="w-full flex space-x-2 border">
+  <%= image_tag "tutorial_3_1.svg", class: "p-1" %>
+  <p class="p-1">全てのストックが表示されます。ログイン後のデフォルトの状態です。</p>
+</div>
+<div class="w-full flex space-x-2 border">
+  <%= image_tag "tutorial_3_2.svg", class: "p-1" %>
+  <p class="p-1">チェックあり、残数が１以上のストックのみが表示されます。</p>
+</div>
+<div class="w-full flex space-x-2 border mb-2">
+  <%= image_tag "tutorial_3_3.svg", class: "p-1" %>
+  <p class="p-1">チェックなし、残数が０のストックのみが表示されます。</p>
+</div>
+<p>フィルタリングを使うと、一目でストックの有無を確認できます。</p>
