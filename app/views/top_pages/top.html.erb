@@ -1,5 +1,5 @@
-<div id="index" class="min-h-screen bg-dull-beige text-f-body">
-  <section class="relative overflow-hidden">
+﻿<div id="index" class="min-h-screen min-h-[100svh] supports-[min-height:100dvh]:min-h-[100dvh] bg-dull-beige text-f-body">
+  <section class="relative overflow-hidden pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
     <div class="absolute inset-0 -z-10 bg-gradient-to-br from-dull-beige via-dull-green/10 to-dull-red/10"></div>
     <div class="absolute -top-32 -right-24 h-[320px] w-[320px] rounded-full bg-dull-green/20 blur-3xl"></div>
     <div class="absolute -bottom-32 -left-28 h-[260px] w-[260px] rounded-full bg-dull-red/15 blur-3xl"></div>
@@ -72,6 +72,76 @@
             </div>
           </div>
         <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden px-6 py-16 md:px-10 md:py-24">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-dull-beige/80 via-white/70 to-dull-green/20"></div>
+    <div class="absolute -top-24 -left-16 h-64 w-64 rounded-full bg-dull-green/20 blur-3xl"></div>
+    <div class="absolute -bottom-28 -right-20 h-72 w-72 rounded-full bg-dull-red/15 blur-3xl"></div>
+    <div class="relative mx-auto max-w-5xl rounded-[36px] border border-dull-beige/60 bg-white/80 p-8 shadow-[0_32px_70px_rgba(47,42,31,0.16)] backdrop-blur-md md:p-12">
+      <div class="text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.4em] text-dull-green">Install Guide</p>
+        <p class="mt-4 text-2xl font-semibold text-f-head md:text-3xl">アプリをインストールできます。</p>
+        <p class="mt-3 text-base leading-relaxed text-f-body md:text-lg">快適に利用できるようアプリをインストールすることをおすすめします。</p>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        <details class="group rounded-3xl border border-dull-beige/70 bg-dull-beige/30 p-6 shadow-[0_20px_45px_rgba(47,42,31,0.12)] transition hover:-translate-y-1 hover:shadow-[0_28px_55px_rgba(47,42,31,0.16)]">
+          <summary class="flex items-center gap-3 text-lg font-semibold text-f-head transition group-open:text-dull-green cursor-pointer">
+            <svg class="size-7 text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"/><line x1="3" y1="10" x2="3" y2="16" /><line x1="21" y1="10" x2="21" y2="16" /><path d="M7 9h10v8a1 1 0 0 1 -1 1h-8a1 1 0 0 1 -1 -1v-8a5 5 0 0 1 10 0" /><line x1="8" y1="3" x2="9" y2="5" /><line x1="16" y1="3" x2="15" y2="5" /><line x1="9" y1="18" x2="9" y2="21" /><line x1="15" y1="18" x2="15" y2="21" />
+            </svg>
+            <span class="modal-label text-base font-semibold tracking-wide text-f-head group-open:text-dull-green">Android(Chrome)はこちら</span>
+          </summary>
+          <section class="mt-4 space-y-4 border-t border-dull-beige/60 pt-4 text-sm leading-relaxed text-f-body md:text-base">
+            <p>右上のメニュー「︙」をタップします。</p>
+            <%= image_tag "tutorial/tutorial_1_1.png", class: "mx-auto mb-2 w-full max-w-[220px] rounded-xl shadow-[0_12px_30px_rgba(47,42,31,0.12)]" %>
+            <p>表示されたメニューから「ホーム画面に追加」をタップします。</p>
+            <%= image_tag "tutorial/tutorial_1_2.png", class: "mx-auto w-full max-w-[220px] rounded-xl shadow-[0_12px_30px_rgba(47,42,31,0.12)]" %>
+          </section>
+        </details>
+        <details class="group rounded-3xl border border-dull-beige/70 bg-dull-beige/30 p-6 shadow-[0_20px_45px_rgba(47,42,31,0.12)] transition hover:-translate-y-1 hover:shadow-[0_28px_55px_rgba(47,42,31,0.16)]">
+          <summary class="flex items-center gap-3 text-lg font-semibold text-f-head transition group-open:text-dull-green cursor-pointer">
+            <svg class="size-7 text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"/><path d="M9 7c-3 0-4 3-4 5.5 0 3 2 7.5 4 7.5 1.088-.046 1.679-.5 3-.5 1.312 0 1.5.5 3 .5s4-3 4-5c-.028-.01-2.472-.403-2.5-3-.019-2.17 2.416-2.954 2.5-3-1.023-1.492-2.951-1.963-3.5-2-1.433-.111-2.83 1-3.5 1-.68 0-1.9-1-3-1z" /><path d="M12 4a2 2 0 0 0 2 -2a2 2 0 0 0 -2 2" />
+            </svg>
+            <span class="modal-label text-base font-semibold tracking-wide text-f-head group-open:text-dull-green">iOS(Safari)はこちら</span>
+          </summary>
+          <section class="mt-4 space-y-4 border-t border-dull-beige/60 pt-4 text-sm leading-relaxed text-f-body md:text-base">
+            <p>
+              画面下部の共有メニュー
+              <svg class="inline align-middle size-5 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" />
+              </svg>
+              をタップします。
+            </p>
+            <%= image_tag "tutorial/tutorial_1_3.png", class: "mx-auto mb-2 w-full max-w-[220px] rounded-xl shadow-[0_12px_30px_rgba(47,42,31,0.12)]" %>
+            <p>「ホーム画面に追加」をタップします。</p>
+            <%= image_tag "tutorial/tutorial_1_4.png", class: "mx-auto w-full max-w-[220px] rounded-xl shadow-[0_12px_30px_rgba(47,42,31,0.12)]" %>
+          </section>
+        </details>
+      </div>
+      <div class="mt-12 space-y-6 text-center">
+        <p class="text-base leading-relaxed text-f-body md:text-lg">アプリの通知機能を利用しますので、ブラウザやアプリの通知はオンに設定してください。</p>
+        <div class="flex justify-center">
+          <% if user_signed_in? %>
+            <%= link_to "ストック一覧へ", stocks_path, class: "rounded-full bg-dull-green px-8 py-4 text-lg font-semibold text-white shadow-[0_16px_36px_rgba(107,143,113,0.3)] transition hover:-translate-y-1 hover:shadow-[0_22px_44px_rgba(107,143,113,0.4)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-dull-green/40" %>
+          <% else %>
+            <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "flex items-center gap-3 rounded-full bg-dull-green px-8 py-4 text-lg font-semibold text-white shadow-[0_16px_36px_rgba(107,143,113,0.3)] transition hover:-translate-y-1 hover:shadow-[0_22px_44px_rgba(107,143,113,0.4)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-dull-green/40" do %>
+              <div class="flex h-8 w-8 items-center justify-center rounded-full bg-white p-1.5">
+                <svg class="h-4 w-4" version="1.1" viewBox="0 0 48 48">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                  <path fill="none" d="M0 0h48v48H0z"></path>
+                </svg>
+              </div>
+              <span class="whitespace-nowrap">Google でログイン</span>
+            <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </section>

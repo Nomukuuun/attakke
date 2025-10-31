@@ -6,7 +6,7 @@ RSpec.describe 'Googleログイン', type: :system do
 
     expect {
       visit root_path
-      click_button 'Google でログイン'
+      click_button 'Google でログイン', match: :first
     }.to change(User, :count).by(1) # userが１件増えているか確認
 
     # クエリを無視したパスがstocks_pathと等しいか確認
@@ -19,7 +19,7 @@ RSpec.describe 'Googleログイン', type: :system do
 
     expect {
       visit root_path
-      click_button 'Google でログイン'
+      click_button 'Google でログイン', match: :first
     }.not_to change(User, :count)
 
     expect(page).to have_current_path(stocks_path, ignore_query: true)
