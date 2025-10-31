@@ -8,7 +8,7 @@
         <span>2025 - Attakke?</span>
       </div>
       <div class="flex space-x-6 md:space-x-4">
-        <%= link_to "お問い合わせ", "https://docs.google.com/forms/d/e/1FAIpQLSdyUaSlqS9iw9F8r4uqA2kt9dVM8vGEfGsAuPi17sebwJwSsQ/viewform?usp=header", class: "text-f-head underline hover:text-dull-green" %>
+        <%= link_to "お問い合わせ", "https://docs.google.com/forms/d/e/1FAIpQLSdyUaSlqS9iw9F8r4uqA2kt9dVM8vGEfGsAuPi17sebwJwSsQ/viewform?usp=header", target: :_blank, rel: "noopener noreferrer", class: "text-f-head underline hover:text-dull-green" %>
         <%= link_to "プライバシーポリシー", privacy_path,  data: { turbo_frame: "modal_frame" }, class: "text-f-head underline  hover:text-dull-green" %>
         <%= link_to "利用規約", terms_path, data: { turbo_frame: "modal_frame" }, class: "text-f-head underline hover:text-dull-green" %>
       </div>

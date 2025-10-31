@@ -70,6 +70,21 @@
               </div>
               <span>ログアウト</span>
             <% end %>
+
+            <!-- 仕切りバー -->
+            <div class="border-b-1 border-f-body/70 my-4"></div>
+
+            <%= link_to "https://docs.google.com/forms/d/e/1FAIpQLSdyUaSlqS9iw9F8r4uqA2kt9dVM8vGEfGsAuPi17sebwJwSsQ/viewform?usp=header", target: :_blank, rel: "noopener noreferrer", class: "drawer-link" do %>
+              <span>お問い合わせ</span>
+            <% end %>
+
+            <%= link_to privacy_path,  data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
+              <span>プライバシーポリシー</span>
+            <% end %>
+
+            <%= link_to terms_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
+              <span>利用規約</span>
+            <% end %>
           </nav>
         </div>
       </div>
