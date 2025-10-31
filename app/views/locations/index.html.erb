@@ -4,11 +4,11 @@
   <% if @locations.present? %>
     <!-- 保管場所があるとき -->
     <p class="mb-4">
-      保管場所のボタンを押すと、その保管場所がページトップに来るようにオートスクロールします。<br>
+      ボタンを押すと、その保管場所がページトップに来るようにオートスクロールします。<br>
       保管場所が増えてきたときに便利です。
     </p>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 gap-4 pb-4">
       <% @locations.each do |location| %>
         <button
           data-action="click->modal-frame#selectLocation"

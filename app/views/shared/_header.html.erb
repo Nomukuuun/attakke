@@ -34,14 +34,14 @@
             <p class="drawer-title">メニュー</p>
 
             <%= link_to tutorial_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
-              <svg class="text-f-head" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>チュートリアル</span>
             <% end %>
 
             <%= link_to users_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
-              <svg class="text-f-head" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" />
                 <circle cx="12" cy="7" r="4" />
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
@@ -50,7 +50,7 @@
             <% end %>
 
             <%= link_to new_partnerships_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
-              <svg class="text-f-head" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="size-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" />
                 <circle cx="9" cy="7" r="4" />
                 <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
@@ -62,7 +62,7 @@
 
             <%= button_to logout_path, method: :delete, data: { action: "click->mobile-menus#reset" }, class: "drawer-link drawer-link--logout" do %>
               <div class="flex items-center">
-                <svg class="text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="size-6 text-dull-green" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" />
                   <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
                   <path d="M7 12h14l-3 -3m0 6l3 -3" />

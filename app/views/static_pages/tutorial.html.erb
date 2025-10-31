@@ -1,7 +1,7 @@
 <%= render 'shared/modal_wrapper' do %>
   <h2 class="modal-header">チュートリアル</h2>
 
-  <article class="w-full p-4 text-base text-f-body">
+  <article class="w-full py-4 text-base text-f-body">
     <% @tutorials.each do |tutorial| %>
       <%= raw tutorial["comment"] %>
       <details class="p-2 border border-f-body rounded mb-4">

@@ -280,9 +280,9 @@ Devise.setup do |config|
   # NOTE: 未ログイン状態でのリダイレクト先を変更するためにコメントイン
   # lib配下にカスタムクラスを定義し、config/application.rbで読み込む
   config.warden do |manager|
-  manager.failure_app = CustomFailure
-  # manager.intercept_401 = false
-  # manager.default_strategies(scope: :user).unshift :some_external_strategy
+    manager.failure_app = CustomFailure
+    # manager.intercept_401 = false
+    # manager.default_strategies(scope: :user).unshift :some_external_strategy
   end
 
   # ==> Mountable engine configurations

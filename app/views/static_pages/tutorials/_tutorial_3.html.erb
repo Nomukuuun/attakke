@@ -1,10 +1,40 @@
 <p class="mb-2">
   <span class="text-dull-red">保管場所名やストック名をタップ</span>すると編集画面が表示されます。
-  編集画面では状態の更新や削除が可能です。
+  編集画面では状態の更新や
+  <svg class="inline align-middle size-5 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+  </svg>
+  から削除が可能です。
 </p>
-<p class="mb-2">ストック編集画面では更新履歴を確認することもできます。</p>
-<%= image_tag "top_4.svg", class: "w-auto mx-auto rounded mb-2" %>
-<p class="mb-2">
-  また、チェックボックスで管理しているストックは、アイコンをタップすることで状態を更新できます。
-  残数で管理しているストックは、残数をタップすると編集画面が表示されます。
-</p>
+
+<p class="mb-1">ストック編集画面では更新履歴を確認することもできます。</p>
+<p>＜履歴の表示例＞</p>
+<details class="p-2 border border-f-body rounded mb-4">
+  <summary class="modal-label cursor-pointer">ストック履歴（直近１０件）</summary>
+  <div class="p-2 mt-2 border-t-1 border-f-body">
+    <table class="table-fixed">
+      <tbody>
+        <tr>
+          <td class="pl-4 py-2">2025/10/04</td>
+          <td class="pl-4 py-2">消費</td>
+        </tr>
+        <tr>
+          <td class="pl-4 py-2">2025/09/14</td>
+          <td class="pl-4 py-2">購入</td>
+        </tr>
+        <tr>
+          <td class="pl-4 py-2">2025/09/12</td>
+          <td class="pl-4 py-2">消費</td>
+        </tr>
+        <tr>
+          <td class="pl-4 py-2">2025/08/23</td>
+          <td class="pl-4 py-2">購入</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</details>
+
+<p class="mb-1">チェックボックスで管理しているストックは、アイコンをタップすることで状態を更新できます。</p>
+<%= image_tag "tutorial/tutorial_3.svg", class: "w-auto mx-auto rounded mb-1" %>
+<p>残数で管理しているストックは、残数をタップすると編集画面が表示されます。</p>
