@@ -6,7 +6,7 @@ class TopPagesController < ApplicationController
     @description = [
       { number: "１",
         caption: "保管場所ごとに管理",
-        img_url: "top_1.svg",
+        img_url: "top/top_1.svg",
         sentence:
           "ストックを保管場所ごとに記録することで<br>
           管理や確認がしやすくなります<br>
@@ -16,7 +16,7 @@ class TopPagesController < ApplicationController
 
       { number: "２",
         caption: "選べる管理型",
-        img_url: "top_2.svg",
+        img_url: "top/top_2.svg",
         sentence:
           "ストックの有無を管理する<br>
           <strong>チェックボックス</strong><br>
@@ -27,7 +27,7 @@ class TopPagesController < ApplicationController
 
       { number: "３",
         caption: "テンプレートで楽々入力",
-        img_url: "top_3.svg",
+        img_url: "top/top_3.svg",
         sentence:
           "面倒な入力作業を楽にするための<br>
           テンプレート作成機能が使えます<br>
@@ -37,7 +37,7 @@ class TopPagesController < ApplicationController
 
       { number: "４",
         caption: "ストック単位の履歴確認機能",
-        img_url: "top_4.svg",
+        img_url: "top/top_4.svg",
         sentence:
           "ストック単位で履歴を確認することができます<br>
           ついつい記録を忘れてしまっても<br>
