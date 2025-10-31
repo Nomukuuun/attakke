@@ -57,4 +57,5 @@ ja:
           よろしいですか？
   time:
     formats:
-      default: "%H時%M分"
+      default: "%Y/%m/%d"
+      time: "%H時%M分"
