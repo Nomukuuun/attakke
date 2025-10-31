@@ -59,19 +59,19 @@
             <%= stock_fields.hidden_field :exist_quantity, value: 1, data: { templete_select_target: "existQuantity" } %>
             <div class="w-full flex items-center">
               <!-- チェックありアイコン -->
-              <svg data-templete-select-target="checkedIcon" data-action='click->templete-select#toggleIcon' class="size-8 text-dull-green mx-auto" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/><polyline points="9 11 12 14 20 6" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+              <svg data-templete-select-target="checkedIcon" data-action='click->templete-select#toggleIcon' class="size-8 text-dull-green mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
               </svg>
               <!-- チェックなしアイコン -->
-              <svg data-templete-select-target="notCheckedIcon" data-action='click->templete-select#toggleIcon' class="hidden size-8 text-f-body mx-auto" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z"/><rect x="4" y="4" width="16" height="16" rx="2" />
+              <svg data-templete-select-target="notCheckedIcon" data-action='click->templete-select#toggleIcon' class="hidden size-8 text-f-body mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
               </svg>
             </div>
           </div>
 
           <!-- 残数表示型:表示 -->
           <div data-templete-select-target="numField" class="w-full flex mx-auto items-center space-x-2">
-            <%= stock_fields.number_field :num_quantity, data: { templete_select_target: "numQuantity" }, class: "w-12 border rounded p-1 mr-2" %>
+            <%= stock_fields.number_field :num_quantity, data: { templete_select_target: "numQuantity" }, class: "w-12 border-b-1 p-1 mr-2" %>
             <div id="plus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-select#incrementNumber">
               <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
