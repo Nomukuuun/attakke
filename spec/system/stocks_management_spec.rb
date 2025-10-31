@@ -14,7 +14,7 @@ RSpec.describe 'ログイン後のストック操作', type: :system, js: true d
   def login_via_google
     mock_google_oauth2(uid: user.uid, email: user.email, name: user.name)
     visit root_path
-    click_button 'Google でログイン'
+    click_button 'Google でログイン', match: :first
     expect(page).to have_current_path(stocks_path, ignore_query: true)
   end
 
