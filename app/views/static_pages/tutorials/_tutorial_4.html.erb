@@ -3,16 +3,20 @@
   <span class="text-dull-red">「買うもの」は買い物リスト</span>としての機能を提供します。<br>
   フィルタリングで絞り込まれるストックは以下のとおりです。
 </p>
-<div class="w-full flex space-x-2 border">
-  <%= image_tag "tutorial/tutorial_4_1.svg", class: "w-[100px] p-1" %>
-  <p class="p-1">全てのストックが表示されます。ログイン後のデフォルトの状態です。</p>
+
+<div class="border rounded p-[2px] mb-2">
+  <div class="w-full flex space-x-2 border rounded-t-sm">
+    <%= image_tag "tutorial/tutorial_4_1.svg", class: "w-[100px] p-1" %>
+    <p class="p-1">全てのストックが表示されます。ログイン後のデフォルトの状態です。</p>
+  </div>
+  <div class="w-full flex space-x-2 border-x-1">
+    <%= image_tag "tutorial/tutorial_4_2.svg", class: "w-[100px] p-1" %>
+    <p class="p-1">チェックなし、残数が０のストックのみが表示されます。</p>
+  </div>
+  <div class="w-full flex space-x-2 border rounded-b-sm">
+    <%= image_tag "tutorial/tutorial_4_3.svg", class: "w-[100px] p-1" %>
+    <p class="p-1">チェックあり、残数が１以上のストックのみが表示されます。</p>
+  </div>
 </div>
-<div class="w-full flex space-x-2 border">
-  <%= image_tag "tutorial/tutorial_4_2.svg", class: "w-[100px] p-1" %>
-  <p class="p-1">チェックなし、残数が０のストックのみが表示されます。</p>
-</div>
-<div class="w-full flex space-x-2 border mb-2">
-  <%= image_tag "tutorial/tutorial_4_3.svg", class: "w-[100px] p-1" %>
-  <p class="p-1">チェックあり、残数が１以上のストックのみが表示されます。</p>
-</div>
+
 <p>ストック編集画面で「買うものリストに入れる」をチェックしたストックは個数に関係なく「買うもの」にフィルタリングされます。</p>
