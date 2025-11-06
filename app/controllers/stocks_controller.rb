@@ -3,7 +3,7 @@ class StocksController < ApplicationController
   include Broadcast
 
   before_action :set_locations_and_searchable_stocks, only: %i[index]
-  before_action :set_locations_and_stocks, only: %i[create update destroy sort]
+  before_action :set_locations_and_stocks, only: %i[create update destroy sort rearrange]
   before_action :set_stock_locations_and_last_10_histories, only: %i[edit update]
 
 
@@ -77,8 +77,8 @@ class StocksController < ApplicationController
       # 保管場所が変更されているかどうかで更新範囲を変更する
       if @stock.previous_changes.has_key?(:location_id)
         before_id, after_id = @stock.previous_changes[:location_id]
-        broadcast.replace_location(Location.find(before_id), @stocks)
-        broadcast.replace_location(Location.find(after_id), @stocks)
+        broadcast.replace_location(our_locations.find(before_id), @stocks)
+        broadcast.replace_location(our_locations.find(after_id), @stocks)
       else
         broadcast.replace_stock(@stocks.find(@stock.id))
       end
@@ -112,13 +112,29 @@ class StocksController < ApplicationController
 
   # ソートアイコンをドラックアンドドロップで並び替えるためのアクション
   def sort
-    location = Stock.find(sort_params[:stock_ids].first).location
-    sort_params[:stock_ids].each_with_index do |id, index|
-      Stock.find(id).insert_at(index + 1)
+    ids = sort_params[:stock_ids]
+    location = our_locations.find(sort_params[:location_id])
+    ids.each_with_index do |id, index|
+      our_stocks.find(id).insert_at(index + 1)
     end
 
     @stocks.reload
     broadcast.replace_location(location, @stocks)
+  end
+
+  # 配置換えソートを行うためのアクション
+  def rearrange
+    stock = our_stocks.find(params[:id])
+    # location_idsを分割代入
+    before_id, after_id = rearrange_params[:location_ids]
+    stock.update!(location_id: after_id)
+    stock.insert_at(rearrange_params[:new_position].to_i)
+
+    @stocks.reload
+    broadcast.replace_location(our_locations.find(before_id), @stocks)
+    broadcast.replace_location(our_locations.find(after_id), @stocks)
+    flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.location"))
+    render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
 
 
@@ -133,8 +149,13 @@ class StocksController < ApplicationController
     params.permit(:filter)
   end
 
+  # 配列パラメータは[]が必要かつ、最後に記述する
   def sort_params
-    params.permit(:stocks_ids)
+    params.permit(:location_id, stock_ids: [])
+  end
+
+  def rearrange_params
+    params.permit(:new_position, location_ids: [])
   end
 
   # edit, updateで使用するデータセット

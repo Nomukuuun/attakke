@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       get :search
       patch :sort
     end
+    patch :rearrange, on: :member
   end
   resources :locations, only: %i[index edit update destroy]
   resources :histories, only: %i[create]
