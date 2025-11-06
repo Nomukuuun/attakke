@@ -109,6 +109,10 @@ class StocksController < ApplicationController
     ]
   end
 
+  # TODO: sortアクションは後程記述
+  def sort ;end
+
+
   # NOTE: 以下privateメソッド
   private
 

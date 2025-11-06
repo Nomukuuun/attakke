@@ -11,9 +11,12 @@ class Stock < ApplicationRecord
 
   accepts_nested_attributes_for :histories
 
+  # 保管場所ごとに並び替えのposition値を管理
+  acts_as_list scope: :location
+
   # フィルタリングに使用するscope
   # 使用しない型の数量はnilで保存しているため、COALESCEで０に置換して判定している
-  scope :order_asc_model_and_name, -> { order(:model, :name) }
+  scope :order_asc_model_and_name, -> { order(:position, :model, :name) }
   scope :in_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) > 0 OR COALESCE(latest_history.num_quantity, 0) > 0").where(purchase_target: false) }
   scope :out_of_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0 OR purchase_target = ?", true) }
 
