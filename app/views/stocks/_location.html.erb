@@ -19,13 +19,12 @@
     </div>
 
     <!-- ストックリスト -->
-    <div class="px-4">
+    <%# NOTE: idはbroadcast.prependによるストック追加範囲特定、classのstocks_listはソートグループ特定用に設置 %>
+    <div data-controller="sortable" data-sortable-location-id-value="<%= location.id %>" id="location_<%= location.id %>_stocks_list" class="stocks_list md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4 px-4">
       <% if stocks&.find_by(location_id: location.id).present? %>
-        <div id="location_<%= location.id %>_stocks_list" class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4">
-          <% stocks.where(location_id: location.id).each do |stock| %>
-            <%= render 'stocks/stock', stock: stock %>
-          <% end %>
-        </div>
+        <% stocks.where(location_id: location.id).each do |stock| %>
+          <%= render 'stocks/stock', stock: stock %>
+        <% end %>
       <% else %>
         <%= link_to new_stock_path(location_id: location.id), data: { turbo_frame: 'modal_frame' }, class: "pl-6" do %>
           <span class="text-lg md:text-xl text-f-body hover:text-dull-green hover:border-b-2 border-dull-green">表示するストックがありません</span>

@@ -56,6 +56,7 @@ class TempletesForm
     true
   end
 
+  # NOTE: 以下privateメソッド
   private
 
   def validate_stock_forms

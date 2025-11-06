@@ -10,10 +10,11 @@ class TempletesStockForm
   attribute :exist_quantity, :integer
   attribute :num_quantity, :integer
 
-  validates :name, presence: true
+  validates :name, length: { maximum: 50, message: "は%{count}字以内で入力してください" }, presence: { message: "を入力してください" }
 
   validate :validate_quantities_by_model
 
+  # NOTE: 以下privateメソッド
   private
 
   # モデル種別ごとの必須条件

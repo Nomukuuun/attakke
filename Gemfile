@@ -51,6 +51,9 @@ gem "enum_help", "~> 0.0.19"
 # 検索機能
 gem "ransack"
 
+# 並び替え機能
+gem "acts_as_list"
+
 # プッシュ通知
 gem "web-push"
 

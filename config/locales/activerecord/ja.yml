@@ -30,7 +30,7 @@ ja:
   activemodel:
     attributes:
       partnerships_form:
-        email: Email
+        email: メールアドレス
       templetes_form:
         location_name: 保管場所名
       templetes_stock_form:

@@ -12,6 +12,6 @@ class PartnershipsForm
   private
 
   def own_email
-    errors.add(:email, "アドレスはパートナーに設定するユーザーのアドレスを入力してください") if email == current_user_email
+    errors.add(:email, "はパートナーに設定するユーザーのアドレスを入力してください") if email == current_user_email
   end
 end
