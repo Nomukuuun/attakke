@@ -1,5 +1,5 @@
 class Stock < ApplicationRecord
-  validates :name, presence: true, length: { maximum: 100 }
+  validates :name, presence: true, length: { maximum: 50, message: "は%{count}字以内で入力してください" }
   validates :model, presence: true
   validates :purchase_target, inclusion: { in: [ true, false ] }
 
@@ -16,7 +16,7 @@ class Stock < ApplicationRecord
 
   # フィルタリングに使用するscope
   # 使用しない型の数量はnilで保存しているため、COALESCEで０に置換して判定している
-  scope :order_asc_model_and_name, -> { order(:position, :model, :name) }
+  scope :order_position, -> { order(:position) }
   scope :in_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) > 0 OR COALESCE(latest_history.num_quantity, 0) > 0").where(purchase_target: false) }
   scope :out_of_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0 OR purchase_target = ?", true) }
 

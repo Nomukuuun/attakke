@@ -22,8 +22,11 @@ application.register("push", PushController)
 import QuantityVisibilityController from "./quantity_visibility_controller"
 application.register("quantity-visibility", QuantityVisibilityController)
 
-import TempleteSelectController from "./templete_select_controller"
-application.register("templete-select", TempleteSelectController)
-
 import RevealController from "./reveal_controller"
 application.register("reveal", RevealController)
+
+import SortableController from "./sortable_controller"
+application.register("sortable", SortableController)
+
+import TempleteSelectController from "./templete_select_controller"
+application.register("templete-select", TempleteSelectController)

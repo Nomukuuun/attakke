@@ -1,10 +1,14 @@
 <%= turbo_frame_tag "main_frame" do %>
   <div id="locations">
+
     <% if locations.present? %>
+
       <% locations.each do |location| %>
         <%= render 'stocks/location', { location: location, stocks: stocks } %>
       <% end %>
+
     <% else %>
+
       <div class="bg-white rounded-b-sm p-6 text-f-head text-center">
         <span class="text-lg font-bold">
           保管場所が作成されていません。<br>
@@ -21,6 +25,7 @@
           <% end %>
         </div>
       </div>
+
     <% end %>
   </div>
 <% end %>

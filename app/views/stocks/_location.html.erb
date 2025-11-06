@@ -21,7 +21,7 @@
     <!-- ストックリスト -->
     <div class="px-4">
       <% if stocks&.find_by(location_id: location.id).present? %>
-        <div id="location_<%= location.id %>_stocks_list" class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4">
+        <div data-controller="sortable" data-sortable-location-id-value="<%= location.id %>" id="location_<%= location.id %>_stocks_list" class="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4">
           <% stocks.where(location_id: location.id).each do |stock| %>
             <%= render 'stocks/stock', stock: stock %>
           <% end %>

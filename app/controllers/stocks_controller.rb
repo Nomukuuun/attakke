@@ -3,7 +3,7 @@ class StocksController < ApplicationController
   include Broadcast
 
   before_action :set_locations_and_searchable_stocks, only: %i[index]
-  before_action :set_locations_and_stocks, only: %i[create update destroy]
+  before_action :set_locations_and_stocks, only: %i[create update destroy sort]
   before_action :set_stock_locations_and_last_10_histories, only: %i[edit update]
 
 
@@ -109,8 +109,17 @@ class StocksController < ApplicationController
     ]
   end
 
-  # TODO: sortアクションは後程記述
-  def sort ;end
+
+  # ソートアイコンをドラックアンドドロップで並び替えるためのアクション
+  def sort
+    location = Stock.find(sort_params[:stock_ids].first).location
+    sort_params[:stock_ids].each_with_index do |id, index|
+      Stock.find(id).insert_at(index + 1)
+    end
+
+    @stocks.reload
+    broadcast.replace_location(location, @stocks)
+  end
 
 
   # NOTE: 以下privateメソッド
@@ -122,6 +131,10 @@ class StocksController < ApplicationController
 
   def filter_params
     params.permit(:filter)
+  end
+
+  def sort_params
+    params.permit(:stocks_ids)
   end
 
   # edit, updateで使用するデータセット
