@@ -3,17 +3,20 @@ class AddColumnPosistionToStocks < ActiveRecord::Migration[7.2]
   def up
     add_column :stocks, :position, :integer
 
-    # 既存レコードに初期値を設定（say_with_timeで実行時間を出力する）
+    # モデルを使ったループ処理だと更新作業が失敗しやすいためSQL文に変更
     say_with_time "Setting initial positions for stocks" do
-      # 保管場所ごとにpositionをリセット
-      Location.find_each do |location|
-        # 現在のデフォルトの並び順を崩さないようstocksを取得
-        stocks = location.stocks.order(:model, :name)
-        # positionに1から連番を振る
-        stocks.each.with_index(1) do |stock, index|
-          stock.update_column(:position, index)
-        end
-      end
+      execute <<~SQL
+        UPDATE stocks
+        SET position = sub.rn
+        FROM (
+          SELECT id, ROW_NUMBER() OVER (PARTITION BY location_id ORDER BY model, name) AS rn
+          FROM stocks
+        ) AS sub
+        WHERE stocks.id = sub.id;
+      SQL
+
+      # 空のpositionが発生しないように救済処置
+      execute "UPDATE stocks SET position = id WHERE position IS NULL;"
     end
 
     # 新規レコードはpositionにnull:falseを指定

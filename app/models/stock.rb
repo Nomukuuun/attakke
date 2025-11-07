@@ -12,7 +12,8 @@ class Stock < ApplicationRecord
   accepts_nested_attributes_for :histories
 
   # 保管場所ごとに並び替えのposition値を管理
-  acts_as_list scope: :location
+  # TODO: マイグレーション適用後にコメントイン
+  # acts_as_list scope: :location
 
   # フィルタリングに使用するscope
   # 使用しない型の数量はnilで保存しているため、COALESCEで０に置換して判定している
