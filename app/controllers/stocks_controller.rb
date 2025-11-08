@@ -24,11 +24,11 @@ class StocksController < ApplicationController
       format.turbo_stream {
         render turbo_stream: [
           turbo_stream.replace("filter_bar", partial: "filter_bar", locals: { filtering: @filtering_value }),
-          turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations })
+          turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations, filter: @filtering_value })
         ]
       }
       format.html {
-        render :index, locals: { stocks: @stocks, locations: @locations }
+        render :index
       }
     end
   end

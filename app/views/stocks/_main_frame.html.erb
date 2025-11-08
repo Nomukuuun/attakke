@@ -4,7 +4,7 @@
     <% if locations.present? %>
 
       <% locations.each do |location| %>
-        <%= render 'stocks/location', { location: location, stocks: stocks } %>
+        <%= render 'stocks/location', { location: location, stocks: stocks, filter: filter } %>
       <% end %>
 
     <% else %>

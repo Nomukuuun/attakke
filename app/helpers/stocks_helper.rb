@@ -1,11 +1,15 @@
 module StocksHelper
   # ストック数０または購入対象チェックに応じてストックカラーを変更するメソッド
-  def set_bg_and_border_color(stock)
-    if quantity(stock) == 0 || stock.purchase_target
-      "bg-dull-pink border-red-100"
-    else
-      "bg-dull-sand border-yellow-50"
-    end
+  def set_stock_card_design(stock, filter)
+    bg_and_border_color =
+      if quantity(stock) == 0 || stock.purchase_target
+        "bg-dull-pink border-red-100"
+      else
+        "bg-dull-sand border-yellow-50"
+      end
+    
+    bg_and_border_color << " pl-4" if filter != "all"
+    bg_and_border_color
   end
 
   def quantity(stock)
