@@ -43,14 +43,14 @@ class Broadcaster
       target: "stock_#{stock.id}",
       partial: "stocks/stock",
       locals: { stock: stock }
-      )
-    end
+    )
+  end
 
   def remove_stock(stock)
     Turbo::StreamsChannel.broadcast_remove_to(
       stream_key,
       target: "stock_#{stock.id}"
-      )
+    )
   end
 
   def replace_main_frame(locations, stocks)
