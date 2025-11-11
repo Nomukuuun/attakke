@@ -2,7 +2,7 @@ class StocksController < ApplicationController
   include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_locations_and_searchable_stocks, only: %i[index]
+  before_action :set_locations_and_searchable_stocks, only: %i[index sort_mode]
   before_action :set_locations_and_stocks, only: %i[create update destroy sort rearrange]
   before_action :set_stock_locations_and_last_10_histories, only: %i[edit update]
 
@@ -16,6 +16,8 @@ class StocksController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
+          turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
+          turbo_stream.update("search_form", partial: "search_form", locals: { q: @q }),
           turbo_stream.update("list_type_bar", partial: "list_type_bar"),
           turbo_stream.update("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations }),
           turbo_stream.update("footer_menu", partial: "shared/footer_menu")
@@ -97,7 +99,23 @@ class StocksController < ApplicationController
   end
 
 
-  # 並べ替えは「買うもの」リストへ反映されないようにbroadcastしない
+  # 並べ替えは「買いものリスト」へ反映しないためbroadcastしない
+  def sort_mode
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
+          turbo_stream.update("search_form", partial: "search_form", locals: { q: @q }),
+          turbo_stream.update("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations }),
+          turbo_stream.update("footer_menu", partial: "shared/footer_menu")
+        ]
+      }
+      format.html {
+        render :index
+      }
+    end
+  end
+
   # ソートアイコンをドラックアンドドロップで並び替えるためのアクション
   def sort
     ids = sort_params[:stock_ids]
@@ -122,7 +140,7 @@ class StocksController < ApplicationController
     render turbo_stream: [
       turbo_stream.update("location_#{before_location.id}", partial: "location", locals: { location: before_location, stocks: @stocks }),
       turbo_stream.update("location_#{after_location.id}", partial: "location", locals: { location: after_location, stocks: @stocks }),
-      turbo_stream.update("flash", partial: "shared/flash_message")
+      turbo_stream.replace("flash", partial: "shared/flash_message")
     ]
   end
 

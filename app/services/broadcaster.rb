@@ -1,7 +1,8 @@
 class Broadcaster
-  def initialize(user, list_type)
+  def initialize(user, list_type, sort_mode)
     @current_user = user
     @list_type = list_type
+    @sort_mode = sort_mode
   end
 
   # NOTE: broadcastはwebsocket通信のため、sessionを共有できない
@@ -11,7 +12,7 @@ class Broadcaster
       stream_key,
       target: "locations",
       partial: "stocks/location",
-      locals: { location: location, stocks: stocks, list_type: @list_type }
+      locals: { location: location, stocks: stocks, list_type: @list_type, sort_mode: @sort_mode }
     )
   end
 
@@ -20,7 +21,7 @@ class Broadcaster
       stream_key,
       target: "location_#{location.id}",
       partial: "stocks/location",
-      locals: { location: location, stocks: stocks, list_type: @list_type }
+      locals: { location: location, stocks: stocks, list_type: @list_type, sort_mode: @sort_mode }
     )
   end
 
@@ -36,7 +37,7 @@ class Broadcaster
       stream_key,
       target: "location_#{location.id}_stocks_list",
       partial: "stocks/stock",
-      locals: { location: location, stock: stock }
+      locals: { location: location, stock: stock, sort_mode: @sort_mode }
     )
   end
 
@@ -45,7 +46,7 @@ class Broadcaster
       stream_key,
       target: "stock_#{stock.id}",
       partial: "stocks/stock",
-      locals: { stock: stock }
+      locals: { stock: stock, sort_mode: @sort_mode }
     )
   end
 
@@ -61,7 +62,7 @@ class Broadcaster
       stream_key,
       target: "main_frame",
       partial: "stocks/main_frame",
-      locals: { locations: locations, stocks: stocks, list_type: @list_type }
+      locals: { locations: locations, stocks: stocks, list_type: @list_type, sort_mode: @sort_mode }
     )
   end
 

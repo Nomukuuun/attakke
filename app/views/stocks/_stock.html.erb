@@ -1,20 +1,26 @@
 <%= turbo_frame_tag stock, data: { sortable_stock_id_value: stock.id } do %>
   <%# NOTE: ヘルパーにストックカードの描画ロジックを記述 %>
-  <div class="px-4 py-2 rounded border border-box mb-2 lg:mb-0 <%= set_stock_card_design(stock) %>">
-    <div class="flex space-x-2 items-center">
-      <!-- ソートアイコン：一覧画面でのみ表示 -->
-      <%# TODO: 並び替えモード時のみ表示する用に制御する %>
-      <% if current_list_type_value == "all" %>
-        <div class="drag-handle cursor-grab">
-          <svg class="size-8 text-f-body/50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z"/><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" />
-          </svg>
-        </div>
-      <% end %>
+  <div class="flex items-center justify-center pl-1 py-2 rounded border border-box mb-2 lg:mb-0 <%= set_stock_card_design(stock) %>">
+    <!-- ソートアイコン：一覧画面かつソートモード中のみ表示 -->
 
-      <div class="grow">
-        <!-- ストック名とチェックボックスor残数 -->
-        <div class="flex justify-between items-center mb-2">
+    <%# NOTE: broadcastはセッションを読み取れず、ソートアイコンは配信したくないためcurrentのままにする %>
+    <% if current_list_type_value == "all" && current_sort_mode_value == "on" %>
+      <div class="drag-handle cursor-grab basis-[40px] size-10 flex items-center justify-center rounded-full bg-white text-f-body shadow-sm">
+        <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/><polyline points="7 9 12 4 17 9" /><polyline points="7 15 12 20 17 15" />
+        </svg>
+      </div>
+    <% end %>
+
+    <div class="grow pl-3 pr-4">
+
+      <!-- ストック名とチェックボックスor残数 -->
+      <div class="flex justify-between items-center mb-2">
+        <% if current_sort_mode_value == "on" %>
+          <h3 class="text-f-head/70 text-xl font-bold"><%= stock.name %></h3>
+
+        <% else %>
+
           <%= link_to edit_stock_path(stock), data: { turbo_frame: 'modal_frame' }, class: "flex items-center space-x-4" do %>
             <h3 class="text-f-head text-xl font-bold"><%= stock.name %></h3>
             <% if stock.purchase_target %>
@@ -23,13 +29,23 @@
               </svg>
             <% end %>
           <% end %>
-          <%= render 'stocks/quantity_icon', stock: stock %>
-        </div>
+        <% end %>
 
-        <!-- 更新日とゴミ箱アイコン -->
-        <div class="flex justify-between items-center">
-          <div class="text-sm text-gray-600">最終更新日：<%= number_of_days_elapsed(stock) %></div>
-          <div class="flex justify-end items-center w-8 px-[6px]">
+        <%= render 'stocks/quantity_icon', stock: stock, sort_mode: (current_sort_mode_value || sort_mode) %>
+      </div>
+
+      <!-- 更新日とゴミ箱アイコン -->
+      <div class="flex justify-between items-center">
+        <div class="text-sm text-f-head/70">最終更新日：<%= number_of_days_elapsed(stock) %></div>
+        <div class="flex justify-end items-center w-8 px-[6px]">
+          <% if current_sort_mode_value == "on" %>
+            <svg class="size-5 text-f-head/70" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
+              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+            </svg>
+          <% else %>
+
             <%= link_to stock_path(stock), data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock'), turbo_frame: "stock_#{stock.id}" } do %>
               <svg class="size-5 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
@@ -37,7 +53,7 @@
                 <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
               </svg>
             <% end %>
-          </div>
+          <% end %>
         </div>
       </div>
 

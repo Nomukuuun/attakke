@@ -4,8 +4,10 @@
     <!-- 保管場所のヘッダー：一覧画面でのみ保管場所名の編集、ストック追加可能 -->
     <div class="sticky top-38 md:top-42 bg-white border border-box border-white px-4 py-3 mb-1">
       <div class="flex justify-between items-center">
-        <% if current_list_type_value == "all" %>
-          <div class="flex justify-start items-center space-x-2 md:space-x-4 max-w-4/5">
+
+        <%# NOTE: ストック一覧画面 かつ ソートモードがオフのときのみ保管場所名の変更とストックの追加を許可する %>
+        <% if (current_list_type_value || list_type) == "all" && (current_sort_mode_value || sort_mode) == "off" %>
+          <div class="h-8 flex justify-start items-center space-x-2 md:space-x-4 max-w-4/5">
             <%= link_to edit_location_path(location), data: { turbo_frame: 'modal_frame' } do %>
               <h2 class="text-xl md:text-2xl text-f-head font-bold pl-4"><%= location.name %></h2>
             <% end %>
@@ -19,17 +21,17 @@
 
         <% else %>
 
-          <h2 class="text-xl md:text-2xl text-f-head font-bold pl-4"><%= location.name %></h2>
+          <h2 class="h-8 text-xl md:text-2xl text-f-head/70 font-bold pl-4"><%= location.name %></h2>
         <% end %>
       </div>
     </div>
 
     <!-- ストックリスト -->
-    <%# NOTE: idはbroadcast.prependによるストック追加範囲特定、classのstocks_listはソートグループ特定用に設置 %>
+    <%# NOTE: idはbroadcast.prependによるストック追加範囲特定、stocks_listはソートグループ特定用に設置 %>
     <div data-controller="sortable" data-sortable-location-id-value="<%= location.id %>" id="location_<%= location.id %>_stocks_list" class="stocks_list md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4 px-4">
       <% if stocks&.find_by(location_id: location.id).present? %>
         <% stocks.where(location_id: location.id).each do |stock| %>
-          <%= render 'stocks/stock', stock: stock %>
+          <%= render 'stocks/stock', stock: stock, sort_mode: (current_sort_mode_value || sort_mode) %>
         <% end %>
       <% else %>
         <%= link_to new_stock_path(location_id: location.id), data: { turbo_frame: 'modal_frame' }, class: "pl-6" do %>
