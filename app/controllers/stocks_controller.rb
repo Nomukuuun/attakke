@@ -50,7 +50,7 @@ class StocksController < ApplicationController
       # 保管場所にストックが存在しない場合、ストック追加を促すメッセージが表示されている
       # 当該メッセージを非表示にするために更新範囲を変更する
       if @location.stocks.count == 1
-        broadcast.replace_location(@location, @stocks)
+        broadcast.update_location(@location, @stocks)
       else
         broadcast.prepend_stock(@location, @stocks.find(@stock.id))
       end
@@ -68,7 +68,7 @@ class StocksController < ApplicationController
 
   def update
     if @stock.update(stock_params)
-      broadcast.replace_stock(@stocks.find(@stock.id))
+      broadcast.update_stock(@stocks.find(@stock.id))
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))
       render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
@@ -85,7 +85,7 @@ class StocksController < ApplicationController
     # 保管場所にストックが存在しなくなった場合、ストック追加を促すメッセージを表示する
     # 当該メッセージを表示するために更新範囲を変更する
     if location.stocks.count == 0
-      broadcast.replace_location(location, @stocks)
+      broadcast.update_location(location, @stocks)
     else
       broadcast.remove_stock(stock)
     end

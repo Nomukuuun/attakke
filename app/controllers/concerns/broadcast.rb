@@ -6,6 +6,6 @@ module Broadcast
   private
 
   def broadcast
-    Broadcaster.new(current_user)
+    Broadcaster.new(current_user, current_list_type_value)
   end
 end

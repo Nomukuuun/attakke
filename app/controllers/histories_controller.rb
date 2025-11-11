@@ -14,7 +14,7 @@ class HistoriesController < ApplicationController
       latest_history.reload
       set_stock_reflected_latest_history(latest_history) # 更新後のlatest_historyを基に再セット
 
-      broadcast.replace_stock(@stock)
+      broadcast.update_stock(@stock)
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.history"))
       render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else

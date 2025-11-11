@@ -60,7 +60,7 @@ class TempletesController < ApplicationController
       # 保管場所が1つも存在しない場合、ベース画面に新規作成を促すメッセージが表示されている
       # 当該メッセージを非表示にするために更新範囲を変更する
       if our_locations.count == 1
-        broadcast.replace_main_frame(@locations, @stocks)
+        broadcast.update_main_frame(@locations, @stocks)
       else
         broadcast.prepend_location(@forms.location, @stocks)
       end

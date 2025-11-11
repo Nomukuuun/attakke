@@ -1,23 +1,26 @@
 class Broadcaster
-  def initialize(user)
+  def initialize(user, list_type)
     @current_user = user
+    @list_type = list_type
   end
 
+  # NOTE: broadcastはwebsocket通信のため、sessionを共有できない
+  # NOTE: sessionにより表示分けをしている保管場所を含むbroadcastには明示的にsessionの値を渡す
   def prepend_location(location, stocks)
     Turbo::StreamsChannel.broadcast_prepend_to(
       stream_key,
       target: "locations",
       partial: "stocks/location",
-      locals: { location: location, stocks: stocks }
+      locals: { location: location, stocks: stocks, list_type: @list_type }
     )
   end
 
-  def replace_location(location, stocks)
-    Turbo::StreamsChannel.broadcast_replace_to(
+  def update_location(location, stocks)
+    Turbo::StreamsChannel.broadcast_update_to(
       stream_key,
       target: "location_#{location.id}",
       partial: "stocks/location",
-      locals: { location: location, stocks: stocks }
+      locals: { location: location, stocks: stocks, list_type: @list_type }
     )
   end
 
@@ -37,8 +40,8 @@ class Broadcaster
     )
   end
 
-  def replace_stock(stock)
-    Turbo::StreamsChannel.broadcast_replace_to(
+  def update_stock(stock)
+    Turbo::StreamsChannel.broadcast_update_to(
       stream_key,
       target: "stock_#{stock.id}",
       partial: "stocks/stock",
@@ -53,12 +56,12 @@ class Broadcaster
     )
   end
 
-  def replace_main_frame(locations, stocks)
-    Turbo::StreamsChannel.broadcast_replace_to(
+  def update_main_frame(locations, stocks)
+    Turbo::StreamsChannel.broadcast_update_to(
       stream_key,
       target: "main_frame",
       partial: "stocks/main_frame",
-      locals: { locations: locations, stocks: stocks }
+      locals: { locations: locations, stocks: stocks, list_type: @list_type }
     )
   end
 

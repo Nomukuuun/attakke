@@ -6,6 +6,7 @@ class PartnershipsController < ApplicationController
 
   # NOTE: パートナー申請送信者側の操作
   # パートナー設定画面の表示を分岐するため、partnershipを持っているかで変数に格納する値を設定
+  # FIXME: newアクションがshowアクションの責務まで持ってしまっている。showアクションを用意して、active_partnershipを持っているならリンク自体をshowアクションへ持っていくべき
   def new
     @partnership = current_user.active_partnership || PartnershipsForm.new
   end
@@ -69,9 +70,9 @@ class PartnershipsController < ApplicationController
     # current_userを更新することで紐づく情報を更新する
     current_user.reload
     set_locations_and_stocks
-    broadcast.replace_main_frame(@locations, @stocks)
     flash.now[:success] = t("defaults.flash_message.approve")
     render turbo_stream: [
+      turbo_stream.update("main_frame", partial: "stocks/main_frame", locals: { locations: @locations, stocks: @stocks }),
       turbo_stream.update("bell_icon", partial: "shared/bell_icon"),
       turbo_stream.update("flash", partial: "shared/flash_message")
     ]
