@@ -9,22 +9,16 @@ class StocksController < ApplicationController
 
   # ログイン後のベース画面
   def index
-    # フィルタリングの選択によって返す@stocksを変更
-    @filtering_value = filter_params[:filter] || "all"
-    case @filtering_value
-    when "all"
-      @stocks
-    when "out"
-      @stocks = @stocks.out_of_stocks
-    when "in"
-      @stocks = @stocks.in_stocks
-    end
+    # 買いものリストを選んでいるときだけ@stocksにスコープを適用
+    # list_type_valueはapplication_controllerで設定
+    @stocks = @stocks.shopping if @list_type_value == "shopping"
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
-          turbo_stream.replace("filter_bar", partial: "filter_bar", locals: { filtering: @filtering_value }),
-          turbo_stream.replace("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations, filter: @filtering_value })
+          turbo_stream.update("list_type_bar", partial: "list_type_bar"),
+          turbo_stream.update("main_frame", partial: "main_frame", locals: { stocks: @stocks, locations: @locations }),
+          turbo_stream.update("footer_menu", partial: "shared/footer_menu")
         ]
       }
       format.html {
@@ -74,14 +68,7 @@ class StocksController < ApplicationController
 
   def update
     if @stock.update(stock_params)
-      # 保管場所が変更されているかどうかで更新範囲を変更する
-      if @stock.previous_changes.has_key?(:location_id)
-        before_id, after_id = @stock.previous_changes[:location_id]
-        broadcast.replace_location(our_locations.find(before_id), @stocks)
-        broadcast.replace_location(our_locations.find(after_id), @stocks)
-      else
-        broadcast.replace_stock(@stocks.find(@stock.id))
-      end
+      broadcast.replace_stock(@stocks.find(@stock.id))
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))
       render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
@@ -110,6 +97,7 @@ class StocksController < ApplicationController
   end
 
 
+  # 並べ替えは「買うもの」リストへ反映されないようにbroadcastしない
   # ソートアイコンをドラックアンドドロップで並び替えるためのアクション
   def sort
     ids = sort_params[:stock_ids]
@@ -118,23 +106,24 @@ class StocksController < ApplicationController
       our_stocks.find(id).insert_at(index + 1)
     end
 
-    @stocks.reload
-    broadcast.replace_location(location, @stocks)
+    render turbo_stream: turbo_stream.update("location_#{location.id}", partial: "location", locals: { location: location, stocks: @stocks })
   end
 
   # 配置換えソートを行うためのアクション
   def rearrange
     stock = our_stocks.find(params[:id])
-    # location_idsを分割代入
-    before_id, after_id = rearrange_params[:location_ids]
+    before_id, after_id = rearrange_params[:location_ids] # location_idsを分割代入
     stock.update!(location_id: after_id)
     stock.insert_at(rearrange_params[:new_position].to_i)
 
-    @stocks.reload
-    broadcast.replace_location(our_locations.find(before_id), @stocks)
-    broadcast.replace_location(our_locations.find(after_id), @stocks)
+    before_location = our_locations.find(before_id)
+    after_location = our_locations.find(after_id)
     flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.location"))
-    render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
+    render turbo_stream: [
+      turbo_stream.update("location_#{before_location.id}", partial: "location", locals: { location: before_location, stocks: @stocks }),
+      turbo_stream.update("location_#{after_location.id}", partial: "location", locals: { location: after_location, stocks: @stocks }),
+      turbo_stream.update("flash", partial: "shared/flash_message")
+    ]
   end
 
 
@@ -143,10 +132,6 @@ class StocksController < ApplicationController
 
   def stock_params
     params.require(:stock).permit(:location_id, :name, :model, :purchase_target, histories_attributes: [ :exist_quantity, :num_quantity ])
-  end
-
-  def filter_params
-    params.permit(:filter)
   end
 
   # 配列パラメータは[]が必要かつ、最後に記述する
@@ -161,6 +146,7 @@ class StocksController < ApplicationController
   # edit, updateで使用するデータセット
   def set_stock_locations_and_last_10_histories
     @stock = our_stocks.find(params[:id])
+    @location = @stock.location
     @locations = our_locations.order(:name)
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
   end

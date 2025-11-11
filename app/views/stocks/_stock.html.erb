@@ -1,9 +1,10 @@
 <%= turbo_frame_tag stock, data: { sortable_stock_id_value: stock.id } do %>
   <%# NOTE: ヘルパーにストックカードの描画ロジックを記述 %>
-  <div class="pr-4 py-2 rounded border border-box mb-2 lg:mb-0 <%= set_stock_card_design(stock, filter) %>">
+  <div class="px-4 py-2 rounded border border-box mb-2 lg:mb-0 <%= set_stock_card_design(stock) %>">
     <div class="flex space-x-2 items-center">
       <!-- ソートアイコン：一覧画面でのみ表示 -->
-      <% if filter == "all" %>
+      <%# TODO: 並び替えモード時のみ表示する用に制御する %>
+      <% if current_list_type_value == "all" %>
         <div class="drag-handle cursor-grab">
           <svg class="size-8 text-f-body/50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" />
