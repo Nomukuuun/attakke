@@ -1,29 +1,22 @@
 <%= form_with model: stock, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
-  <!-- ヘッダーと保管場所 -->
-  <%# NOTE: 保管場所名の出し分けと削除アイコンの表示分けをしている %>
-    <% if action_name.in?(["new", "create"]) %>
-      <h2 class="modal-header">ストックの新規作成</h2>
-      <div class="modal-label">ストックの保管場所</div>
-      <div class="mb-4"><%= location.name %></div>
-      <%= f.hidden_field :location_id, value: location.id %>
-    <% elsif action_name.in?(["edit", "update"]) %>
-      <h2 class="modal-header">ストックの編集</h2>
-      <div class="flex items-center justify-between pr-2">
-        <div class="modal-label">ストックの保管場所</div>
-        <%= link_to stock_path(stock), method: :delete, data: { turbo_method: :delete, turbo_confirm: t('defaults.confirm.stock'), turbo_frame: "stock_#{stock.id}" } do %>
+  <!-- ヘッダーと保管場所id -->
+  <h2 class="modal-header">ストックの新規作成</h2>
+  <%= f.hidden_field :location_id, value: location.id %>
+
+  <!-- ストック名 -->
+  <div class="mb-4">
+    <div class="flex items-center justify-between pr-2">
+      <%= f.label :name, class: "modal-label" %>
+      <% if action_name.in?(["edit", "update"]) %>
+        <%= link_to stock_path(stock), data: { turbo_frame: "stock_#{stock.id}", turbo_confirm: t('defaults.confirm.stock'), turbo_method: :delete } do %>
           <svg class="modal-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
             <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
             <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
           </svg>
         <% end %>
-      </div>
-      <%= f.collection_select :location_id, locations, :id, :name, { selected: stock.location_id }, { class: "modal-input mb-4" } %>
-    <% end %>
-
-  <!-- ストック名 -->
-  <div class="mb-4">
-    <%= f.label :name, class: "modal-label" %>
+      <% end %>
+    </div>
     <%= f.text_field :name, placeholder: "入力してください", class: "modal-input" %>
     <%= render 'shared/error_messages', object: stock, attribute: :name %>
   </div>
@@ -103,9 +96,7 @@
     </div>
   </div>
 
-  <div class="mb-4">
-    <%= f.submit "保存", class: "modal-submit w-full" %>
-  </div>
+  <%= f.submit "保存", class: "modal-submit w-full" %>
 <% end %>
 
 <% if action_name.in?(["edit", "update"]) %>

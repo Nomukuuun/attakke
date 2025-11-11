@@ -98,7 +98,7 @@ class PartnershipsController < ApplicationController
   # おねがい通知送信
   def send_favor_notification
     if @partnership&.present?
-      message = { title: "【Attakke?】より", body: "パートナーが買い物をお願いしたいみたいです！\nこちらをタップして「買うもの」リストを確認しましょう！" }
+      message = { title: "【Attakke?】より", body: "パートナーが買い物をお願いしたいみたいです！\nこちらをタップして「買いものリスト」を確認しましょう！" }
       current_user.active_partner&.send_push_notification(message: message)
     end
     flash.now[:success] = t("defaults.flash_message.send_favor_notification")
