@@ -1,4 +1,4 @@
-<%= turbo_frame_tag 'flash' do %>
+<div id="flash">
   <% flash.each do |type, message| %>
     <%# NOTE: 背景色とテキストの色をフラッシュタイプによって使い分け %>
     <%
@@ -33,4 +33,4 @@
       </div>
     </div>
   <% end %>
-<% end %>
+</div>

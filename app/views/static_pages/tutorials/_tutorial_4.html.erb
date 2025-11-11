@@ -1,22 +1,23 @@
 <p class="mb-2">
-  ヘッダー下にあるフィルタリングボタンからストックの絞り込みができます。<br>
-  <span class="text-dull-red">「買うもの」は買い物リスト</span>としての機能を提供します。<br>
-  フィルタリングで絞り込まれるストックは以下のとおりです。
+  ヘッダー下にあるラベルからリストを切り替えられます。<br>
+  それぞれのリストでできることは以下のとおりです。
 </p>
 
 <div class="border rounded p-[2px] mb-2">
   <div class="w-full flex space-x-2 border rounded-t-sm">
-    <%= image_tag "tutorial/tutorial_4_1.svg", class: "w-[100px] p-1" %>
-    <p class="p-1">全てのストックが表示されます。ログイン後のデフォルトの状態です。</p>
-  </div>
-  <div class="w-full flex space-x-2 border-x-1">
-    <%= image_tag "tutorial/tutorial_4_2.svg", class: "w-[100px] p-1" %>
-    <p class="p-1">チェックなし、残数が０のストックのみが表示されます。</p>
+    <%= image_tag "tutorial/tutorial_4_1.svg", class: "w-[120px] p-1" %>
+    <p class="p-1">全てのストックが表示されます。<span class="text-dull-red">保管場所やストックの作成、ストックの並び替え</span>が行えます。</p>
   </div>
   <div class="w-full flex space-x-2 border rounded-b-sm">
-    <%= image_tag "tutorial/tutorial_4_3.svg", class: "w-[100px] p-1" %>
-    <p class="p-1">チェックあり、残数が１以上のストックのみが表示されます。</p>
+    <%= image_tag "tutorial/tutorial_4_2.svg", class: "w-[120px] p-1" %>
+    <p class="p-1">在庫がないストック、個別に「買いものリストに入れる」でチェックしたストックのみが表示されます。この画面では<span class="text-dull-red">ストックの更新、削除のみ</span>が行えます。</p>
   </div>
 </div>
 
-<p>ストック編集画面で「買うものリストに入れる」をチェックしたストックは個数に関係なく「買うもの」にフィルタリングされます。</p>
+<p>
+  「買いものリストに入れる」でチェックしたストックには、ストック名に
+  <svg class="inline align-middle size-5 text-dull-red" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z"/><circle cx="9" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><path d="M3 3h2l2 12a3 3 0 0 0 3 2h7a3 3 0 0 0 3 -2l1 -7h-15.2" />
+  </svg>
+  がつきます。
+</p>
