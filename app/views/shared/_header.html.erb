@@ -15,9 +15,13 @@
       <div data-controller="mobile-menus" class="relative flex items-center">
         <div class="flex items-center gap-3">
 
-          <%= render "shared/bell_icon" %>
+          <div id="bell_icon">
+            <%= render "shared/bell_icon" %>
+          </div>
 
-          <%= render "shared/sort_mode" %>
+          <div id="sort_mode">
+            <%= render "shared/sort_mode" %>
+          </div>
 
           <button type="button" class="z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm transition duration-200 ease-out hover:bg-dull-beige hover:shadow-md" data-action="click->mobile-menus#toggle">
             <svg data-mobile-menus-target="open" class="size-6 text-f-head" fill="none" viewBox="0 0 24 24" stroke="currentColor">

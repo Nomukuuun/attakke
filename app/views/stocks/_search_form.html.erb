@@ -1,6 +1,6 @@
 <% if current_sort_mode_value == "on" %>
 
-  <div id="search_form" class="relative flex w-full">
+  <div class="relative flex w-full">
     <div class="relative glow w-full">
       <div class="w-full h-10 bg-white text-f-head/70 border-f-body border rounded p-2">
         ソート中は検索できません。
@@ -15,7 +15,7 @@
 
 <% else %>
 
-  <%= search_form_for q, url: stocks_path, id: "search_form", data: { turbo_frame: "main_frame" } do |f| %>
+  <%= search_form_for q, url: stocks_path, data: { turbo_frame: "main_frame" } do |f| %>
     <div class="relative flex w-full">
       <div data-controller="autocomplete" data-autocomplete-url-value="/stocks/search" role="combobox" class="relative glow w-full">
         <%= f.search_field :name_cont, data: { autocomplete_target: "input" }, class: "w-full h-10 bg-white border-f-body border rounded p-2", placeholder: "ストック名で検索" %>

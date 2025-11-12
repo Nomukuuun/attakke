@@ -140,7 +140,7 @@ class StocksController < ApplicationController
     render turbo_stream: [
       turbo_stream.update("location_#{before_location.id}", partial: "location", locals: { location: before_location, stocks: @stocks }),
       turbo_stream.update("location_#{after_location.id}", partial: "location", locals: { location: after_location, stocks: @stocks }),
-      turbo_stream.replace("flash", partial: "shared/flash_message")
+      turbo_stream.update("flash", partial: "shared/flash_message")
     ]
   end
 

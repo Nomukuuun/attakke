@@ -3,7 +3,10 @@ import Sortable from "sortablejs";
 
 // Connects to data-controller="sortable"
 export default class extends Controller {
-  static values = { locationId: Number };
+  static values = { 
+    locationId: Number,
+    sortableStockId: Number
+  };
 
   connect() {
     // groupに共通クラスを指定することで各保管場所のストックフィールド内だけドロップ可能にする
@@ -27,7 +30,7 @@ export default class extends Controller {
       // 入れ替え後のstocks_idsをjson形式でstocks/sortアクションに送信
       fetch("/stocks/sort", {
         method: "PATCH",
-        headers: this.headers,
+        headers: this.headers(),
         body: JSON.stringify({
           stock_ids: ids,
           location_id: this.locationIdValue,
@@ -44,7 +47,7 @@ export default class extends Controller {
 
     fetch(`/stocks/${stockId}/rearrange`, {
       method: "PATCH",
-      headers: this.headers,
+      headers: this.headers(),
       body: JSON.stringify({
         location_ids: [oldLocationId, newLocationId],
         new_position: event.newIndex + 1, // newIndexは移動先リスト内での位置が0始まりで入っているので1を足してpositionに重複がないようにする
@@ -52,12 +55,11 @@ export default class extends Controller {
     });
   }
 
-  get headers() {
+  headers() {
     return {
+      "Accept": "text/vnd.turbo-stream.html, text/html, application/xhtml+xml", // turbo_streamでのリクエストとすることでフラッシュメッセージの更新を可能にする
       "Content-Type": "application/json",
-      "Accept": "text/vnd.turbo-stream.html", // turbo_streamでのリクエストとすることでフラッシュメッセージの更新を可能にする
-      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
-        .content,
+      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
     }
   }
 }

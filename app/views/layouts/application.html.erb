@@ -54,13 +54,17 @@
 
     <%= render "shared/header", cached: true %>
     <%= render "shared/confirm" %>
-    <%= render "shared/flash_message" %>
+    <div id="flash">
+      <%= render "shared/flash_message" %>
+    </div>
 
     <main class="container mx-auto grow">
       <%= yield %>
     </main>
 
-    <%= render "shared/footer_menu" %>
+    <div id="footer_menu">
+      <%= render "shared/footer_menu" %>
+    </div>
     <%= render "shared/footer", cached: true %>
 
     <%= turbo_frame_tag "modal_frame" %>

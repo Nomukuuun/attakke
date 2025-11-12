@@ -1,11 +1,9 @@
-<div id="bell_icon">
-  <% if current_user.active_partnership&.pending? %>
-    <%= link_to new_partnerships_path,
-      data: { turbo_frame: 'modal_frame' },
-      class: "flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm hover:bg-dull-beige hover:shadow-md" do %>
-      <svg class="size-6 text-dull-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
-      </svg>
-    <% end %>
+<% if current_user.active_partnership&.pending? %>
+  <%= link_to new_partnerships_path,
+    data: { turbo_frame: 'modal_frame' },
+    class: "flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm hover:bg-dull-beige hover:shadow-md" do %>
+    <svg class="size-6 text-dull-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
   <% end %>
-</div>
+<% end %>

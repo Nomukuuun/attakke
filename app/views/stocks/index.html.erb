@@ -4,16 +4,18 @@
 
   <div class="w-full sticky top-16 md:top-20 bg-dull-beige z-30">
     <!-- ストック検索フォーム -->
-    <div class="w-full px-4 py-2">
+    <div id="search_form" class="w-full px-4 py-2">
       <%= render "search_form", q: @q %>
     </div>
 
     <!-- フィルタリングボタン -->
-    <div class="w-full bg-dull-beige text-f-head/50"> 
+    <div id="list_type_bar" class="w-full bg-dull-beige text-f-head/50"> 
       <%= render "list_type_bar" %>
     </div>
   </div>
 
   <%# NOTE: indexをbroadcastで配信することはないため、ローカル変数はセッション値を読み取る %>
-  <%= render "main_frame", stocks: @stocks, locations: @locations, list_type: current_list_type_value, sort_mode: current_sort_mode_value %>
+  <%= turbo_frame_tag "main_frame" do %>
+    <%= render "main_frame", stocks: @stocks, locations: @locations, list_type: current_list_type_value, sort_mode: current_sort_mode_value %>
+  <% end %>
 </div>
