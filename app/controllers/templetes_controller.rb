@@ -8,7 +8,7 @@ class TempletesController < ApplicationController
   # 「新規作成・まとめて追加」で初期表示するセレクトボックスをセット
   def index
     @locations_name = [ "【新規作成】" ]
-    @locations_name << "【既存保管場所にまとめて追加】" if our_locations.present?
+    @locations_name << "【まとめて追加】" if our_locations.present?
     @locations_name.concat(Templete.select(:location_name, :id)
                               .group_by(&:location_name)
                               .values
@@ -24,7 +24,7 @@ class TempletesController < ApplicationController
     when "【新規作成】"
       @forms = TempletesForm.new({ location_name: nil, select_tag_value: @location_name })
       set_new_stock_forms(@forms)
-    when "【既存保管場所にまとめて追加】"
+    when "【まとめて追加】"
       set_locations_name
       @forms = TempletesForm.new({ location_name: @location_name, select_tag_value: @location_name })
       set_new_stock_forms(@forms)
@@ -60,7 +60,7 @@ class TempletesController < ApplicationController
       # 保管場所が1つも存在しない場合、ベース画面に新規作成を促すメッセージが表示されている
       # 当該メッセージを非表示にするために更新範囲を変更する
       if our_locations.count == 1
-        broadcast.replace_main_frame(@locations, @stocks)
+        broadcast.update_main_frame(@locations, @stocks)
       else
         broadcast.prepend_location(@forms.location, @stocks)
       end
@@ -69,7 +69,7 @@ class TempletesController < ApplicationController
     else
       # まとめて追加を選択している場合、保管場所名のセレクトボックスを保存失敗状態で再表示できるように配列をセット
       select_tag_value = templetes_form_params[:select_tag_value]
-      if select_tag_value == "【既存保管場所にまとめて追加】"
+      if select_tag_value == "【まとめて追加】"
         set_locations_name
         prioritize_selected_location(@forms, @locations_name)
         @forms.location_name = select_tag_value

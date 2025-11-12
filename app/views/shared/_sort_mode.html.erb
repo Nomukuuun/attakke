@@ -1,0 +1,23 @@
+<% if current_list_type_value == "all" %>
+
+  <% if current_sort_mode_value == "off" %>
+    <%= link_to sort_mode_stocks_path(sort_mode: "on"),
+      data: { turbo_stream: true },
+      class: "flex h-10 w-10 items-center justify-center space-x-1 rounded-full text-f-body bg-white shadow-sm hover:bg-dull-beige hover:shadow-md" do %>
+      <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z"/><path d="M3 9l4-4l4 4m-4 -4v14" /><path d="M21 15l-4 4l-4-4m4 4v-14" />
+      </svg>
+    <% end %>
+
+  <% else %>
+
+    <%= link_to sort_mode_stocks_path(sort_mode: "off"),
+      data: { turbo_stream: true },
+      class: "flex items-center justify-center space-x-1 p-2 rounded-full text-white bg-dull-red shadow-sm hover:bg-dull-beige hover:shadow-md" do %>
+      <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z"/><path d="M3 9l4-4l4 4m-4 -4v14" /><path d="M21 15l-4 4l-4-4m4 4v-14" />
+      </svg>
+    <% end %>
+  <% end %>
+
+<% end %>

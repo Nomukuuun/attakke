@@ -14,11 +14,9 @@ class Stock < ApplicationRecord
   # 保管場所ごとに並び替えのposition値を管理
   acts_as_list scope: :location
 
-  # フィルタリングに使用するscope
   # 使用しない型の数量はnilで保存しているため、COALESCEで０に置換して判定している
   scope :order_position, -> { order(:position) }
-  scope :in_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) > 0 OR COALESCE(latest_history.num_quantity, 0) > 0").where(purchase_target: false) }
-  scope :out_of_stocks, -> { where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0 OR purchase_target = ?", true) }
+  scope :shopping, -> { where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0 OR purchase_target = ?", true) }
 
   # ransackのv4系から必要になった検索を許可するカラムの指定
   def self.ransackable_attributes(auth_object = nil)

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :stocks, except: %i[show] do
     collection do
       get :search
+      get :sort_mode
       patch :sort
     end
     patch :rearrange, on: :member

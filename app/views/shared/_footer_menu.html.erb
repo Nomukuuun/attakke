@@ -1,13 +1,16 @@
-﻿<% if user_signed_in? %>
+<% if user_signed_in? %>
   <nav class="sticky bottom-0 left-0 w-full h-14 bg-white shadow-sm z-10">
     <div class="flex h-full w-full max-w-xl mx-auto items-center gap-4 px-4">
-      <%= link_to templetes_path, data: { turbo_frame: 'modal_frame' }, class: "group flex-1 h-11 md:h-12 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>
-        <span class="flex size-10 items-center justify-center rounded-full bg-dull-beige/30 text-white transition duration-200 ease-out group-hover:bg-dull-beige/40">
-          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
-          </svg>
-        </span>
-        <span class="text-xs md:text-base tracking-wide">作成・追加</span>
+
+      <% if current_list_type_value == "all" && current_sort_mode_value == "off" %>
+        <%= link_to templetes_path, data: { turbo_frame: 'modal_frame' }, class: "group flex-1 h-11 md:h-12 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>
+          <span class="flex size-10 items-center justify-center rounded-full bg-dull-beige/30 text-white transition duration-200 ease-out group-hover:bg-dull-beige/40">
+            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+            </svg>
+          </span>
+          <span class="text-xs md:text-base tracking-wide">作成・追加</span>
+        <% end %>
       <% end %>
 
       <%= link_to locations_path, data: { turbo_frame: 'modal_frame' }, class: "group flex-1 h-11 md:h-12 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>
@@ -18,7 +21,7 @@
         </span>
         <span class="text-xs md:text-base tracking-wide">保管場所一覧</span>
       <% end %>
+
     </div>
   </nav>
 <% end %>
-

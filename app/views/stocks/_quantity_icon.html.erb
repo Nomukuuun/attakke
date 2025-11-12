@@ -1,26 +1,47 @@
-<%= turbo_frame_tag "stock_#{stock.id}_icon" do %>
-  <% if stock.existence? %>
-    <% if stock.latest_exist_quantity == 0 %>
-      <!-- チェックなし -->
-      <%= button_to histories_path, params: { stock_id: stock.id }, class: "flex item-center" do %>
-        <svg class="size-8 text-f-head cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-        </svg>
-      <% end %>
-    <% else %>
-      <!-- チェックあり -->
-      <%= button_to histories_path, params: { stock_id: stock.id }, class: "flex item-center" do %>
-        <svg class="size-8 text-dull-green cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-        </svg>
-      <% end %>
-    <% end %>
-  <% else %>
-    <!-- 残数表示 -->
-    <%= link_to edit_stock_path(stock), data: { turbo_frame: 'modal_frame' } do %>
-      <div class="text-f-head text-2xl font-bold hover:text-dull-green border-dull-green">
-        <%= "残#{ stock.latest_num_quantity }" %>
-      </div>
-    <% end %>
+<% display = set_icon_info(stock, sort_mode) %>
+
+<% case display
+
+   when "disable_check" %>
+  <!-- ソート中チェックあり -->
+  <svg class="size-8 text-f-head/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
+  </svg>
+
+<% when "check" %>
+  <!-- チェックあり -->
+  <%= button_to histories_path, params: { stock_id: stock.id }, class: "flex item-center" do %>
+    <svg class="size-8 text-dull-green cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
   <% end %>
+
+<% when "disable_none" %>
+  <!-- ソート中チェックなし -->
+  <svg class="size-8 text-f-head/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10" />
+  </svg>
+
+<% when "none" %>
+  <!-- チェックなし -->
+  <%= button_to histories_path, params: { stock_id: stock.id }, class: "flex item-center" do %>
+    <svg class="size-8 text-f-head cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10" />
+    </svg>
+  <% end %>
+
+<% when "disable_number" %>
+  <!-- ソート中残数表示 -->
+  <div class="text-f-head/70 text-2xl font-bold">
+    <%= "残#{ stock.latest_num_quantity }" %>
+  </div>
+
+<% when "number" %>
+  <!-- 残数表示 -->
+  <%= link_to edit_stock_path(stock), data: { turbo_frame: 'modal_frame' } do %>
+    <div class="text-f-head text-2xl font-bold hover:text-dull-green">
+      <%= "残#{ stock.latest_num_quantity }" %>
+    </div>
+  <% end %>
+
 <% end %>
