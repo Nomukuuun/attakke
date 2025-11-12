@@ -7,10 +7,12 @@
   <!-- ソートアイコン：一覧画面かつソートモード中のみ表示 -->
   <%# NOTE: broadcastはセッションを読み取れず、ソートアイコンは配信したくないためcurrentのままにする %>
   <% if current_list_type_value == "all" && current_sort_mode_value == "on" %>
-    <div class="drag-handle cursor-grab basis-[40px] size-10 flex items-center justify-center rounded-full bg-white text-f-body shadow-sm pl-3">
-      <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z"/><polyline points="7 9 12 4 17 9" /><polyline points="7 15 12 20 17 15" />
-      </svg>
+    <div class="drag-handle cursor-grab basis-[40px] ml-3">
+      <span class="size-10 flex items-center justify-center rounded-full bg-white text-f-body shadow-sm">
+        <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/><polyline points="7 9 12 4 17 9" /><polyline points="7 15 12 20 17 15" />
+        </svg>
+      </span>
     </div>
   <% end %>
 
