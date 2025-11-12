@@ -7,7 +7,7 @@
       <%# NOTE: ストック一覧画面 かつ ソートモードがオフのときのみ保管場所名の変更とストックの追加を許可する %>
       <% if (current_list_type_value || list_type) == "all" && (current_sort_mode_value || sort_mode) == "off" %>
 
-        <%= link_to edit_location_path(location), data: { turbo_frame: 'modal_frame' }, class: "flex item-center pl-4" do %>
+        <%= link_to edit_location_path(location), data: { turbo_frame: 'modal_frame' }, class: "flex items-center pl-4" do %>
           <h2 class="text-xl md:text-2xl text-f-head font-bold"><%= location.name %></h2>
         <% end %>
 
@@ -19,7 +19,7 @@
 
       <% else %>
 
-        <h2 class="h-full text-xl md:text-2xl text-f-head/70 font-bold pl-4"><%= location.name %></h2>
+        <h2 class="flex items-center text-xl md:text-2xl text-f-head/50 font-bold pl-4"><%= location.name %></h2>
       <% end %>
     </div>
   </div>
@@ -36,7 +36,7 @@
       <% end %>
 
     <% else %>
-      <p class="text-lg md:text-xl text-f-head/70 pl-6">表示するストックがありません</p>
+      <p class="text-lg md:text-xl text-f-head/50 pl-6">表示するストックがありません</p>
     <% end %>
   </div>
 </div>

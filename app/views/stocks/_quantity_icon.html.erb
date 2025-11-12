@@ -4,7 +4,7 @@
 
    when "disable_check" %>
   <!-- ソート中チェックあり -->
-  <svg class="size-8 text-f-head/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <svg class="size-8 text-f-head/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
   </svg>
 
@@ -18,7 +18,7 @@
 
 <% when "disable_none" %>
   <!-- ソート中チェックなし -->
-  <svg class="size-8 text-f-head/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <svg class="size-8 text-f-head/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="10" />
   </svg>
 
@@ -32,7 +32,7 @@
 
 <% when "disable_number" %>
   <!-- ソート中残数表示 -->
-  <div class="text-f-head/70 text-2xl font-bold">
+  <div class="text-f-head/50 text-2xl font-bold">
     <%= "残#{ stock.latest_num_quantity }" %>
   </div>
 
