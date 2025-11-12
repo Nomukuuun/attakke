@@ -62,9 +62,9 @@
       <%= yield %>
     </main>
 
-    <div id="footer_menu">
+    <nav id="footer_menu" class="sticky bottom-0 left-0 w-full h-14 bg-white shadow-sm z-10">
       <%= render "shared/footer_menu" %>
-    </div>
+    </nav>
     <%= render "shared/footer", cached: true %>
 
     <%= turbo_frame_tag "modal_frame" %>
