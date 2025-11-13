@@ -62,9 +62,12 @@
       <%= yield %>
     </main>
 
-    <nav id="footer_menu" class="sticky bottom-0 left-0 w-full h-14 bg-white shadow-sm z-10">
-      <%= render "shared/footer_menu" %>
-    </nav>
+    <% if user_signed_in? %>
+      <nav id="footer_menu" class="sticky bottom-0 left-0 w-full h-14 bg-white shadow-sm z-10">
+        <%= render "shared/footer_menu" %>
+      </nav>
+    <% end %>
+
     <%= render "shared/footer", cached: true %>
 
     <%= turbo_frame_tag "modal_frame" %>
