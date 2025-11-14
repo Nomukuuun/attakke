@@ -12,9 +12,9 @@ module StocksHelper
   # ストック数０または購入対象チェックに応じてストックカラーを変更するメソッド
   def set_stock_card_design(stock)
     if quantity(stock) == 0 || stock.purchase_target
-      "bg-dull-pink border-red-100"
+      "bg-dull-pink"
     else
-      "bg-dull-sand border-yellow-50"
+      "bg-dull-sand"
     end
   end
 

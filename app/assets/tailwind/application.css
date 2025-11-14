@@ -44,6 +44,17 @@
   }
 }
 
+/* 操作無効であることを示すコントラストカラー */
+@layer utilities {
+  .disabled-text-color {
+    @apply text-f-body/50;
+  }
+
+  .disabled-bg-color {
+    @apply bg-f-body/50;
+  }
+}
+
 /* ログイン後のスライドメニュー用コンポーネント */
 @layer components {
   .drawer-container {
