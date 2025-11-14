@@ -28,9 +28,9 @@ export default class extends Controller {
       onEnd: this.reorder.bind(this),             // 並び替え：ドロップ時に毎回発火
       onAdd: this.moveToOtherLocation.bind(this), // 配置換え：他のgroupにドロップした時のみ発火
       scroll: false,                              // Sortableのスクロール機能を無効
-      onStart: () => {
+      onChoose: () => {
         this.dragging = true;
-      },                                          // スクロール：group内外問わずアイテム移動時に発火
+      }                                           // スクロール：group内外問わずアイテム移動時に発火
     });
   }
 
@@ -47,8 +47,8 @@ export default class extends Controller {
       return;
     }
 
-    const mouseY = e.clientY;                // 画面上のマウス位置取得
-    const windowHeight = window.innerHeight; // アドレスバーなどを除くビューポートの高さ取得
+    const mouseY = e.touches ? e.touches[0].clientY : e.clientY; // 画面上のタッチ位置又はマウス位置取得
+    const windowHeight = window.innerHeight;                     // アドレスバーなどを除くビューポートの高さ取得
 
     // 固定領域の高さ
     const header = document.getElementsByTagName("header");
@@ -81,7 +81,7 @@ export default class extends Controller {
   // 実際にスクロールさせるアクション
   scrollLoop() {
     if (this.dragging && this.scrollDirection) {
-      const scrollSpeed = 10;
+      const scrollSpeed = 8;
 
       if (this.scrollDirection === "up") {
         window.scrollBy(0, -scrollSpeed);
@@ -94,7 +94,10 @@ export default class extends Controller {
   }
 
   reorder(event) {
-    this.dragging = false; // ドロップ時に必ずグローバルスクロール用のフラグを解除する
+    // ドロップ時に並べ替えの有無に関係なくスクロールフラグを解除する
+    this.dragging = false;
+    this.scrollDirection = null;
+    // rearrangeでも呼ばれるため、配置換えのみ処理をするように制御
     if (event.from === event.to) {
       // childrenで各stockのturbo-frame要素を取得でき、同タグにあるstock_id_valueを取得
       const ids = Array.from(this.element.children).map((el) => {
