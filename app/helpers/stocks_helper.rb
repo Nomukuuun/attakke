@@ -1,15 +1,27 @@
 module StocksHelper
-  # turbo、broadcastどちらでもセッション値を扱えるようにするメソッド
-  def fetch_list_type_session_value(list_type)
-    current_list_type_value || list_type
+  # NOTE: リストラベルに関するヘルパー
+  def set_button_design(list_type)
+    defaults = "bg-white hover:bg-dull-green/70 hover:text-f-head/70"
+    active = "bg-dull-green text-white"
+    button_design = { all: defaults, shopping: defaults }
+
+    list_type == "all" ? button_design[:all] = active : button_design[:shopping] = active
+    button_design
   end
 
-  def fetch_sort_mode_session_value(sort_mode)
-    current_sort_mode_value || sort_mode
+  # NOTE: 以下、ストックカードに関するヘルパー
+  # どのアクションから来たのか判定するメソッド
+  def set_action_type
+    if action_name.in?(%w[new create])
+      "新規"
+    elsif action_name.in?(%w[edit update])
+      "更新"
+    else
+      "その他" # どれにも当てはまらない場合のフォールバック
+    end
   end
 
-
-  # ストック数０または購入対象チェックに応じてストックカラーを変更するメソッド
+  # ストック数０または購入対象チェックに応じてストックカードカラーを変更するメソッド
   def set_stock_card_design(stock)
     if quantity(stock) == 0 || stock.purchase_target
       "bg-dull-pink"
@@ -21,18 +33,6 @@ module StocksHelper
   def quantity(stock)
     stock.latest_exist_quantity == nil ? stock.latest_num_quantity.to_i : stock.latest_exist_quantity.to_i
   end
-
-
-  # フィルタリングボタンのデザインを決定するメソッド
-  def set_button_design(list_type)
-    defaults = "bg-white hover:bg-dull-green/70 hover:text-f-head/70"
-    active = "bg-dull-green text-white"
-    button_design = { all: defaults, shopping: defaults }
-
-    list_type == "all" ? button_design[:all] = active : button_design[:shopping] = active
-    button_design
-  end
-
 
   # ストックのアイコン、残数をどのように表示するか返す判定ロジック
   def set_icon_info(stock, sort_mode)
@@ -61,7 +61,6 @@ module StocksHelper
       "unknown" # どれにも当てはまらない場合のフォールバック
     end
   end
-
 
   # index画面で〇日前と表示するためのメソッド
   def number_of_days_elapsed(stock)
