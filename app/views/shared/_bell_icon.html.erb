@@ -1,5 +1,5 @@
 <% if current_user.active_partnership&.pending? %>
-  <%= link_to new_partnerships_path,
+  <%= link_to edit_partnerships_path,
     data: { turbo_frame: 'modal_frame' },
     class: "flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm hover:bg-dull-beige hover:shadow-md" do %>
     <svg class="size-6 text-dull-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

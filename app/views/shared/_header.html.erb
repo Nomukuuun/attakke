@@ -55,7 +55,8 @@
               <span>ユーザー情報</span>
             <% end %>
 
-            <%= link_to new_partnerships_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
+            <%# NOTE: 有効なパートナーシップを持っているかでnewとeditのどちらかをset %>
+            <%= link_to set_partnerships_path, data: { turbo_frame: "modal_frame", action: "turbo:click->mobile-menus#reset" }, class: "drawer-link" do %>
               <svg class="size-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" />
                 <circle cx="9" cy="7" r="4" />
