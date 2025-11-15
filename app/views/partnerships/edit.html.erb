@@ -1,0 +1,10 @@
+<%= render 'shared/modal_wrapper' do %>
+  <% case @partnership.status %>
+  <% when "sended" %>
+    <%= render 'sended', partnership: @partnership %>
+  <% when "pending" %>
+    <%= render 'pending', partnership: @partnership %>
+  <% when "approved" %>
+    <%= render 'approved' %>
+  <% end %>
+<% end %>

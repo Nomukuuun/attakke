@@ -2,27 +2,31 @@ class PartnershipsController < ApplicationController
   include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_currentuser_active_partnership, only: %i[update destroy reject send_favor_notification]
+  before_action :set_currentuser_active_partnership, only: %i[new edit update destroy reject send_favor_notification]
 
   # NOTE: パートナー申請送信者側の操作
-  # パートナー設定画面の表示を分岐するため、partnershipを持っているかで変数に格納する値を設定
-  # FIXME: newアクションがshowアクションの責務まで持ってしまっている。showアクションを用意して、active_partnershipを持っているならリンク自体をshowアクションへ持っていくべき
+  # パートナー申請フォームの表示
   def new
-    @partnership = current_user.active_partnership || PartnershipsForm.new
+    # 画面更新をかけないため、有効なレコードを保持かつDOMがnew_pathになっている場合はeditへリダイレクトする
+    if @partnership.present?
+      redirect_to action: :edit, status: :see_other
+    else
+      @new_partnership = PartnershipsForm.new
+    end
   end
 
   # 申請メールを送信、レコード作成
   def create
-    new_partnership = PartnershipsForm.new(email: partnerships_form_params[:email], current_user_email: current_user.email)
+    form_partnership = PartnershipsForm.new(email: partnerships_form_params[:email], current_user_email: current_user.email)
 
     # 自身のアドレスを入力又は空欄の場合はエラーを表示して返す
-    if new_partnership.invalid?
-      @partnership = new_partnership
+    if form_partnership.invalid?
+      @new_partnership = form_partnership
       render :new, status: :unprocessable_entity
       return
     end
 
-    partner = User.find_by(email: new_partnership.email)
+    partner = User.find_by(email: form_partnership.email)
 
     # 入力されたemailを持つユーザーがactiveなpartnershipを持っていないならレコード作成＆プッシュ通知送信
     if partner.present? && partner.active_partnership.blank?
@@ -35,6 +39,8 @@ class PartnershipsController < ApplicationController
       partner.send_push_notification(message: message)
     end
 
+    # current_userを更新することで紐づく情報を更新する
+    current_user.reload
     # メールアドレス特定防止のため、申請を送信できていなくても送信成功メッセージを表示する
     flash.now[:success] = t("defaults.flash_message.sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
@@ -95,7 +101,14 @@ class PartnershipsController < ApplicationController
     ]
   end
 
-  # NOTE: お互いに使える機能
+  # NOTE: お互いに使えるアクション
+  # 有効なパートナーシップを持っている場合に画面を出し分けるアクション
+  def edit
+    # 画面更新をかけないため、有効なレコードを未保持かつDOMがedit_pathになっている場合はnewへリダイレクトする
+    redirect_to action: :new, status: :see_other if @partnership.blank?
+  end
+
+
   # おねがい通知送信
   def send_favor_notification
     if @partnership&.present?
