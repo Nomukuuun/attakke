@@ -57,7 +57,10 @@ class StocksController < ApplicationController
         broadcast.prepend_stock(@location, @stocks.find(@stock.id))
       end
       flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
-      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
+      render turbo_stream: [
+        turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
+        turbo_stream.update("flash", partial: "shared/flash_message")
+      ]
     else
       render :new, status: :unprocessable_entity
     end
@@ -93,6 +96,7 @@ class StocksController < ApplicationController
     end
     flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.stock"))
     render turbo_stream: [
+      turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
       turbo_stream.update("flash", partial: "shared/flash_message"),
       turbo_stream.update("modal_frame")
     ]
