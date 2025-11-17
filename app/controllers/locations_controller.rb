@@ -38,6 +38,7 @@ class LocationsController < ApplicationController
     flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.location"))
     render turbo_stream: [
       turbo_stream.update("flash", partial: "shared/flash_message"),
+      turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
       turbo_stream.update("modal_frame")
     ]
   end

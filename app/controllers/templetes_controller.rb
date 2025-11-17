@@ -65,7 +65,10 @@ class TempletesController < ApplicationController
         broadcast.prepend_location(@forms.location, @stocks)
       end
       flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
-      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
+      render turbo_stream: [
+        turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
+        turbo_stream.update("flash", partial: "shared/flash_message")
+        ]
     else
       # まとめて追加を選択している場合、保管場所名のセレクトボックスを保存失敗状態で再表示できるように配列をセット
       select_tag_value = templetes_form_params[:select_tag_value]

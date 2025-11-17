@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # ビューで現在のlist_typeを参照する
   helper_method :current_list_type_value
   helper_method :current_sort_mode_value
+  helper_method :our_stocks
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern

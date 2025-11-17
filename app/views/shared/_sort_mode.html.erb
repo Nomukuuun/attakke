@@ -1,4 +1,4 @@
-<% if current_list_type_value == "all" %>
+<% if current_list_type_value == "all" && our_stocks.present? %>
 
   <% if current_sort_mode_value == "off" %>
     <%= link_to sort_mode_stocks_path(sort_mode: "on"),
