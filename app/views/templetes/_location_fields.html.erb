@@ -1,4 +1,4 @@
-<% unless forms.location_name == "【既存保管場所にまとめて追加】" %>
+<% unless forms.location_name == "【まとめて追加】" %>
   <%= f.text_field :location_name, id: "input_location_name", class: "modal-input w-full" %>
 <% else %>
   <%= f.select :location_name,
