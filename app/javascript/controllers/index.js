@@ -10,6 +10,9 @@ application.register("confirm", ConfirmController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
+import LoadingController from "./loading_controller"
+application.register("loading", LoadingController)
+
 import MobileMenusController from "./mobile_menus_controller"
 application.register("mobile-menus", MobileMenusController)
 

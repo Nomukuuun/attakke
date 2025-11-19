@@ -4,7 +4,7 @@
 
   <%= link_to stocks_path(list_type: "all"),
     data: { turbo_stream: true },
-    class: "basis-1/2 flex items-center justify-center space-x-1 rounded-t-lg #{button_design[:all]}" do %>
+    class: "basis-1/2 flex items-center justify-center space-x-1 #{button_design[:all]}" do %>
     <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
     </svg>
@@ -13,7 +13,7 @@
 
   <%= link_to stocks_path(list_type: "shopping"),
     data: { turbo_stream: true },
-    class: "basis-1/2 flex items-center justify-center space-x-1 rounded-t-lg #{button_design[:shopping]}" do %>
+    class: "basis-1/2 flex items-center justify-center space-x-1 #{button_design[:shopping]}" do %>
     <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
       <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="9" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><path d="M3 3h2l2 12a3 3 0 0 0 3 2h7a3 3 0 0 0 3 -2l1 -7h-15.2" />
     </svg>
@@ -21,6 +21,3 @@
   <% end %>
 
 </div>
-
-<%# NOTE: 有効なリストバーを強調するためのデザインバー %>
-<div class="h-1 bg-dull-green"></div>
