@@ -24,24 +24,6 @@
 
   /* GoogleFontsの導入 */
   --font-yusei: "Yusei Magic", sans-serif;
-
-  /* flash_messageのアニメーション */
-  --animate-fadeinout: fadeinout 3s ease-in-out 1;
-
-  @keyframes fadeinout {
-    0% {
-      transform: translateY(0);
-    }
-    15% {
-      transform: translateY(48px);
-    }
-    85% {
-      transform: translateY(48px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
 }
 
 /* 操作無効であることを示すコントラストカラー */
@@ -130,7 +112,65 @@
   }
 }
 
+/* ローディングアニメーション用コンポーネント */
+@layer components {
+  #loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #loading-overlay.hidden {
+    display: none;
+  }
+}
+
+/* アニメーション系のコンポーネント */
+@layer components {
+  /* フラッシュメッセージのアニメーション */
+  .animate-fadeinout {
+    animation: fadeinout 3s ease-in-out 1;
+  }
+
+  /* ローディングスピナーのアニメーション */
+  .animate-spin {
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+/* フラッシュメッセージアニメーション定義 */
+@keyframes fadeinout {
+  0% {
+    transform: translateY(0);
+  }
+  15% {
+    transform: translateY(48px);
+  }
+  85% {
+    transform: translateY(48px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* ローディングアニメーション定義 */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* 「field_with_errors」にCSSをあてる */
 .field_with_errors {
   display: contents;
+}
+
+/* Turboのプログレスバーを非表示にする */
+.turbo-progress-bar {
+  display: none;
 }

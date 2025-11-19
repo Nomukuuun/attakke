@@ -48,7 +48,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body data-controller="push"
+  <body data-controller="push loading"
         data-push-public-key-value="<%= ENV['VAPID_PUBLIC_KEY'] %>"
         class="flex flex-col pt-16 md:pt-20 min-h-screen bg-dull-beige text-base text-f-body font-yusei">
 
@@ -71,6 +71,9 @@
     <%= render "shared/footer", cached: true %>
 
     <%= turbo_frame_tag "modal_frame" %>
+    <div id="loading-overlay" data-loading-target="overlay" class="hidden">
+      <div class="size-12 border-4 border-white border-t-dull-green rounded-full animate-spin"></div>
+    </div>
 
   </body>
 </html>
