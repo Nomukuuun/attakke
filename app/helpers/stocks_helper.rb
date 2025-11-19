@@ -1,8 +1,8 @@
 module StocksHelper
   # NOTE: リストラベルに関するヘルパー
   def set_button_design(list_type)
-    defaults = "bg-white hover:bg-dull-green/70 hover:text-f-head/70 shadow-sm mx-[3px] mb-[3px] p-[6.5px]"
-    active = "bg-dull-green text-white p-2"
+    defaults = "rounded-lg bg-dull-green text-white hover:brightness-105 drop-shadow-sm mx-1 mb-1 p-[6px]"
+    active = "rounded-t-lg bg-white text-f-head p-2"
     button_design = { all: defaults, shopping: defaults }
 
     list_type == "all" ? button_design[:all] = active : button_design[:shopping] = active
