@@ -16,7 +16,7 @@ class LocationsController < ApplicationController
 
   def update
     if @location.update(location_params)
-      broadcast.update_location(@location, @stocks)
+      broadcast.replace_location(@location, @stocks)
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.location"))
       render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
