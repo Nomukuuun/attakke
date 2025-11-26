@@ -44,8 +44,12 @@ export default class extends Controller {
 
     setTimeout(() => {
       const target = document.getElementById(id);
+      // ヘッダーとヘッダー下メニュー（検索窓＋リストラベル）
+      const header = document.getElementById("header");
+      const submenu = document.getElementById("submenu");
       if (target) {
-        const offset = 152; // ヘッダー:64 + 検索窓とフィルタリングボタン: 88
+        const offset =
+          (header?.offsetHeight || 0) + (submenu?.offsetHeight || 0); // 引き下げる高さ
         const targetPosition =
           target.getBoundingClientRect().top + window.scrollY;
         const scrollTo = targetPosition - offset;

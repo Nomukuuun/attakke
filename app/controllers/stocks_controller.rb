@@ -52,7 +52,7 @@ class StocksController < ApplicationController
       # 保管場所にストックが存在しない場合、ストック追加を促すメッセージが表示されている
       # 当該メッセージを非表示にするために更新範囲を変更する
       if @location.stocks.count == 1
-        broadcast.update_location(@location, @stocks)
+        broadcast.replace_location(@location, @stocks)
       else
         broadcast.prepend_stock(@location, @stocks.find(@stock.id))
       end
@@ -73,7 +73,7 @@ class StocksController < ApplicationController
 
   def update
     if @stock.update(stock_params)
-      broadcast.update_stock(@stocks.find(@stock.id))
+      broadcast.replace_stock(@stocks.find(@stock.id))
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))
       render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
@@ -90,7 +90,7 @@ class StocksController < ApplicationController
     # 保管場所にストックが存在しなくなった場合、ストック追加を促すメッセージを表示する
     # 当該メッセージを表示するために更新範囲を変更する
     if location.stocks.count == 0
-      broadcast.update_location(location, @stocks)
+      broadcast.replace_location(location, @stocks)
     else
       broadcast.remove_stock(stock)
     end
@@ -128,7 +128,7 @@ class StocksController < ApplicationController
       our_stocks.find(id).insert_at(index + 1)
     end
 
-    render turbo_stream: turbo_stream.update("location_#{location.id}", partial: "location", locals: { location: location, stocks: @stocks })
+    render turbo_stream: turbo_stream.replace("location_#{location.id}", partial: "location", locals: { location: location, stocks: @stocks })
   end
 
   # 配置換えソートを行うためのアクション
@@ -142,9 +142,8 @@ class StocksController < ApplicationController
     after_location = our_locations.find(after_id)
     flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.location"))
     render turbo_stream: [
-      turbo_stream.update("location_#{before_location.id}", partial: "location", locals: { location: before_location, stocks: @stocks }),
-      turbo_stream.update("location_#{after_location.id}", partial: "location", locals: { location: after_location, stocks: @stocks }),
-      turbo_stream.update("flash", partial: "shared/flash_message")
+      turbo_stream.replace("location_#{before_location.id}", partial: "location", locals: { location: before_location, stocks: @stocks }),
+      turbo_stream.replace("location_#{after_location.id}", partial: "location", locals: { location: after_location, stocks: @stocks })
     ]
   end
 

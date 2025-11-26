@@ -16,8 +16,8 @@ class Broadcaster
     )
   end
 
-  def update_location(location, stocks)
-    Turbo::StreamsChannel.broadcast_update_to(
+  def replace_location(location, stocks)
+    Turbo::StreamsChannel.broadcast_replace_to(
       stream_key,
       target: "location_#{location.id}",
       partial: "stocks/location",
@@ -41,8 +41,8 @@ class Broadcaster
     )
   end
 
-  def update_stock(stock)
-    Turbo::StreamsChannel.broadcast_update_to(
+  def replace_stock(stock)
+    Turbo::StreamsChannel.broadcast_replace_to(
       stream_key,
       target: "stock_#{stock.id}",
       partial: "stocks/stock",

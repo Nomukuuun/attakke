@@ -3,22 +3,24 @@ import Sortable from "sortablejs";
 
 // Connects to data-controller="sortable"
 export default class extends Controller {
-  static values = { 
+  static values = {
     locationId: Number,
-    sortableStockId: Number
+    sortableStockId: Number,
   };
 
   initialize() {
-    this.dragging = false;                                             // ドラッグ状態フラグ（グローバルスクロール用）
-    this.scrollDirection = null;                                       // スクロール方向フラグ　'up' or 'down'
+    this.dragging = false; // ドラッグ状態フラグ（グローバルスクロール用）
+    this.scrollDirection = null; // スクロール方向フラグ　'up' or 'down'
     this._scrollDiscrimination = this.scrollDiscrimination.bind(this); // マウス位置によりスクロール方向を判別する関数のバインド
-    this._scrollLoop = this.scrollLoop.bind(this);                     // スクロールループ関数のバインド
+    this._scrollLoop = this.scrollLoop.bind(this); // スクロールループ関数のバインド
   }
 
   connect() {
     // スクロール方向アクションとループアクションの接続
     window.addEventListener("mousemove", this._scrollDiscrimination);
-    window.addEventListener("touchmove", this._scrollDiscrimination, { passive: false });
+    window.addEventListener("touchmove", this._scrollDiscrimination, {
+      passive: false,
+    });
     requestAnimationFrame(this._scrollLoop);
 
     this.sortable = Sortable.create(this.element, {
@@ -30,7 +32,7 @@ export default class extends Controller {
       scroll: false,                              // Sortableのスクロール機能を無効
       onChoose: () => {
         this.dragging = true;
-      }                                           // スクロール：group内外問わずアイテム移動時に発火
+      },                                          // スクロール：group内外問わずアイテム移動時に発火
     });
   }
 
@@ -48,13 +50,13 @@ export default class extends Controller {
     }
 
     const mouseY = e.touches ? e.touches[0].clientY : e.clientY; // 画面上のタッチ位置又はマウス位置取得
-    const windowHeight = window.innerHeight;                     // アドレスバーなどを除くビューポートの高さ取得
+    const windowHeight = window.innerHeight; // アドレスバーなどを除くビューポートの高さ取得
 
     // 固定領域の高さ
-    const header = document.getElementsByTagName("header");
+    const header = document.getElementById("header");
     const submenu = document.getElementById("submenu");
     const locationHeader = document.querySelector(".location-header"); // 複数保管場所があったら最初の１件が返る
-    const footerMenu = document.getElementsByTagName("nav");
+    const footerMenu = document.getElementById("footer_menu");
 
     // オプショナルチェーン(?.)でnullの場合はundefinedを返す
     const fixedHeaderHeight =
@@ -62,7 +64,7 @@ export default class extends Controller {
       (submenu?.offsetHeight || 0) +
       (locationHeader?.offsetHeight || 0);
 
-    const fixedFooterHeight = (footerMenu?.offsetHeight || 0);
+    const fixedFooterHeight = footerMenu?.offsetHeight || 0;
 
     // スクロール検知範囲(固定メニュー + ストック１つ分：84px ≒ 90px)
     const upperThreshold = fixedHeaderHeight + 90;
@@ -134,9 +136,9 @@ export default class extends Controller {
 
   headers() {
     return {
-      "Accept": "text/vnd.turbo-stream.html, text/html, application/xhtml+xml", // turbo_streamでのリクエストとすることでフラッシュメッセージの更新を可能にする
+      Accept: "text/vnd.turbo-stream.html, text/html, application/xhtml+xml", // turbo_streamでのリクエストとすることでフラッシュメッセージの更新を可能にする
       "Content-Type": "application/json",
       "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-    }
+    };
   }
 }

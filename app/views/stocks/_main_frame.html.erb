@@ -3,9 +3,7 @@
   <% if locations.present? %>
 
     <% locations.each do |location| %>
-      <%= turbo_frame_tag location do %>
-        <%= render 'stocks/location', location: location, stocks: stocks, list_type: (current_list_type_value || list_type), sort_mode: (current_sort_mode_value || sort_mode) %>
-      <% end %>
+      <%= render 'stocks/location', location: location, stocks: stocks, list_type: (current_list_type_value || list_type), sort_mode: (current_sort_mode_value || sort_mode) %>
     <% end %>
 
   <% else %>
