@@ -38,6 +38,8 @@ ja:
         model: ストック型
         exist_quantity: ストックの状態
         num_quantity: ストックの個数
+      line_messages_form:
+        message: 送信メッセージ
   attributes:
     id: ID
     created_at: 作成日時

@@ -38,6 +38,10 @@ Rails.application.routes.draw do
   end
   resource :users, only: %i[show]
 
+  # LINEメッセージ転送
+  get "/line_messages/edit", to: "line_messages#edit", as: :edit_line_message
+  post "/line_messages/share", to: "line_messages#share", as: :share_line_message
+
   # PWA関係
   get "/manifest.json", to: "pwa#manifest", defaults: { format: :json }
   get "/service-worker.js", to: "pwa#service_worker", defaults: { format: :js }

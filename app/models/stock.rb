@@ -17,6 +17,7 @@ class Stock < ApplicationRecord
   # 使用しない型の数量はnilで保存しているため、COALESCEで０に置換して判定している
   scope :order_position, -> { order(:position) }
   scope :shopping, -> { where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0 OR purchase_target = ?", true) }
+  scope :not_in_shopping, -> { where("(COALESCE(latest_history.exist_quantity, 0) > 0 OR COALESCE(latest_history.num_quantity, 0) > 0)").where("purchase_target = ?", false) }
 
   # ransackのv4系から必要になった検索を許可するカラムの指定
   def self.ransackable_attributes(auth_object = nil)
