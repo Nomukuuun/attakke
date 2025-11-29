@@ -2,7 +2,7 @@ class PartnershipsController < ApplicationController
   include SetLocationsAndStocks
   include Broadcast
 
-  before_action :set_currentuser_active_partnership, only: %i[new edit update destroy reject send_favor_notification]
+  before_action :set_currentuser_active_partnership, only: %i[new edit update destroy reject]
 
   # NOTE: パートナー申請送信者側の操作
   # パートナー申請フォームの表示
