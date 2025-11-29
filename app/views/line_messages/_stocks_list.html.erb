@@ -1,0 +1,17 @@
+<% locations.each do |location| %>
+  <% if stocks.find_by(location_id: location.id).present? %>
+
+    <div class="pl-2 bg-dull-beige rounded"><%= location.name %></div>
+    <ul class="m-2 pl-4 list-disc">
+      <% stocks.where(location_id: location.id).each do |stock| %>
+        <li><%= stock.name %></li>
+      <% end %>
+    </ul>
+    
+  <% else %>
+
+    <%# NOTE: 次のlocationにループを進める %>
+    <% next %>
+
+  <% end %>
+<% end %>

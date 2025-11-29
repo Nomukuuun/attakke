@@ -13,15 +13,18 @@
 <p class="pl-2"><%= current_user.active_partner.name %> さん</p>
 
 <div class="my-4">
+  <p class="mb-2">保管場所やストック情報が共有されています。</p>
   <p>
-    保管場所やストック情報が共有されています。<br>
-    買うものリストを確認して、買い物をしてもらう「おねがい通知」をパートナーに送ることができます。<br>
+    LINEで買いもの依頼メッセージを送ることができます。<br>
+    送信先は自由に選択できますが、<span class="text-dull-red">誤送信にご注意ください。</span>
   </p>
 </div>
 
-<%= button_to "おねがい通知 を送る", favor_partnerships_path,
-  method: :post,
-  form: { data: { action: "turbo:submit-end->modal-frame#close", turbo_confirm: t('defaults.confirm.partnership.send_favor_notification'), confirm_button_text: "ＯＫ" } },
-  class: "modal-submit w-full"
-%>
-
+<%= link_to edit_line_message_path, data: { turbo_frame: 'modal_frame' }, class: "w-full h-11 md:h-12 mb-4 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>
+  <span class="flex size-10 items-center justify-center rounded-full bg-dull-beige/30 text-white transition duration-200 ease-out group-hover:bg-dull-beige/40">
+    <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/><path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" /><line x1="12" y1="12" x2="12" y2="12.01" /><line x1="8" y1="12" x2="8" y2="12.01" /><line x1="16" y1="12" x2="16" y2="12.01" />
+    </svg>
+  </span>
+  <span class="text-xs md:text-base tracking-wide">LINEで買いもの依頼</span>
+<% end %>

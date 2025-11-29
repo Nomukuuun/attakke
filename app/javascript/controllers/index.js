@@ -28,6 +28,9 @@ application.register("quantity-visibility", QuantityVisibilityController)
 import RevealController from "./reveal_controller"
 application.register("reveal", RevealController)
 
+import ShareLineMessagesController from "./share_line_messages_controller"
+application.register("share-line-messages", ShareLineMessagesController)
+
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)
 
