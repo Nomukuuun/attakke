@@ -33,7 +33,6 @@ Rails.application.routes.draw do
   resource :partnerships, only: %i[new create edit update destroy] do
     member do
       delete :reject
-      post :send_favor_notification, to: "partnerships#send_favor_notification", as: :favor
     end
   end
   resource :users, only: %i[show]

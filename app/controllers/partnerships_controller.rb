@@ -109,16 +109,6 @@ class PartnershipsController < ApplicationController
   end
 
 
-  # おねがい通知送信
-  def send_favor_notification
-    if @partnership&.present?
-      message = { title: "【Attakke?】より", body: "パートナーが買い物をお願いしたいみたいです！\nこちらをタップして「買いものリスト」を確認しましょう！" }
-      current_user.active_partner&.send_push_notification(message: message)
-    end
-    flash.now[:success] = t("defaults.flash_message.send_favor_notification")
-    render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
-  end
-
   # NOTE: 以下privateメソッド
   private
 

@@ -83,7 +83,7 @@ export default class extends Controller {
   // 実際にスクロールさせるアクション
   scrollLoop() {
     if (this.dragging && this.scrollDirection) {
-      const scrollSpeed = 8;
+      const scrollSpeed = 10;
 
       if (this.scrollDirection === "up") {
         window.scrollBy(0, -scrollSpeed);

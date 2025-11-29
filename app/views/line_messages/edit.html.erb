@@ -2,7 +2,7 @@
   <h2 class="modal-header">LINEで買いもの依頼</h2>
 
   <p class="mb-4">
-    転送するメッセージを編集できます。<br>
+    送信するメッセージを編集できます。<br>
     デフォルトでは、買いものリストにあるストックが入力されています。
   </p>
 
@@ -10,25 +10,7 @@
     <summary class="cursor-pointer">買いものリスト一覧</summary>
     <div class="p-2 mt-2 border-t-1 border-f-body">
       <% if @shopping_stocks.present? %>
-
-        <% @locations.each do |location| %>
-          <% if @shopping_stocks.find_by(location_id: location.id).present? %>
-
-            <div class="pl-2 bg-dull-beige rounded"><%= location.name %></div>
-            <ul class="m-2 pl-4 list-disc">
-              <% @shopping_stocks.where(location_id: location.id).each do |stock| %>
-                <li><%= stock.name %></li>
-              <% end %>
-            </ul>
-            
-          <% else %>
-
-            <%# NOTE: 次のlocationにループを進める %>
-            <% next %>
-
-          <% end %>
-        <% end %>
-
+        <%= render "stocks_list", locations: @locations, stocks: @shopping_stocks %>
       <% else %>
         <p>表示するリストがありません。</p>
       <% end %>
@@ -39,24 +21,7 @@
     <summary class="cursor-pointer">買いものリストにないもの</summary>
     <div class="p-2 mt-2 border-t-1 border-f-body">
       <% if @not_in_shopping_stocks.present? %>
-
-        <% @locations.each do |location| %>
-          <% if @not_in_shopping_stocks.find_by(location_id: location.id).present? %>
-
-            <div class="pl-2 bg-dull-beige rounded"><%= location.name %></div>
-            <ul class="m-2 pl-4 list-disc">
-              <% @not_in_shopping_stocks.where(location_id: location.id).each do |stock| %>
-                <li><%= stock.name %></li>
-              <% end %>
-            </ul>
-            
-          <% else %>
-
-            <% next %>
-
-          <% end %>
-        <% end %>
-
+        <%= render "stocks_list", locations: @locations, stocks: @not_in_shopping_stocks %>
       <% else %>
         <p>表示するリストがありません。</p>
       <% end %>
