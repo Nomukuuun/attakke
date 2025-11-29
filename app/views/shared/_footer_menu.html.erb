@@ -1,6 +1,7 @@
 <div class="flex h-full w-full max-w-xl mx-auto items-center gap-4 px-4">
 
   <% if current_list_type_value == "all" && current_sort_mode_value == "off" %>
+
     <%= link_to templetes_path, data: { turbo_frame: 'modal_frame' }, class: "group flex-1 h-11 md:h-12 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>
       <span class="flex size-10 items-center justify-center rounded-full bg-dull-beige/30 text-white transition duration-200 ease-out group-hover:bg-dull-beige/40">
         <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -9,7 +10,9 @@
       </span>
       <span class="text-xs md:text-base tracking-wide">作成・追加</span>
     <% end %>
+
   <% elsif current_list_type_value == "shopping" %>
+
     <%= link_to edit_line_message_path, data: { turbo_frame: 'modal_frame' }, class: "group flex-1 h-11 md:h-12 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>
       <span class="flex size-10 items-center justify-center rounded-full bg-dull-beige/30 text-white transition duration-200 ease-out group-hover:bg-dull-beige/40">
         <svg class="size-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -18,6 +21,7 @@
       </span>
       <span class="text-xs md:text-base tracking-wide">LINEへ転送</span>
     <% end %>
+
   <% end %>
 
   <%= link_to locations_path, data: { turbo_frame: 'modal_frame' }, class: "group flex-1 h-11 md:h-12 flex items-center justify-center gap-3 rounded-full bg-dull-green text-white font-semibold shadow-lg transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-dull-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dull-green focus-visible:ring-offset-2 focus-visible:ring-offset-white" do %>

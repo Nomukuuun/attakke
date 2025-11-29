@@ -14,11 +14,8 @@ class LineMessagesController < ApplicationController
     if @form.invalid?
       set_shopping_and_notinshopping_stocks(@stocks)
       render :edit, status: :unprocessable_entity
-    else
-      # ここで share.html.erb を表示して、
-      # その中の JS が liff.shareTargetPicker(@form.message) を呼ぶ形にする
-      render :share
     end
+    # メッセージ欄が空欄でなければ、ここでLINEでシェアする画面が立ち上がる
   end
 
   # NOTE: 以下privateメソッド
@@ -35,18 +32,19 @@ class LineMessagesController < ApplicationController
 
   def default_message(shopping_stocks)
     message = <<~MSG
-      【消耗品管理アプリ | Attakke】より
+      【消耗品管理アプリ | Attakke】
       パートナーから買いものお願い依頼が来ました！
       これを買ってきてほしいみたいです👇
       #{if shopping_stocks.present?
-          shopping_stocks.map {|stock| "・#{stock.name}" }.join("\n")
+          shopping_stocks.map { |stock| "・#{stock.name}" }.join("\n")
         else
           "＊買いものリストにストックがありません。\n＊「買いものリストにないもの」を参考に買ってきてほしいストックを入力してください。"
         end
       }
-      買いものリストはアプリからも確認ができます！
+      アプリをお使いの場合は、以下のリンクから買いものリストの確認ができます！
       #{root_url}
+      （ブラウザで起動します）
     MSG
-    return message
+    message
   end
 end
