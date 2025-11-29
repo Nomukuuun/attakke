@@ -40,8 +40,8 @@ Rails.application.configure do
   # ローカル環境でngrok経由のhttps通信を可能にするためにhosts追加
   # NOTE: rgrokでhttps環境下でテストするにはasset_hostを変更する
   config.hosts << /[a-z0-9-]+\.ngrok-free\.dev/
-  config.action_controller.asset_host = "supersubtle-kalel-unsuperseding.ngrok-free.dev"
-  # config.action_controller.asset_host = "localhost:3000"
+  # config.action_controller.asset_host = "supersubtle-kalel-unsuperseding.ngrok-free.dev"
+  config.action_controller.asset_host = "localhost:3000"
 
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
