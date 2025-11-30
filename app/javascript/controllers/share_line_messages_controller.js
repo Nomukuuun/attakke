@@ -23,7 +23,8 @@ export default class extends Controller {
 
       // editでmessageを編集していればsessionが空になることはないが、空ならログを出す
       if (message == "") {
-        console.warn("転送messageは空文字です");
+        console.warn("LINE share message is null");
+        alert("メッセージが未入力です。\n「LINEで買いもの依頼」画面からメッセージを編集してください。");
       }
 
       // シェアターゲットピッカーを起動し、送信後に画面を閉じる
@@ -34,7 +35,7 @@ export default class extends Controller {
 
     } catch (e) {
       console.error(e);
-      alert("LINEアプリ内で開いているか確認してください");
+      alert("ポップアップブロックがされている場合はLINEが起動しません。\nブラウザの設定からポップアップとリダイレクトを許可してください。");
     }
   }
 }
