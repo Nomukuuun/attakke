@@ -28,7 +28,8 @@
     </div>
   </details>
 
-  <%= form_with model: @form, url: share_line_message_path, method: :post, data: { action: "turbo:submit-end->modal-frame#close" } do |f| %>
+  <%# NOTE: LIFFのRedirectURLを/line_messages/shareにしたいため、通常の画面遷移にする %>
+  <%= form_with model: @form, url: check_line_message_path, method: :post, data: { turbo: false } do |f| %>
 
     <div class="flex items-center space-x-1 mb-1">
       <svg class="modal-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
