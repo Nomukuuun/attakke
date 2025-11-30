@@ -1,13 +1,15 @@
-<%= render 'shared/modal_wrapper' do %>
-  <h2 class="modal-header">LINEへ転送中</h2>
+<!-- LIFFが初回ログイン時にリダイレクト動作を挟むため、モーダルでなく通常の画面遷移にする -->
+<h2 class="p-4 bg-dull-green text-white text-xl font-bold">LINEへ転送中</h2>
 
-  <!-- 接続後即座にLIFFが起動 -->
-  <div
-    data-controller="share-line-messages"
-    data-share-line-messages-liff-id-value="<%= ENV['LIFF_ID'] %>"
-    data-share-line-messages-message-value="<%= @form.message %>"
-  ></div>
+<!-- 接続後即座にLIFFが起動 -->
+<div
+  data-controller="share-line-messages"
+  data-share-line-messages-liff-id-value="<%= ENV['LIFF_ID'] %>"
+  data-share-line-messages-message-value="<%= @message %>"
+  data-share-line-messages-redirect-url-value="<%= share_line_message_url %>"
+></div>
 
+<div class="mt-8 p-4 bg-white rounded">
   <p class="mb-4">
     LINEアプリ上で送信相手を選択してください。<br>
     転送先は自由に選択できますが、<span class="text-dull-red">誤送信にご注意ください。</span>
@@ -15,8 +17,6 @@
 
   <p class="mb-4">送信後は「閉じる」ボタンでこの画面を閉じてください。</p>
   <div class="w-full mt-8 mb-4 mx-auto text-center cursor-pointer">
-    <span class="px-4 py-2 bg-dull-green text-white rounded shadow-lg" data-action="click->modal-frame#hideModal">
-      閉じる
-    </span>
+    <%= link_to "閉じる", stocks_path, class: "px-4 py-2 bg-dull-green text-white rounded shadow-lg" %>
   </div>
-<% end %>
+</div>

@@ -6,6 +6,7 @@ ja:
       unauthenticated: 認証に失敗しました
     sessions:
       success: ログアウトしました
+      already_signed_out: 既にログアウト済みです
     failure:
       unauthenticated: ログインしてください
   defaults:

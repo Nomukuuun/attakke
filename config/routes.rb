@@ -39,7 +39,8 @@ Rails.application.routes.draw do
 
   # LINEメッセージ転送
   get "/line_messages/edit", to: "line_messages#edit", as: :edit_line_message
-  post "/line_messages/share", to: "line_messages#share", as: :share_line_message
+  post "/line_messages/check_form", to: "line_messages#check_form", as: :check_line_message
+  get "/line_messages/share", to: "line_messages#share", as: :share_line_message
 
   # PWA関係
   get "/manifest.json", to: "pwa#manifest", defaults: { format: :json }

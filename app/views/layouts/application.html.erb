@@ -65,7 +65,7 @@
       <%= yield %>
     </main>
 
-    <% if user_signed_in? %>
+    <% if user_signed_in? && !(controller_name == "line_messages" && action_name == "share") %>
       <nav id="footer_menu" class="sticky bottom-0 left-0 w-full h-14 bg-white shadow-sm z-10">
         <%= render "shared/footer_menu" %>
       </nav>

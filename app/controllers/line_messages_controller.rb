@@ -8,14 +8,21 @@ class LineMessagesController < ApplicationController
     @form = LineMessagesForm.new(message: default_message(@shopping_stocks))
   end
 
-  def share
+  def check_form
     @form = LineMessagesForm.new(line_message_params)
 
     if @form.invalid?
       set_shopping_and_notinshopping_stocks(@stocks)
       render :edit, status: :unprocessable_entity
+      return
     end
-    # メッセージ欄が空欄でなければ、ここでLINEでシェアする画面が立ち上がる
+
+    session[:message] = @form.message
+    redirect_to share_line_message_path, status: :see_other
+  end
+
+  def share
+    @message = session[:message] || ""
   end
 
   # NOTE: 以下privateメソッド

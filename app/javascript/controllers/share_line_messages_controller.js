@@ -5,6 +5,7 @@ export default class extends Controller {
   static values = {
     liffId: String,
     message: String,
+    redirectUrl: String
   };
 
   async connect() {
@@ -15,12 +16,14 @@ export default class extends Controller {
         withLoginOnExternalBrowser: true
       });
 
-      // ここでliffにログインしてアクセストークンを取得
-      if (!liff.isLoggedIn()) {
-        // withLoginOnExternalBrowser:trueにしているため、未ログイン状態になることはないが、ログを出すようにする
-        console.warn("Not logged in.");
-        alert("LINEへのログインに失敗しました");
-        return;
+      // URLからliffのパラメータを削除して、履歴を置換する
+      history.replaceState({}, "", this.redirectUrlValue);
+
+      const message = this.messageValue;
+
+      // editでmessageを編集していればsessionが空になることはないが、空ならログを出す
+      if (message == "") {
+        console.warn("転送messageは空文字です");
       }
 
       // シェアターゲットピッカーを起動し、送信後に画面を閉じる
