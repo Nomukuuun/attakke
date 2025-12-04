@@ -1,6 +1,6 @@
-<% if current_list_type_value == "all" && our_stocks.present? %>
+<% if current_list_type == "all" && our_stocks.present? %>
 
-  <% if current_sort_mode_value == "off" %>
+  <% if current_sort_mode == "off" %>
     <%= link_to sort_mode_stocks_path(sort_mode: "on"),
       data: { turbo_stream: true },
       class: "flex h-10 w-10 items-center justify-center space-x-1 rounded-full text-f-body bg-white shadow-sm hover:bg-dull-beige hover:shadow-md" do %>

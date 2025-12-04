@@ -1,7 +1,7 @@
 class TopPagesController < ApplicationController
   skip_before_action :authenticate_user!
-  skip_before_action :set_list_type_value
-  skip_before_action :set_sort_mode_value
+  skip_before_action :current_list_type
+  skip_before_action :current_sort_mode
   before_action :redirect_back_to_stocks_path, if: :user_signed_in?
 
   def top

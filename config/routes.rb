@@ -16,12 +16,12 @@ Rails.application.routes.draw do
 
   # その他モデル
   resources :stocks, except: %i[show] do
+    get :search, on: :collection
     collection do
-      get :search
-      get :sort_mode
-      patch :sort
+      get :sort_mode, to: "stocks/sorts#sort_mode"
+      patch :sort, to: "stocks/sorts#sort"
     end
-    patch :rearrange, on: :member
+    patch :rearrange, to: "stocks/sorts#rearrange", on: :member
   end
   resources :locations, only: %i[index edit update destroy]
   resources :histories, only: %i[create]

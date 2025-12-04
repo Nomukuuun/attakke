@@ -3,7 +3,7 @@
   <% if locations.present? %>
 
     <% locations.each do |location| %>
-      <%= render 'stocks/location', location: location, stocks: stocks, list_type: (current_list_type_value || list_type), sort_mode: (current_sort_mode_value || sort_mode) %>
+      <%= render 'stocks/location', location: location, stocks: stocks, list_type: (current_list_type || list_type), sort_mode: (current_sort_mode || sort_mode) %>
     <% end %>
 
   <% else %>

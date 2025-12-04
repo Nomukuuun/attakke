@@ -16,6 +16,6 @@
 
   <%# NOTE: indexをbroadcastで配信することはないため、ローカル変数はセッション値を読み取る %>
   <%= turbo_frame_tag "main_frame" do %>
-    <%= render "main_frame", stocks: @stocks, locations: @locations, list_type: current_list_type_value, sort_mode: current_sort_mode_value %>
+    <%= render "main_frame", stocks: @stocks, locations: @locations, list_type: current_list_type, sort_mode: current_sort_mode %>
   <% end %>
 </div>

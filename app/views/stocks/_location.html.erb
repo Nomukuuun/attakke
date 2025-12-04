@@ -1,12 +1,12 @@
 <%= turbo_frame_tag location do %>
-  <div class="bg-white pb-4 mb-10 rounded shadow-sm">
+  <div class="bg-white pb-4 mb-10 rounded-lg shadow-sm">
 
     <!-- 保管場所のヘッダー：一覧画面でのみ保管場所名の編集、ストック追加可能 -->
     <div class="location-header sticky z-5 top-40 md:top-44 bg-white px-4 py-3 mb-1">
       <div class="h-8 flex justify-between items-center">
 
         <%# NOTE: ストック一覧画面 かつ ソートモードがオフのときのみ保管場所名の変更とストックの追加を許可する %>
-        <% if (current_list_type_value || list_type) == "all" && (current_sort_mode_value || sort_mode) == "off" %>
+        <% if (current_list_type || list_type) == "all" && (current_sort_mode || sort_mode) == "off" %>
 
           <%= link_to edit_location_path(location), data: { turbo_frame: 'modal_frame' }, class: "flex items-center pl-4" do %>
             <h2 class="text-xl md:text-2xl text-f-head font-bold"><%= location.name %></h2>
@@ -31,7 +31,7 @@
       <% if stocks&.find_by(location_id: location.id).present? %>
 
         <% stocks.where(location_id: location.id).each do |stock| %>
-          <%= render 'stocks/stock', stock: stock, sort_mode: (current_sort_mode_value || sort_mode) %>
+          <%= render 'stocks/stock', stock: stock, sort_mode: (current_sort_mode || sort_mode) %>
         <% end %>
 
       <% else %>

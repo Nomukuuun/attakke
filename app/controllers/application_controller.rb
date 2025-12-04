@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
-  before_action :set_list_type_value
-  before_action :set_sort_mode_value
+  before_action :current_list_type
+  before_action :current_sort_mode
 
-  # ビューで現在のlist_typeを参照する
-  helper_method :current_list_type_value
-  helper_method :current_sort_mode_value
+  # 各ビューでsession値を参照する
+  helper_method :current_list_type
+  helper_method :current_sort_mode
   helper_method :our_stocks
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
@@ -18,32 +18,14 @@ class ApplicationController < ActionController::Base
   # NOTE: 以下privateメソッド
   private
 
-  # リストタイプボタンの選択によりmainタグだけでなくfooterも表示分けするためここに記述
-  def set_list_type_value
-    # stocks#index から来たときだけ更新、それ以外の画面では前回選択を維持
-    if controller_name == "stocks" && action_name == "index" && params[:list_type].present?
-      session[:list_type_value] = params[:list_type]
-    end
-    @list_type_value = session[:list_type_value].presence || "all"
+  # リストタイプのセッション値をどこでも参照できるようにする
+  def current_list_type
+    @list_type = session[:list_type].presence || "all"
   end
 
-  def current_list_type_value
-    @list_type_value
-  end
-
-  # ヘッダーのボタン選択をheaderだけでなくmainにも共有するためにここに記述
-  def set_sort_mode_value
-    # ソートモードはデフォルトがオフになるようにする
-    if controller_name == "stocks" && action_name == "sort_mode" && params[:sort_mode].present?
-      session[:sort_mode] = params[:sort_mode]
-    else
-      session[:sort_mode] = "off"
-    end
-    @sort_mode_value = session[:sort_mode].presence || "off"
-  end
-
-  def current_sort_mode_value
-    @sort_mode_value
+  # ソートモードのパラメータ値をどこでも参照できるようにする
+  def current_sort_mode
+    @sort_mode = params[:sort_mode] || "off"
   end
 
   # ActiveRecord::Relationでcurrent_user又はpair_usersを返す
