@@ -7,7 +7,7 @@ class LocationsController < ApplicationController
   before_action :set_location, only: %i[edit update destroy]
 
 
-  # 「保管場所一覧」用のアクション
+  # newとcreateはtempletes_controllerが担っている
   def index
     @locations = household_locations.order(:name)
   end
@@ -28,7 +28,6 @@ class LocationsController < ApplicationController
 
   def destroy
     @location.destroy!
-    @locations.reload
 
     # 保管場所が1つも存在しなくなった場合、ベース画面に新規作成を促すメッセージを表示する
     if household_locations.count == 0

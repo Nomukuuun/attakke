@@ -5,9 +5,8 @@ class PartnershipsController < ApplicationController
   before_action :set_currentuser_active_partnership, only: %i[new edit update destroy reject]
 
   # NOTE: パートナー申請送信者側の操作
-  # パートナー申請フォームの表示
   def new
-    # 画面更新をかけないため、有効なレコードを保持かつDOMがnew_pathになっている場合はeditへリダイレクトする
+    # 申請が来ているが画面更新をかけていない状況などは、editへリダイレクトする
     if @partnership.present?
       redirect_to action: :edit, status: :see_other
     else
@@ -15,7 +14,6 @@ class PartnershipsController < ApplicationController
     end
   end
 
-  # 申請メールを送信、レコード作成
   def create
     form_partnership = PartnershipsForm.new(email: partnerships_form_params[:email], current_user_email: current_user.email)
 
@@ -28,26 +26,23 @@ class PartnershipsController < ApplicationController
 
     partner = User.find_by(email: form_partnership.email)
 
-    # 入力されたemailを持つユーザーがactiveなpartnershipを持っていないならレコード作成＆プッシュ通知送信
+    # パートナーがいなければレコード作成＆プッシュ通知送信
     if partner.present? && partner.active_partnership.blank?
       Partnership.transaction do
         @partnership = current_user.partnerships.create!(partner_id: partner.id, status: :sended)
         # after_create コールバックで反対側も作成
       end
-      # パートナー申請受信者に向けてプッシュ通知を送信
       message = { title: "【Attakke?】より", body: "パートナー申請が届いています！\nアプリを開いて確認してください！" }
       partner.send_push_notification(message: message)
     end
 
-    # current_userを更新することで紐づく情報を更新する
-    current_user.reload
     # メールアドレス特定防止のため、申請を送信できていなくても送信成功メッセージを表示する
     flash.now[:success] = t("defaults.flash_message.sended")
     render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
   end
 
 
-  # 申請を取り下げ、レコードを削除
+  # 申請取り下げ
   def destroy
     if @partnership&.sended?
       Partnership.transaction do
@@ -61,14 +56,13 @@ class PartnershipsController < ApplicationController
 
 
   # NOTE: パートナー申請受信者側の操作
-  # 申請承認、レコード更新
+  # 申請承認
   def update
     if @partnership&.pending?
       Partnership.transaction do
         @partnership.update!(status: :approved)
         # after_update コールバックで反対側も更新
       end
-      # パートナー申請送信者に向けてプッシュ通知を送信
       message = { title: "【Attakke?】より", body: "パートナー申請が承認されました！\nアプリを開いて確認してください！" }
       current_user.active_partner&.send_push_notification(message: message)
     end
@@ -102,9 +96,8 @@ class PartnershipsController < ApplicationController
   end
 
   # NOTE: お互いに使えるアクション
-  # 有効なパートナーシップを持っている場合に画面を出し分けるアクション
   def edit
-    # 画面更新をかけないため、有効なレコードを未保持かつDOMがedit_pathになっている場合はnewへリダイレクトする
+    # 有効期限が切れていて画面更新をかけていない状況などは、 newへリダイレクトする
     redirect_to action: :new, status: :see_other if @partnership.blank?
   end
 

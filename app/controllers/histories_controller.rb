@@ -5,7 +5,7 @@ class HistoriesController < ApplicationController
 
   def create
     save_quantity = history_params[:quantity].to_i == 1 ? 0 : 1
-    new_history = History.build(stock_id: params[:stock_id], exist_quantity: save_quantity)
+    new_history = History.build(stock_id: history_params[:stock_id], exist_quantity: save_quantity)
 
     if new_history.save
       set_stock_reflected_latest(History.latest)

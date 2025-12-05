@@ -6,13 +6,12 @@ class StocksController < ApplicationController
   before_action :update_list_type_session, only: %i[index]
   before_action :set_household_locations_and_searchable_stocks, only: %i[index]
   before_action :set_household_locations_and_stocks, only: %i[create update destroy]
-  before_action :set_household_stock_locations_and_last_10_histories, only: %i[edit update]
+  before_action :set_household_stock_and_10_latest_histories, only: %i[edit update]
 
 
   # ログイン後のベース画面
   def index
     # リクエスト直後のlist_typeを取得、デフォルトはall
-    # 買いものリストを選択したときのみshoppingスコープを適用
     latest_list_type = params[:list_type] || @list_type
     @stocks = @stocks.shopping if latest_list_type == "shopping"
 
@@ -42,8 +41,7 @@ class StocksController < ApplicationController
 
   # ストック型のデフォルト表示がチェックボックスのため、exist_quantityに初期値を設定
   def new
-    @stock = Stock.new
-    @location = Location.find(params[:location_id])
+    @stock = Stock.new(location_id: params[:location_id])
     @stock.histories.build(exist_quantity: 1)
   end
 
@@ -71,7 +69,7 @@ class StocksController < ApplicationController
 
 
   def edit
-    build_latest_history(@stock) if @stock.histories.none?(&:new_record?)
+    @stock.build_latest_history
   end
 
   def update
@@ -114,24 +112,9 @@ class StocksController < ApplicationController
   end
 
   # edit, updateで使用するデータセット
-  def set_household_stock_locations_and_last_10_histories
+  def set_household_stock_and_10_latest_histories
     @stock = household_stocks.find(params[:id])
-    @location = @stock.location
-    @locations = household_locations.order(:name)
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
-  end
-
-  # editで最新履歴の数量を反映したhistoryインスタンスを作成するメソッド
-  def build_latest_history(stock)
-    latest_history = stock.histories.order(id: :desc).first
-    quantity_type = stock.existence? ? :exist_quantity : :num_quantity
-    old_quantity = latest_history.send(quantity_type).to_i
-
-    if quantity_type == :exist_quantity
-      history = stock.histories.build(quantity_type => old_quantity)
-    elsif quantity_type == :num_quantity
-      history = stock.histories.build(exist_quantity: 1, quantity_type => old_quantity)
-    end
   end
 
   def update_list_type_session
