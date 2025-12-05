@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id         :bigint           not null, primary key
-#  name       :string(255)      not null
-#  partner_id :integer
-#  email      :string(255)      default(""), not null
-#  encrypted_password :string(255) default(""), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  provider   :string(255)
-#  uid        :string(255)
-#
-# Indexes
-#  index_users_on_email  (email) UNIQUE
-
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :omniauthable, omniauth_providers: [ :google_oauth2 ]
@@ -33,8 +16,27 @@ class User < ApplicationRecord
   has_many :histories, through: :stocks, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
+  # ActiveRecord::Relationで世帯のユーザー、ストック、保管場所群を返す
+  def household_user_ids
+    ids = [ id ]
+    ids << active_partner.id if active_partnership&.approved?
+    ids
+  end
+
+  def household_users
+    self.class.where(id: household_user_ids)
+  end
+
+  def household_stocks
+    Stock.where(user_id: household_user_ids)
+  end
+
+  def household_locations
+    Location.where(user_id: household_user_ids)
+  end
+
   # ActionCable用のストリームキー
-  # nilを排除してからソートすることでパートナーシップにより紐づいている２人を表現できる
+  # nilを排除してからソートすることでidが "小さなユーザー"_"大きなユーザー" のキーを生成する
   def partnership_stream_key
     approved_partner = active_partner if active_partnership&.approved?
     [ id, approved_partner&.id ].compact.sort.join("_")

@@ -1,9 +1,10 @@
 class Stocks::SortsController < ApplicationController
   include SetLocationsAndStocks
+  include HouseholdResources
   include Broadcast
 
-  before_action :set_locations_and_searchable_stocks, only: %i[sort_mode]
-  before_action :set_locations_and_stocks, only: %i[sort rearrange]
+  before_action :set_household_locations_and_searchable_stocks, only: %i[sort_mode]
+  before_action :set_household_locations_and_stocks, only: %i[sort rearrange]
 
   # 並べ替えは「買いものリスト」へ反映しないためbroadcastしない
   def sort_mode
@@ -25,27 +26,32 @@ class Stocks::SortsController < ApplicationController
   # ソートアイコンをドラックアンドドロップで並び替えるためのアクション
   def sort
     ids = sort_params[:stock_ids]
-    location = our_locations.find(sort_params[:location_id])
+    stocks = household_stocks
     ids.each_with_index do |id, index|
-      our_stocks.find(id).insert_at(index + 1)
+      stocks.find(id).insert_at(index + 1)
     end
 
+    location = household_locations.find(sort_params[:location_id])
     render turbo_stream: turbo_stream.replace("location_#{location.id}", partial: "stocks/location", locals: { location: location, stocks: @stocks })
   end
 
   # 配置換えソートを行うためのアクション
   def rearrange
-    stock = our_stocks.find(params[:id])
+    stock = household_stocks.find(params[:id])
     before_id, after_id = rearrange_params[:location_ids] # location_idsを分割代入
     stock.update!(location_id: after_id)
     stock.insert_at(rearrange_params[:new_position].to_i)
 
-    before_location = our_locations.find(before_id)
-    after_location = our_locations.find(after_id)
+    # 1回のSQLで２つのLocationを取得する
+    before, after = household_locations
+                      .where(id: [before_id, after_id])
+                      .index_by(&:id)
+                      .values_at(before_id, after_id)
+
     flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.location"))
     render turbo_stream: [
-      turbo_stream.replace("location_#{before_location.id}", partial: "stocks/location", locals: { location: before_location, stocks: @stocks }),
-      turbo_stream.replace("location_#{after_location.id}", partial: "stocks/location", locals: { location: after_location, stocks: @stocks })
+      turbo_stream.replace("location_#{before.id}", partial: "stocks/location", locals: { location: before, stocks: @stocks }),
+      turbo_stream.replace("location_#{after.id}", partial: "stocks/location", locals: { location: after, stocks: @stocks })
     ]
   end
 

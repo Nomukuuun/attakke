@@ -75,7 +75,7 @@ class PartnershipsController < ApplicationController
 
     # current_userを更新することで紐づく情報を更新する
     current_user.reload
-    set_locations_and_stocks
+    set_household_locations_and_stocks
     flash.now[:success] = t("defaults.flash_message.approve")
     render turbo_stream: [
       turbo_stream.update("main_frame", partial: "stocks/main_frame", locals: { locations: @locations, stocks: @stocks }),

@@ -1,11 +1,12 @@
 class StocksController < ApplicationController
   include SetLocationsAndStocks
+  include HouseholdResources
   include Broadcast
 
   before_action :update_list_type_session, only: %i[index]
-  before_action :set_locations_and_searchable_stocks, only: %i[index]
-  before_action :set_locations_and_stocks, only: %i[create update destroy]
-  before_action :set_stock_locations_and_last_10_histories, only: %i[edit update]
+  before_action :set_household_locations_and_searchable_stocks, only: %i[index]
+  before_action :set_household_locations_and_stocks, only: %i[create update destroy]
+  before_action :set_household_stock_locations_and_last_10_histories, only: %i[edit update]
 
 
   # ログイン後のベース画面
@@ -32,7 +33,7 @@ class StocksController < ApplicationController
   end
 
   def search
-    @stocks = our_stocks.where("name like ?", "%#{params[:q]}%")
+    @stocks = household_stocks.where("name like ?", "%#{params[:q]}%")
     respond_to do |format|
       format.js
     end
@@ -85,7 +86,7 @@ class StocksController < ApplicationController
 
 
   def destroy
-    stock = our_stocks.find(params[:id])
+    stock = household_stocks.find(params[:id])
     location = stock.location
     stock.destroy!
 
@@ -113,10 +114,10 @@ class StocksController < ApplicationController
   end
 
   # edit, updateで使用するデータセット
-  def set_stock_locations_and_last_10_histories
-    @stock = our_stocks.find(params[:id])
+  def set_household_stock_locations_and_last_10_histories
+    @stock = household_stocks.find(params[:id])
     @location = @stock.location
-    @locations = our_locations.order(:name)
+    @locations = household_locations.order(:name)
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
   end
 

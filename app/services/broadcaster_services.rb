@@ -1,4 +1,4 @@
-class Broadcaster
+class BroadcasterServices
   def initialize(user, list_type, sort_mode)
     @current_user = user
     @list_type = list_type
@@ -6,7 +6,7 @@ class Broadcaster
   end
 
   # NOTE: broadcastはwebsocket通信のため、sessionを共有できない
-  # NOTE: sessionにより表示分けをしている保管場所を含むbroadcastには明示的にsessionの値を渡す
+  # NOTE: session値で表示分けをしているビューのために、明示的に渡してあげる
   def prepend_location(location, stocks)
     Turbo::StreamsChannel.broadcast_prepend_to(
       stream_key,

@@ -1,6 +1,3 @@
-# 以下のエラーが発生し、解決法が不明なため一体保留
-# Net::ReadTimeout: Net::ReadTimeout with #<TCPSocket:(closed)>
-
 require 'rails_helper'
 
 RSpec.describe 'パートナー申請', type: :system, js: true do

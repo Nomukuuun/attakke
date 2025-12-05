@@ -1,7 +1,7 @@
 class LineMessagesController < ApplicationController
   include SetLocationsAndStocks
 
-  before_action :set_locations_and_stocks, only: %i[edit share]
+  before_action :set_household_locations_and_stocks, only: %i[edit share]
 
   def edit
     set_shopping_and_notinshopping_stocks(@stocks)
