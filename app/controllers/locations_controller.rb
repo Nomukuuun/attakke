@@ -1,14 +1,15 @@
 class LocationsController < ApplicationController
   include SetLocationsAndStocks
+  include HouseholdResources
   include Broadcast
 
-  before_action :set_locations_and_stocks, only: %i[update destroy]
+  before_action :set_household_locations_and_stocks, only: %i[update destroy]
   before_action :set_location, only: %i[edit update destroy]
 
 
-  # 「保管場所一覧」用のアクション
+  # newとcreateはtempletes_controllerが担っている
   def index
-    @locations = our_locations.order(:name)
+    @locations = household_locations.order(:name)
   end
 
 
@@ -27,10 +28,9 @@ class LocationsController < ApplicationController
 
   def destroy
     @location.destroy!
-    @locations.reload
 
     # 保管場所が1つも存在しなくなった場合、ベース画面に新規作成を促すメッセージを表示する
-    if our_locations.count == 0
+    if household_locations.count == 0
       broadcast.update_main_frame(@locations, @stocks)
     else
       broadcast.remove_location(@location)
@@ -51,6 +51,6 @@ class LocationsController < ApplicationController
   end
 
   def set_location
-    @location = our_locations.find(params[:id])
+    @location = household_locations.find(params[:id])
   end
 end

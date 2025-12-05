@@ -1,14 +1,15 @@
 class TempletesController < ApplicationController
   include SetLocationsAndStocks
+  include HouseholdResources
   include Broadcast
 
-  before_action :set_locations_and_stocks, only: %i[create]
+  before_action :set_household_locations_and_stocks, only: %i[create]
 
 
   # 「新規作成・まとめて追加」で初期表示するセレクトボックスをセット
   def index
     @locations_name = [ "【新規作成】" ]
-    @locations_name << "【まとめて追加】" if our_locations.present?
+    @locations_name << "【まとめて追加】" if household_locations.present?
     @locations_name.concat(Templete.select(:location_name, :id)
                               .group_by(&:location_name)
                               .values
@@ -54,12 +55,12 @@ class TempletesController < ApplicationController
 
 
   def create
-    @forms = TempletesForm.new(templetes_form_params, our_locations: our_locations, current_user: current_user)
+    @forms = TempletesForm.new(templetes_form_params, current_user: current_user)
 
     if @forms.save
       # 保管場所が1つも存在しない場合、ベース画面に新規作成を促すメッセージが表示されている
       # 当該メッセージを非表示にするために更新範囲を変更する
-      if our_locations.count == 1
+      if household_locations.count == 1
         broadcast.update_main_frame(@locations, @stocks)
       else
         broadcast.prepend_location(@forms.location, @stocks)
@@ -97,7 +98,7 @@ class TempletesController < ApplicationController
   end
 
   def set_locations_name
-    @locations_name = our_locations.pluck(:name)
+    @locations_name = household_locations.pluck(:name)
   end
 
   def set_new_stock_forms(forms)

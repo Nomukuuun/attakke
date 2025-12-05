@@ -29,4 +29,15 @@ class Stock < ApplicationRecord
     joins("LEFT JOIN (#{latest_history.to_sql}) AS latest_history ON latest_history.stock_id = stocks.id")
     .select("stocks.*, latest_history.recording_date AS latest_recording_date, latest_history.exist_quantity AS latest_exist_quantity, latest_history.num_quantity AS latest_num_quantity")
   end
+
+  # editアクションでhistoryのインスタンスをセットする
+  def build_latest_history
+    latest_history = histories.order(id: :desc).first
+
+    if existence?
+      histories.build(exist_quantity: latest_history.quantity)
+    elsif number?
+      histories.build(exist_quantity: 1, num_quantity: latest_history.quantity)
+    end
+  end
 end

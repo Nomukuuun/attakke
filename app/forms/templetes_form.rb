@@ -9,7 +9,6 @@ class TempletesForm
   attribute :stock_forms
 
   # createアクションでコントローラから受け取るモデルオブジェクト
-  attribute :our_locations
   attribute :current_user
 
   # save失敗時にレンダリングを制御するためのselect_tagコピー属性
@@ -21,9 +20,8 @@ class TempletesForm
   validates :location_name, length: { maximum: 50, message: "%{count}字以内で入力してください" }, presence: { message: "入力してください" }
   validate :validate_stock_forms
 
-  def initialize(attributes = {}, our_locations: nil, current_user: nil)
+  def initialize(attributes = {}, current_user: nil)
     super(attributes)
-    @our_locations = our_locations
     @current_user = current_user
     self.stock_forms ||= []
   end
@@ -37,7 +35,7 @@ class TempletesForm
   def save
     return false unless valid?
 
-    @location = @our_locations.find_by(name: location_name) || @current_user.locations.create!(name: location_name)
+    @location = @current_user.household_locations.find_by(name: location_name) || @current_user.locations.create!(name: location_name)
 
     ActiveRecord::Base.transaction do
       stock_forms.each do |form|
