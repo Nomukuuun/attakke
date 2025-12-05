@@ -121,14 +121,13 @@ export default class extends Controller {
   // eventにはSortableJsによりドラッグ操作の詳細情報が入っている
   moveToOtherLocation(event) {
     const stockId = event.item.dataset.sortableStockIdValue; // 実際に動かした要素
-    const oldLocationId = Number(event.from.dataset.sortableLocationIdValue); // ドロップ前location_id
     const newLocationId = this.locationIdValue; // ドロップ先location_id
 
     fetch(`/stocks/${stockId}/rearrange`, {
       method: "PATCH",
       headers: this.headers(),
       body: JSON.stringify({
-        location_ids: [oldLocationId, newLocationId],
+        new_location_id: newLocationId,
         new_position: event.newIndex + 1, // newIndexは移動先リスト内での位置が0始まりで入っているので1を足してpositionに重複がないようにする
       }),
     });
