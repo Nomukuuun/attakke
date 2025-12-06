@@ -5,8 +5,41 @@ class BroadcasterServices
     @sort_mode = sort_mode
   end
 
-  # NOTE: broadcastはwebsocket通信のため、sessionを共有できない
-  # NOTE: session値で表示分けをしているビューのために、明示的に渡してあげる
+  # NOTE: controllerで呼び出すロジック群
+  def add_stock(location, stocks, stock)
+    if location.stocks.count == 1
+      replace_location(location, stocks)
+    else
+      prepend_stock(location, stocks.find(stock.id))
+    end
+  end
+
+  def remove_stock(location, stocks, stock)
+    if location.stocks.count == 0
+      replace_location(location, stocks)
+    else
+      delete_stock(stock)
+    end
+  end
+
+  def add_location(locations, stocks, forms)
+    if locations.count == 1
+      update_main_frame(locations, stocks)
+    else
+      prepend_location(forms.location, stocks)
+    end
+  end
+
+  def remove_location(locations, stocks, location)
+    if locations.count == 0
+      update_main_frame(locations, stocks)
+    else
+      delete_location(location)
+    end
+  end
+
+  # NOTE: 具体的な配信方法の小ロジック群
+  # NOTE: broadcastはwebsocket通信でありsessionを共有できないため、明示的に渡している
   def prepend_location(location, stocks)
     Turbo::StreamsChannel.broadcast_prepend_to(
       stream_key,
@@ -25,7 +58,7 @@ class BroadcasterServices
     )
   end
 
-  def remove_location(location)
+  def delete_location(location)
     Turbo::StreamsChannel.broadcast_remove_to(
       stream_key,
       target: "location_#{location.id}"
@@ -50,7 +83,7 @@ class BroadcasterServices
     )
   end
 
-  def remove_stock(stock)
+  def delete_stock(stock)
     Turbo::StreamsChannel.broadcast_remove_to(
       stream_key,
       target: "stock_#{stock.id}"

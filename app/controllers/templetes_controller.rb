@@ -1,7 +1,7 @@
 class TempletesController < ApplicationController
   include SetLocationsAndStocks
   include HouseholdResources
-  include Broadcast
+  include Broadcaster
 
   before_action :set_household_locations_and_stocks, only: %i[create]
 
@@ -58,18 +58,11 @@ class TempletesController < ApplicationController
     @forms = TempletesForm.new(templetes_form_params, current_user: current_user)
 
     if @forms.save
-      # 保管場所が1つも存在しない場合、ベース画面に新規作成を促すメッセージが表示されている
-      # 当該メッセージを非表示にするために更新範囲を変更する
-      if household_locations.count == 1
-        broadcast.update_main_frame(@locations, @stocks)
-      else
-        broadcast.prepend_location(@forms.location, @stocks)
-      end
+
+      broadcaster.add_location(@locations, @stocks, @forms)
       flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
-      render turbo_stream: [
-        turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
-        turbo_stream.update("flash", partial: "shared/flash_message")
-        ]
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
+
     else
       # まとめて追加を選択している場合、保管場所名のセレクトボックスを保存失敗状態で再表示できるように配列をセット
       select_tag_value = templetes_form_params[:select_tag_value]

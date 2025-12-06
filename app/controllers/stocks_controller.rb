@@ -1,7 +1,7 @@
 class StocksController < ApplicationController
   include SetLocationsAndStocks
   include HouseholdResources
-  include Broadcast
+  include Broadcaster
 
   before_action :update_list_type_session, only: %i[index]
   before_action :set_household_locations_and_searchable_stocks, only: %i[index]
@@ -11,7 +11,7 @@ class StocksController < ApplicationController
 
   # ログイン後のベース画面
   def index
-    # リクエスト直後のlist_typeを取得、デフォルトはall
+    # リクエスト直後のlist_typeを取得、paramsがなければsession値を読み取る
     latest_list_type = params[:list_type] || @list_type
     @stocks = @stocks.shopping if latest_list_type == "shopping"
 
@@ -50,18 +50,9 @@ class StocksController < ApplicationController
     @location = @stock.location
 
     if @stock.save
-      # 保管場所にストックが存在しない場合、ストック追加を促すメッセージが表示されている
-      # 当該メッセージを非表示にするために更新範囲を変更する
-      if @location.stocks.count == 1
-        broadcast.replace_location(@location, @stocks)
-      else
-        broadcast.prepend_stock(@location, @stocks.find(@stock.id))
-      end
+      broadcaster.add_stock(@location, @stocks, @stock)
       flash.now[:success] = t("defaults.flash_message.created", item: t("defaults.models.stock"))
-      render turbo_stream: [
-        turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
-        turbo_stream.update("flash", partial: "shared/flash_message")
-      ]
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
       render :new, status: :unprocessable_entity
     end
@@ -74,7 +65,7 @@ class StocksController < ApplicationController
 
   def update
     if @stock.update(stock_params)
-      broadcast.replace_stock(@stocks.find(@stock.id))
+      broadcaster.replace_stock(@stocks.find(@stock.id))
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.stock"))
       render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else
@@ -88,16 +79,9 @@ class StocksController < ApplicationController
     location = stock.location
     stock.destroy!
 
-    # 保管場所にストックが存在しなくなった場合、ストック追加を促すメッセージを表示する
-    # 当該メッセージを表示するために更新範囲を変更する
-    if location.stocks.count == 0
-      broadcast.replace_location(location, @stocks)
-    else
-      broadcast.remove_stock(stock)
-    end
+    broadcaster.remove_stock(location, @stocks, stock)
     flash.now[:success] = t("defaults.flash_message.deleted", item: t("defaults.models.stock"))
     render turbo_stream: [
-      turbo_stream.update("sort_mode", partial: "shared/sort_mode"),
       turbo_stream.update("flash", partial: "shared/flash_message"),
       turbo_stream.update("modal_frame")
     ]

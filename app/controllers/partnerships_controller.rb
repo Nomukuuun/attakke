@@ -1,6 +1,5 @@
 class PartnershipsController < ApplicationController
   include SetLocationsAndStocks
-  include Broadcast
 
   before_action :set_currentuser_active_partnership, only: %i[new edit update destroy reject]
 

@@ -1,5 +1,7 @@
 class StaticPagesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[privacy terms]
+  skip_before_action :current_list_type
+  skip_before_action :current_sort_mode
 
   def privacy
     yaml_path = Rails.root.join("config", "privacy.yml")
