@@ -2,6 +2,7 @@ class Stock < ApplicationRecord
   validates :name, presence: true, length: { maximum: 50, message: "は%{count}字以内で入力してください" }
   validates :model, presence: true
   validates :purchase_target, inclusion: { in: [ true, false ] }
+  validate :household_unique_name
 
   enum :model, { existence: 0, number: 1 }
 
@@ -18,6 +19,20 @@ class Stock < ApplicationRecord
   scope :order_position, -> { order(:position) }
   scope :shopping, -> { where("COALESCE(latest_history.exist_quantity, 0) = 0 AND COALESCE(latest_history.num_quantity, 0) = 0 OR purchase_target = ?", true) }
   scope :not_in_shopping, -> { where("(COALESCE(latest_history.exist_quantity, 0) > 0 OR COALESCE(latest_history.num_quantity, 0) > 0)").where("purchase_target = ?", false) }
+
+  # NOTE: 以下privateメソッド
+  private
+
+  def household_unique_name
+    return if location.blank?
+
+    # 自身を除く同一保管場所内に name が重複していないか
+    conflict = self.class
+                .where(location_id: location.id, name: name)
+                .where.not(id: id)
+
+    errors.add(:name, "は同じ保管場所内で既に使われています") if conflict.exists?
+  end
 
   # ransackのv4系から必要になった検索を許可するカラムの指定
   def self.ransackable_attributes(auth_object = nil)
