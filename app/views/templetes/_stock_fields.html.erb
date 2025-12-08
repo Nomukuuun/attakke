@@ -1,9 +1,9 @@
 <%= f.fields_for :stock_forms, stock_el, child_index: index do |stock_fields| %>
-  <div id=<%= "#{index}" %> class="mb-2" data-templete-select-target="fieldRow">
+  <div id=<%= "#{index}" %> class="mb-2" data-templete-form-target="fieldRow">
 
     <div class="w-full flex items-center gap-2">
       <!-- 削除ボタン -->
-      <%= button_tag type: "button", data: { action: "click->templete-select#remove" }, class: "w-5" do %>
+      <%= button_tag type: "button", data: { action: "click->templete-form#remove" }, class: "w-5" do %>
         <div class="size-4 border-2 border-dull-red rounded-full cursor-pointer flex justify-center items-center">
           <svg class="size-2 text-dull-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12" />
@@ -14,36 +14,36 @@
       <div class="basis-1/2">
         <%= stock_fields.text_field :name, class: "w-full border-b-1 px-2 py-1 mr-2" %>
       </div>
-      <%= stock_fields.hidden_field :model, data: { templete_select_target: "model" } %>
+      <%= stock_fields.hidden_field :model, data: { templete_form_target: "model" } %>
 
       <%# NOTE: modelの値に応じて表示するフィールドを分ける %>
       <% if stock_el.model == 0 %>
 
         <div class="basis-1/3">
           <!-- チェックボックス型: 表示 -->
-          <div data-templete-select-target="existField" class="w-full">
-            <%= stock_fields.hidden_field :exist_quantity, value: 1, data: { templete_select_target: "existQuantity" } %>
+          <div data-templete-form-target="existField" class="w-full">
+            <%= stock_fields.hidden_field :exist_quantity, data: { templete_form_target: "existQuantity" } %>
             <div class="w-full flex items-center">
               <!-- チェックありアイコン -->
-              <svg data-templete-select-target="checkedIcon" data-action='click->templete-select#toggleIcon' class="size-8 text-dull-green mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg data-templete-form-target="checkedIcon" data-action='click->templete-form#toggleIcon' class="size-8 text-dull-green mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
               </svg>
               <!-- チェックなしアイコン -->
-              <svg data-templete-select-target="notCheckedIcon" data-action='click->templete-select#toggleIcon' class="hidden size-8 text-f-body mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg data-templete-form-target="notCheckedIcon" data-action='click->templete-form#toggleIcon' class="hidden size-8 text-f-body mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10" />
               </svg>
             </div>
           </div>
 
           <!-- 残数表示型:非表示 -->
-          <div data-templete-select-target="numField" class="hidden w-full mx-auto flex items-center space-x-2">
-            <%= stock_fields.number_field :num_quantity, in: 0..100, data: { templete_select_target: "numQuantity" }, class: "w-12 border-b-1 p-1 mr-2" %>
-            <div id="plus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-select#incrementNumber">
+          <div data-templete-form-target="numField" class="hidden w-full mx-auto flex items-center space-x-2 text-center">
+            <%= stock_fields.number_field :num_quantity, in: 0..100, data: { templete_form_target: "numQuantity" }, class: "w-12 border-b-1 p-1 mr-2" %>
+            <div id="plus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-form#incrementNumber">
               <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </div>
-            <div id="minus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-select#decrementNumber">
+            <div id="minus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-form#decrementNumber">
               <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -55,29 +55,29 @@
 
         <div class="basis-1/3">
           <!-- チェックボックス型:非表示 -->
-          <div data-templete-select-target="existField" class="hidden w-full">
-            <%= stock_fields.hidden_field :exist_quantity, value: 1, data: { templete_select_target: "existQuantity" } %>
+          <div data-templete-form-target="existField" class="hidden w-full">
+            <%= stock_fields.hidden_field :exist_quantity, data: { templete_form_target: "existQuantity" } %>
             <div class="w-full flex items-center">
               <!-- チェックありアイコン -->
-              <svg data-templete-select-target="checkedIcon" data-action='click->templete-select#toggleIcon' class="size-8 text-dull-green mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg data-templete-form-target="checkedIcon" data-action='click->templete-form#toggleIcon' class="size-8 text-dull-green mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
               </svg>
               <!-- チェックなしアイコン -->
-              <svg data-templete-select-target="notCheckedIcon" data-action='click->templete-select#toggleIcon' class="hidden size-8 text-f-body mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg data-templete-form-target="notCheckedIcon" data-action='click->templete-form#toggleIcon' class="hidden size-8 text-f-body mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10" />
               </svg>
             </div>
           </div>
 
           <!-- 残数表示型:表示 -->
-          <div data-templete-select-target="numField" class="w-full flex mx-auto items-center space-x-2">
-            <%= stock_fields.number_field :num_quantity, data: { templete_select_target: "numQuantity" }, class: "w-12 border-b-1 p-1 mr-2" %>
-            <div id="plus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-select#incrementNumber">
+          <div data-templete-form-target="numField" class="w-full flex mx-auto items-center space-x-2 text-center">
+            <%= stock_fields.number_field :num_quantity, data: { templete_form_target: "numQuantity" }, class: "w-12 border-b-1 p-1 mr-2" %>
+            <div id="plus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-form#incrementNumber">
               <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </div>
-            <div id="minus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-select#decrementNumber">
+            <div id="minus" class="size-6 border-2 border-dull-green rounded-full cursor-pointer flex justify-center items-center" data-action="click->templete-form#decrementNumber">
               <svg class="size-4 text-dull-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -87,7 +87,7 @@
       <% end %>
 
       <!-- フィールド切り替えボタン -->
-      <%= button_tag type: "button", data: { action: "click->templete-select#changeField" }, class: "w-5" do %>
+      <%= button_tag type: "button", data: { action: "click->templete-form#changeField" }, class: "w-5" do %>
         <svg class="size-5 text-f-body" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" />
         </svg>
