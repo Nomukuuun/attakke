@@ -11,18 +11,15 @@ class TempletesForm
   # createアクションでコントローラから受け取るモデルオブジェクト
   attribute :current_user
 
-  # save失敗時にレンダリングを制御するためのselect_tagコピー属性
-  attribute :select_tag_value
-
   # saveメソッドで保存したlocationをコントローラで読み取れるようにする
   attr_reader :location
 
   validates :location_name, length: { maximum: 50, message: "%{count}字以内で入力してください" }, presence: { message: "入力してください" }
   validate :validate_stock_forms
 
-  def initialize(attributes = {}, current_user: nil)
+  def initialize(attributes = {}, user: nil)
     super(attributes)
-    @current_user = current_user
+    @current_user = user
     self.stock_forms ||= []
   end
 
@@ -35,6 +32,7 @@ class TempletesForm
   def save
     return false unless valid?
 
+    # 世帯の保管場所にない場合は、操作したユーザーの保管場所として作成する必要があるため、find_or_create_byが使えない
     @location = @current_user.household_locations.find_by(name: location_name) || @current_user.locations.create!(name: location_name)
 
     ActiveRecord::Base.transaction do

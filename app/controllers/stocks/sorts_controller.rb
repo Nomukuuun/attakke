@@ -1,7 +1,6 @@
 class Stocks::SortsController < ApplicationController
   include SetLocationsAndStocks
   include HouseholdResources
-  include Broadcast
 
   before_action :set_household_locations_and_searchable_stocks, only: %i[sort_mode]
   before_action :set_household_locations_and_stocks, only: %i[sort rearrange]

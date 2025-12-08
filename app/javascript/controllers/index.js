@@ -34,5 +34,8 @@ application.register("share-line-messages", ShareLineMessagesController)
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)
 
+import TempleteFormController from "./templete_form_controller"
+application.register("templete-form", TempleteFormController)
+
 import TempleteSelectController from "./templete_select_controller"
 application.register("templete-select", TempleteSelectController)

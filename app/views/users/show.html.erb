@@ -8,7 +8,7 @@
       </svg>
       <h2 class="modal-label">ユーザー名</h2>
     </div>
-    <p class="px-2 py-[5px]"><%= @user.name %></p>
+    <p class="px-2 py-[5px]"><%= current_user.name %></p>
   </div>
 
   <div class="mb-4">
@@ -18,7 +18,7 @@
       </svg>
       <h2 class="modal-label">メールアドレス</h2>
     </div>
-    <p class="px-2 py-[5px]"><%= @user.email %></p>
+    <p class="px-2 py-[5px]"><%= current_user.email %></p>
   </div>
 
   <div class="mb-6">

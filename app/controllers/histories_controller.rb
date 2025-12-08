@@ -1,7 +1,7 @@
 # ベース画面上でチェックボックス型の履歴を更新できるようにするためのコントローラ
 
 class HistoriesController < ApplicationController
-  include Broadcast
+  include Broadcaster
 
   def create
     save_quantity = history_params[:quantity].to_i == 1 ? 0 : 1
@@ -9,7 +9,7 @@ class HistoriesController < ApplicationController
 
     if new_history.save
       set_stock_reflected_latest(History.latest)
-      broadcast.replace_stock(@stock)
+      broadcaster.replace_stock(@stock)
       flash.now[:success] = t("defaults.flash_message.updated", item: t("defaults.models.history"))
       render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_message")
     else

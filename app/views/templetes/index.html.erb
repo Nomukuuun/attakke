@@ -3,15 +3,14 @@
 
   <div data-controller="templete-select">
     <div class="mb-4">
-      <label for="location_name" class="modal-label">作成方法</label>
-      <%= select_tag :location_name,
-          options_for_select(@locations_name),
+      <label for="how_to_create" class="modal-label">作成方法</label>
+      <%= select_tag :how_to_create,
+          options_for_select(@how_to_create),
           prompt: "選択してください",
           data: { action: "change->templete-select#change" },
           class: "modal-input" %>
     </div>
   
-    <!-- フォームを差し込む枠 -->
     <%= turbo_frame_tag "templete_form_frame" %>
   </div>
 <% end %>
