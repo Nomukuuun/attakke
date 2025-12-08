@@ -5,7 +5,7 @@ class BroadcasterServices
     @sort_mode = sort_mode
   end
 
-  # NOTE: controllerで呼び出すロジック群
+  # NOTE: controllerで呼び出す動的ロジック群
   def add_stock(location, stocks, stock)
     if location.stocks.count == 1
       replace_location(location, stocks)
@@ -22,11 +22,11 @@ class BroadcasterServices
     end
   end
 
-  def add_location(locations, stocks, forms)
+  def add_location(locations, stocks, location)
     if locations.count == 1
       update_main_frame(locations, stocks)
     else
-      prepend_location(forms.location, stocks)
+      prepend_location(location, stocks)
     end
   end
 

@@ -1,9 +1,12 @@
-<% unless forms.location_name == "【まとめて追加】" %>
-  <%= f.text_field :location_name, id: "input_location_name", class: "modal-input w-full" %>
-<% else %>
+<% if session[:how_to_create] == "【まとめて追加】" %>
+
+  <%# NOTE: options_for_selectの第一引数は選択肢群、第二引数は初期表示選択肢 %>
   <%= f.select :location_name,
-    options_for_select(locations_name),
+    options_for_select(locations_name, forms.location_name),
     {},
     { id: "input_location_name", class: "modal-input w-full" }
   %>
+
+<% else %>
+  <%= f.text_field :location_name, id: "input_location_name", class: "modal-input w-full" %>
 <% end %>

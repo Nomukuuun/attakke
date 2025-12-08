@@ -6,7 +6,7 @@ class StocksController < ApplicationController
   before_action :update_list_type_session, only: %i[index]
   before_action :set_household_locations_and_searchable_stocks, only: %i[index]
   before_action :set_household_locations_and_stocks, only: %i[create update destroy]
-  before_action :set_household_stock_and_10_latest_histories, only: %i[edit update]
+  before_action :set_stock_and_10_latest_histories, only: %i[edit update]
 
 
   # ログイン後のベース画面
@@ -96,7 +96,7 @@ class StocksController < ApplicationController
   end
 
   # edit, updateで使用するデータセット
-  def set_household_stock_and_10_latest_histories
+  def set_stock_and_10_latest_histories
     @stock = household_stocks.find(params[:id])
     @histories = @stock.histories.where.not(id: nil).order(id: :desc).limit(10)
   end
