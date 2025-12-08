@@ -12,34 +12,43 @@ RSpec.describe Partnership, type: :model do
     end
   end
 
-  describe 'コールバック' do
+  describe '双方向レコードチェック' do
     # 共通変数の定義（呼ばれたときにインスタンス作成）
     let(:user) { create(:user) }
     let(:partner) { create(:user) }
 
     it '作成時にexpires_atが設定されているか' do
-      p = create(:partnership, user: user, partner: partner)
-      expect(p.expires_at).to be > Time.current
+      applicant = create(:partnership, user: user, partner: partner)
+      expect(applicant.expires_at).to be > Time.current
     end
 
-    it '作成時、反対向きのレコードを作成されているか（statusはpending）' do
-      p = create(:partnership, user: user, partner: partner)
-      inverse = described_class.find_by(user: partner, partner: user)
-      expect(inverse).to be_present
-      expect(inverse.status).to eq('pending')
+    it '作成時に双方向のレコードが作成されているか' do
+      described_class.create_request_pair!(user, partner)
+      applicant = described_class.find_by(user: user, partner: partner)
+      recipient = described_class.find_by(user: partner, partner: user)
+      expect(applicant.status).to eq('sended')
+      expect(recipient.status).to eq('pending')
     end
 
-    it '更新時、反対向きもapprovedになっているか' do
-      p = create(:partnership, user: user, partner: partner)
-      p.update!(status: :approved)
-      inverse = described_class.find_by(user: partner, partner: user)
-      expect(inverse.status).to eq('approved')
+    it '更新時に双方向のレコードが承認されているか' do
+      described_class.create_request_pair!(user, partner)
+      applicant = described_class.find_by(user: user, partner: partner)
+      recipient = described_class.find_by(user: partner, partner: user)
+      recipient.approve_pair!
+      applicant.reload
+      recipient.reload # リロードすることでメモリ上の古いデータを読み込むことを防ぐ
+      expect(applicant.status).to eq('approved')
+      expect(recipient.status).to eq('approved')
     end
 
-    it '削除時、反対向きも削除されているか' do
-      p = create(:partnership, user: user, partner: partner)
-      p.destroy
-      expect(described_class.find_by(user: partner, partner: user)).to be_nil
+    it '削除時に双方向のレコードが削除されているか' do
+      described_class.create_request_pair!(user, partner)
+      applicant = described_class.find_by(user: user, partner: partner)
+      recipient = described_class.find_by(user: partner, partner: user)
+      recipient.approve_pair!
+      applicant.destroy_pair!
+      expect(described_class.find_by(id: applicant.id)).to be_nil
+      expect(described_class.find_by(id: recipient.id)).to be_nil
     end
   end
 end
