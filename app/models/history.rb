@@ -4,6 +4,7 @@ class History < ApplicationRecord
   validates :status, presence: true
   validates :recording_date, presence: true
 
+  # ユーザー操作によらない値を保存前にセットする
   before_validation :set_status_and_date
   before_validation :nillify_unused_quantity
 

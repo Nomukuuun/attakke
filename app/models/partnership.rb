@@ -13,6 +13,7 @@ class Partnership < ApplicationRecord
   # 新規レコード作成時に有効期限（30分）を設定する
   before_create :set_expires_at
 
+  # ペアレコードの双方向作成、更新、削除に関するロジック
   def pair
     self.class
       .where(user_id: partner_id, partner_id: user_id)
@@ -35,17 +36,17 @@ class Partnership < ApplicationRecord
     end
   end
 
-  # NOTE: 以下private
-  private
-
-  def set_expires_at
-    self.expires_at ||= 30.minutes.from_now
-  end
-
   def self.create_request_pair!(user, partner_user)
     transaction do
       applicant = user.partnerships.create!(partner_id: partner_user.id, status: :sended)
       partner_user.partnerships.create!(partner_id: user.id, status: :pending, expires_at: applicant.expires_at)
     end
+  end
+
+  # NOTE: 以下private
+  private
+
+  def set_expires_at
+    self.expires_at ||= 30.minutes.from_now
   end
 end
