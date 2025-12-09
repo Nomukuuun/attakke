@@ -30,9 +30,6 @@ class Stock < ApplicationRecord
     end
   end
 
-  # NOTE: 以下privateメソッド
-  private
-
   # ransackのv4系から必要になった検索を許可するカラムの指定
   def self.ransackable_attributes(auth_object = nil)
     [ "name" ]

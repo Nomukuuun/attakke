@@ -6,8 +6,6 @@ class Templete < ApplicationRecord
 
   scope :with_location_name, ->(location_name) { where(location_name: location_name) }
 
-  private
-
   # indexアクションで保管場所名の配列を作成するために使用
   def self.prefixed_location_names_array
     group(:location_name)
