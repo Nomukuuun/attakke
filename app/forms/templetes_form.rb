@@ -15,11 +15,14 @@ class TempletesForm
   attr_reader :location
 
   validates :location_name, length: { maximum: 50, message: "%{count}字以内で入力してください" }, presence: { message: "入力してください" }
+  validate :household_unique_location_name, if: -> { @how_to_create != "【まとめて追加】" }
   validate :validate_stock_forms
 
-  def initialize(attributes = {}, user: nil)
+
+  def initialize(attributes = {}, user: nil, how_to_create: nil)
     super(attributes)
     @current_user = user
+    @how_to_create = how_to_create
     self.stock_forms ||= []
   end
 
@@ -55,10 +58,34 @@ class TempletesForm
   # NOTE: 以下privateメソッド
   private
 
-  def validate_stock_forms
-    stock_forms.each_with_index do |form, i|
-      next if form.valid?
+  def household_unique_location_name
+    # userの世帯に属するユーザーたちのidを配列で取得
+    user_ids = @current_user.household_user_ids
 
+    # 世帯の保管場所内で name が重複していないか
+    conflict = Location
+                .where(user_id: user_ids, name: location_name)
+
+    errors.add(:location_name, "この保管場所名は既に世帯で使われています") if conflict.exists?
+  end
+
+  def validate_stock_forms
+    # stock_formsのバリデーションを実行
+    stock_forms.each(&:valid?)
+
+    # 既存保管場所への追加ならストック名が保管場所内で一意かチェックしてエラーをstock_formsに追加
+    location = @current_user.household_locations.find_by(name: location_name)
+    if location.present?
+      exists_names = location.stocks.pluck(:name)
+      stock_forms.each do |form|
+        next if form.name.blank?
+        form.errors.add(:name, "は同じ保管場所内で既に使われています") if exists_names.include?(form.name)
+      end
+    end
+
+    # エラーメッセージをstock_formsごとに展開
+    stock_forms.each_with_index do |form, i|
+      next if form.errors.empty?
       form.errors.each do |attr, message|
         errors.add("stock_forms[#{i}].#{attr}", message)
       end
