@@ -25,7 +25,7 @@ class TempletesController < ApplicationController
 
 
   def create
-    @forms = TempletesForm.new(templetes_form_params, user: current_user)
+    @forms = TempletesForm.new(templetes_form_params, user: current_user, how_to_create: session[:how_to_create])
 
     if @forms.save
 

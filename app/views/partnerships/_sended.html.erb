@@ -1,12 +1,12 @@
 <h2 class="modal-header">パートナー申請中</h2>
 
 <p>パートナー申請を送信しました！</p>
-<p>相手の返答を待っています。</p>
+<p><%= current_user.active_partner.name %> さんの返答を待っています。</p>
 
 <div class="my-6">
   <p>以下のいずれかを満たすまで再申請はできません。</p>
   <ul class="bg-dull-beige rounded p-2">
-    <li>パートナー申請の受信者が返答した場合</li>
+    <li><%= current_user.active_partner.name %> さんが返答した場合</li>
     <li>あなたが申請を取り下げた場合</li>
     <li><%= l partnership.expires_at, format: :time %>を経過した場合</li>
   </ul>
