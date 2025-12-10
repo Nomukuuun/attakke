@@ -30,3 +30,7 @@ tutorials:
   - comment: "<!-- 8. パートナー設定機能 -->"
     title: "8. パートナー設定"
     partial: "static_pages/tutorials/tutorial_8"
+
+  - comment: "<!-- 9. LINE転送機能 -->"
+    title: "9. LINE転送機能"
+    partial: "static_pages/tutorials/tutorial_9"

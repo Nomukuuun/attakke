@@ -5,8 +5,10 @@ export default class extends Controller {
   static targets = ["overlay"];
 
   connect() {
-    document.addEventListener("turbo:before-visit", () => this.show());
-    document.addEventListener("turbo:load", () => this.hide());
+    // 初回画面表示、Googleログイン画面でのキャンセル、ブラウザバック時にアニメーションを非表示にする
+    window.addEventListener("pageshow", () => {
+      this.hide();
+    });
   }
 
   show() {
