@@ -5,7 +5,7 @@
 「Attakke?」は、ご家庭の消耗品ストックを管理できるアプリです。  
 保管場所ごとに消耗品ストックを管理することで、ストック状態の可視化と買い物リストを兼ねることを目的としています。
 
-**アプリURL：https://mada-attakke.com/**
+**アプリURL：https://mada-attakke.com/**  
 アプリリリース記事：https://note.com/nomukuuun5/n/n5e5d8b6e27ea
 
 ## ⬜ デモアカウント
@@ -64,21 +64,71 @@ Todo リストタイプの買い物メモアプリでは、記録してきたも
 
 ## ⬜ 本アプリの推しポイント
 
-| 保管場所に管理 / リスト切替 | ストックごとに選べる管理型 |
-| :---: | :---: |
-| <img src="https://github.com/user-attachments/assets/0dcf05cf-22d1-4dda-bbe8-2afd4c1b3e38" width="350"/> | <img src="https://github.com/user-attachments/assets/0f227cfe-0645-4844-8333-bc088aecbf20" width="350"/> |
-| <p align="left" style="width:370px">保管場所ごとにストック状況を一覧表示できます。<br>**リスト切替機能**を活用することで買いものリストとしての機能も提供します。</p> | <p align="left" style="width:370px">アイコンで有無を管理できる**チェックボックス型**、<br>残りが何個あるかで管理できる**残数型**、<br>ストックにあった管理型を選択して管理できます。</p> |
+<table>
+  <tr>
+    <th style="text-align:center;">保管場所に管理 / リスト切替</th>
+    <th style="text-align:center;">ストックごとに選べる管理型</th>
+  </tr>
+  <tr>
+    <td valign="top" style="text-align:center;">
+      <img src="https://github.com/user-attachments/assets/0dcf05cf-22d1-4dda-bbe8-2afd4c1b3e38" width="350">
+    </td>
+    <td valign="top" style="text-align:center;">
+      <img src="https://github.com/user-attachments/assets/0f227cfe-0645-4844-8333-bc088aecbf20" width="350">
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <div style="width:370px; text-align:left;">
+        保管場所ごとにストック状況を一覧表示できます。<br>
+        <strong>リスト切替機能</strong>を活用することで買いものリストとしての機能も提供します。
+      </div>
+    </td>
+    <td valign="top">
+      <div style="width:370px; text-align:left;">
+        アイコンで有無を管理できる<strong>チェックボックス型</strong>、<br>
+        残りが何個あるかで管理できる<strong>残数型</strong>、<br>
+        ストックにあった管理型を選択して管理できます。
+      </div>
+    </td>
+  </tr>
+</table>
 
 <br>
 
-| テンプレート機能 | ストック単位で履歴確認 |
-| :---: | :---: |
-| <img src="https://github.com/user-attachments/assets/471a911f-2ec1-4286-8967-b9ac04467de8" width="350"/> | <img src="https://github.com/user-attachments/assets/231db4b0-c668-4f27-89b4-2c78c97177ce" width="350"/> |
-| <p align="left" style="width:370px">最大10個までまとめてストックを作成できます。<br>**プリセットとして登録済のテンプレートを使用できます。**<br>テンプレートは自由に内容を変更することもできるため、初期登録時におすすめの機能です。</p> | <p align="left" style="width:370px">一覧画面で最後に更新した日を確認できます。<br>**ストックごとに履歴を確認**できます。<br>前回購入した記録をつけ忘れてしまっても、履歴の購入頻度から買うべきかどうかの判断ができます。</p> |
+<table>
+  <tr>
+    <th style="text-align:center;">テンプレート機能</th>
+    <th style="text-align:center;">ストック単位で履歴確認</th>
+  </tr>
+  <tr>
+    <td valign="top" style="text-align:center;">
+      <img src="https://github.com/user-attachments/assets/471a911f-2ec1-4286-8967-b9ac04467de8" width="350">
+    </td>
+    <td valign="top" style="text-align:center;">
+      <img src="https://github.com/user-attachments/assets/231db4b0-c668-4f27-89b4-2c78c97177ce" width="350">
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <div style="width:370px; text-align:left;">
+        最大10個までまとめてストックを作成できます。<br>
+        <strong>プリセットとして登録済のテンプレートを使用できます。</strong><br>
+        テンプレートは自由に内容を変更することもできるため、初期登録時におすすめの機能です。
+      </div>
+    </td>
+    <td valign="top">
+      <div style="width:370px; text-align:left;">
+        一覧画面で最後に更新した日を確認できます。<br>
+        <strong>ストックごとに履歴を確認</strong>できます。<br>
+        前回購入した記録をつけ忘れてしまっても、履歴の購入頻度から買うべきかどうかの判断ができます。
+      </div>
+    </td>
+  </tr>
+</table>
 
 <br>
 
-<!-- この表のみGIFを上よせにしたかったため、テーブルタグで記述 -->
 <table>
   <tr>
     <th style="text-align:center;">直感的なソート機能</th>
@@ -105,8 +155,8 @@ Todo リストタイプの買い物メモアプリでは、記録してきたも
       <div style="width:370px; text-align:left;">
         LINEへメッセージを転送できます。<br>
         送信メッセージはアプリ上で編集でき、送信する人はLINE上で選択できるため、
-        <strong>本アプリを使っていない方にも買いもの依頼が</strong>
-        できます。
+        <strong>本アプリを使っていない方にも買いもの依頼</strong>
+        を送ることができます。
       </div>
     </td>
   </tr>
